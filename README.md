@@ -1,6 +1,6 @@
 # hello
 
-[zimekk.github.io/hello](https://zimekk.github.io/hello/)
+[zimekk.github.io/share](https://zimekk.github.io/share)
 
 ## settings
 

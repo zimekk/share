@@ -1,7 +1,7 @@
 {
-  "name": "hello",
+  "name": "share",
   "version": "1.0.0",
-  "repository": "https://github.com/zimekk/hello.git",
+  "repository": "https://github.com/zimekk/share.git",
   "author": "Marcin Makarewicz <zimekk@gmail.com>",
   "license": "MIT",
   "private": true,
