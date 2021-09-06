@@ -1,13 +1,12 @@
 FROM node:12-alpine
 
-ENV WORKDIR=/app
-
+ENV WORKDIR /app
 WORKDIR $WORKDIR
 
-COPY . ./
-
+COPY package.json tsconfig.json yarn.lock ./
+COPY packages/ packages/
 RUN yarn && yarn build
 
-EXPOSE 3000 4000
-
+ENV PORT 8080
+EXPOSE $PORT
 CMD ["yarn", "serve"]
