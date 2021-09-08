@@ -50,6 +50,7 @@ docker-compose -f docker-compose.prod.yml up -d
 docker-compose logs
 docker-compose restart
 docker-compose stop
+docker system prune
 ```
 
 ## hooks
