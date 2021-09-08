@@ -8,4 +8,3 @@ services:
       - $PORT:$PORT
     volumes:
       - /app/node_modules
-    network_mode: bridge

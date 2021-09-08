@@ -1,0 +1,5 @@
+version: "3"
+services:
+  app:
+    image: ghcr.io/zimekk/share:latest
+    network_mode: bridge
