@@ -1,4 +1,5 @@
 import React, { Suspense, lazy, useEffect, useState } from "react";
+import { gql, useSubscription } from "@apollo/client";
 import { hot } from "react-hot-loader/root";
 import history from "history/browser";
 import styles from "./App.module.scss";
@@ -17,7 +18,17 @@ const getPage = (location: { hash: string }) => {
 
 function App() {
   const [page, setPage] = useState(getPage(history.location));
-
+  const { data, loading } = useSubscription(
+    gql`
+      subscription {
+        counter {
+          count
+          countStr
+        }
+      }
+    `
+  );
+  console.log({ data, loading });
   useEffect(() =>
     // location is an object like window.location
     history.listen(({ location, action, ...rest }) =>
