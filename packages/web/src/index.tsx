@@ -25,7 +25,9 @@ const httpLink = new HttpLink({
 });
 
 const wsLink = new WebSocketLink({
-  uri: `ws://${location.host}/subscriptions`,
+  uri: `${{ "https:": "wss:" }[location.protocol] || "ws:"}//${
+    location.host
+  }/subscriptions`,
   options: {
     reconnect: true,
   },
