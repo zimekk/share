@@ -13,7 +13,7 @@ import { onError } from "@apollo/link-error";
 import { WebSocketLink } from "@apollo/link-ws";
 
 const httpLink = new HttpLink({
-  uri: `/graphql`,
+  uri: `${location.pathname}graphql`,
   fetch: (uri, options) => {
     return fetch(uri, {
       ...options,
@@ -25,9 +25,9 @@ const httpLink = new HttpLink({
 });
 
 const wsLink = new WebSocketLink({
-  uri: `${{ "https:": "wss:" }[location.protocol] || "ws:"}//${
-    location.host
-  }/subscriptions`,
+  uri: `${{ "https:": "wss:" }[location.protocol] || "ws:"}//${location.host}${
+    location.pathname
+  }subscriptions`,
   options: {
     reconnect: true,
   },

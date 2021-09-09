@@ -53,6 +53,26 @@ docker-compose stop
 docker system prune
 ```
 
+## nginx
+
+```sh
+server {
+  listen 443;
+  server_name  ...;
+
+  location /share/ {
+    include /etc/nginx/proxy_params;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+    proxy_http_version 1.1;
+
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_pass http://share_app:8080/;
+  }
+}
+```
+
 ## hooks
 
 ```sh
