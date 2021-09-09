@@ -6,8 +6,11 @@ import {
   ApolloProvider,
   HttpLink,
   InMemoryCache,
+  split,
 } from "@apollo/client";
+import { getMainDefinition } from "@apollo/client/utilities";
 import { onError } from "@apollo/link-error";
+import { WebSocketLink } from "@apollo/link-ws";
 
 const httpLink = new HttpLink({
   uri: `/graphql`,
@@ -20,6 +23,14 @@ const httpLink = new HttpLink({
     });
   },
 });
+
+const wsLink = new WebSocketLink({
+  uri: `ws://${location.host}/subscriptions`,
+  options: {
+    reconnect: true,
+  },
+});
+
 const errorLink = onError(
   ({ graphQLErrors, networkError, response, operation }) => {
     if (graphQLErrors) {
@@ -36,7 +47,20 @@ const errorLink = onError(
     }
   }
 );
-const splitLink = errorLink.concat(httpLink);
+
+const splitLink = errorLink.concat(
+  split(
+    ({ query }) => {
+      const definition = getMainDefinition(query);
+      return (
+        definition.kind === "OperationDefinition" &&
+        definition.operation === "subscription"
+      );
+    },
+    wsLink,
+    httpLink
+  )
+);
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),

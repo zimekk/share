@@ -16,25 +16,27 @@ const getPage = (location: { hash: string }) => {
   return hash;
 };
 
+const COUNTER = gql`
+  subscription {
+    counter {
+      value
+    }
+  }
+`;
+
 function App() {
   const [page, setPage] = useState(getPage(history.location));
-  const { data, loading } = useSubscription(
-    gql`
-      subscription {
-        counter {
-          count
-          countStr
-        }
-      }
-    `
-  );
-  console.log({ data, loading });
+  const { data, error, loading } = useSubscription(COUNTER);
+
   useEffect(() =>
     // location is an object like window.location
     history.listen(({ location, action, ...rest }) =>
       setPage(getPage(location))
     )
   );
+
+  if (loading) return "Loading...";
+  if (error) return `Error! ${error.message}`;
 
   const Page = PAGES[page] || null;
 
@@ -47,7 +49,7 @@ function App() {
             {page}
           </a>
         ))}
-        [{page}]
+        [{page}] [{data.counter.value}]
       </h1>
       <Suspense fallback={<Spinner />}>
         <Page />

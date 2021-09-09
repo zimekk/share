@@ -6,14 +6,13 @@ import { gql } from "apollo-server";
 
 const typeDefs = gql`
   type Counter {
-    count: Int!
-    countStr: String
+    value: Int!
   }
   type Query {
     hello(name: String): String!
   }
   type Subscription {
-    counter: Counter!
+    counter: Counter
   }
 `;
 
@@ -22,16 +21,16 @@ const resolvers = {
     hello: (_, { name }) => `Hello ${name || "World"}`,
   },
   Counter: {
-    countStr: (counter) => `Current count: ${counter.count}`,
+    value: ({ value }) => value,
   },
   Subscription: {
     counter: {
       subscribe: (_, args, { pubsub }) => {
         const channel = Math.random().toString(36).substring(2, 15); // random channel name
-        let count = 0;
+        let value = 0;
         setInterval(
-          () => pubsub.publish(channel, { counter: { count: count++ } }),
-          20000
+          () => pubsub.publish(channel, { counter: { value: value++ } }),
+          1000
         );
         return pubsub.asyncIterator(channel);
       },
