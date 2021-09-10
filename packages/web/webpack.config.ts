@@ -1,4 +1,4 @@
-// import CopyWebpackPlugin from "copy-webpack-plugin";
+import CopyWebpackPlugin from "copy-webpack-plugin";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import * as path from "path";
 import webpack from "webpack";
@@ -74,6 +74,15 @@ const config = {
     }),
     new webpack.ProvidePlugin({
       Buffer: ["buffer", "Buffer"],
+    }),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          context: path.resolve(__dirname, "src/assets"),
+          from: "graphql.json",
+          to: "[name]",
+        },
+      ],
     }),
     new HtmlWebpackPlugin({
       favicon: require.resolve("./src/assets/favicon.ico"),
