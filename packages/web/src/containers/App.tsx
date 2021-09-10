@@ -35,9 +35,6 @@ function App() {
     )
   );
 
-  if (loading) return "Loading...";
-  if (error) return `Error! ${error.message}`;
-
   const Page = PAGES[page] || null;
 
   return (
@@ -49,7 +46,7 @@ function App() {
             {page}
           </a>
         ))}
-        [{page}] [{data.counter.value}]
+        [{page}] [{loading ? "?" : data.counter.value}]
       </h1>
       <Suspense fallback={<Spinner />}>
         <Page />

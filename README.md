@@ -2,6 +2,13 @@
 
 [zimekk.github.io/share](https://zimekk.github.io/share)
 
+## todo
+
+- [ ] handle websocket connection error
+      https://github.com/apollographql/subscriptions-transport-ws/issues/506
+- [ ] authentication and authorization
+      https://www.apollographql.com/docs/apollo-server/security/authentication/
+
 ## settings
 
 ```sh
@@ -54,6 +61,8 @@ docker system prune
 ```
 
 ## nginx
+
+[www.nginx.com/blog/websocket-nginx](https://www.nginx.com/blog/websocket-nginx)
 
 ```sh
 server {
