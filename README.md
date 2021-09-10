@@ -1,4 +1,4 @@
-# hello
+# share
 
 [zimekk.github.io/share](https://zimekk.github.io/share)
 
@@ -32,7 +32,7 @@ yarn -v # 1.22.10
 ## run
 
 ```sh
-yarn
+yarn # ✨  Done in 1.14s.
 yarn start # ⚡️[server]: Server is running at http://localhost:8080
 ```
 
