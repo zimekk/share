@@ -3,7 +3,7 @@ import { gql, useMutation, useQuery } from "@apollo/client";
 import styles from "./Messages.module.scss";
 
 const MESSAGES = gql`
-  query {
+  query MessagesQuery {
     messages {
       text
     }
@@ -11,7 +11,7 @@ const MESSAGES = gql`
 `;
 
 const ON_MESSAGE = gql`
-  subscription {
+  subscription MessageSubscription {
     message {
       text
     }
@@ -19,7 +19,7 @@ const ON_MESSAGE = gql`
 `;
 
 const SEND_MESSAGE = gql`
-  mutation sendMessage($message: MessageInput) {
+  mutation SendMessageMutation($message: MessageInput) {
     sendMessage(message: $message)
   }
 `;

@@ -4,7 +4,7 @@ import Peer from "simple-peer";
 import styles from "./Video.module.scss";
 
 const ON_SIGNAL = gql`
-  subscription {
+  subscription SignalSubscription {
     signal {
       sdp
       type
@@ -18,7 +18,7 @@ const ON_SIGNAL = gql`
 `;
 
 const SEND_SIGNAL = gql`
-  mutation sendSignal($signal: SignalInput) {
+  mutation SendSignalMutation($signal: SignalInput) {
     sendSignal(signal: $signal)
   }
 `;

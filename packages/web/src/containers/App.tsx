@@ -19,7 +19,7 @@ const getPage = (location: { hash: string }) => {
 };
 
 const COUNTER = gql`
-  subscription {
+  subscription CounterSubscription {
     counter {
       value
     }
