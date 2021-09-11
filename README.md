@@ -8,6 +8,8 @@
       https://github.com/apollographql/subscriptions-transport-ws/issues/506
 - [ ] authentication and authorization
       https://www.apollographql.com/docs/apollo-server/security/authentication/
+- [ ] switch to apollo-server-express
+      https://dev.to/dsckiitdev/build-a-chat-app-with-graphql-subscriptions-typescript-part-2-3k35
 
 ## settings
 

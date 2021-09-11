@@ -8,6 +8,8 @@ const Spinner = () => <span>Loading...</span>;
 
 const PAGES = {
   hello: lazy(() => import("./Hello")),
+  video: lazy(() => import("./Video")),
+  talks: lazy(() => import("./Messages")),
 };
 
 const getPage = (location: { hash: string }) => {
@@ -46,7 +48,7 @@ function App() {
             {page}
           </a>
         ))}
-        [{page}] [{loading ? "?" : data.counter.value}]
+        {/* [{page}] [{loading ? "?" : data.counter.value}] */}
       </h1>
       <Suspense fallback={<Spinner />}>
         <Page />
