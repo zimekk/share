@@ -87,6 +87,7 @@ server {
 ## hooks
 
 ```sh
+yarn husky install
 yarn husky add .husky/pre-commit "yarn pretty-quick --staged"
 yarn husky add .husky/commit-msg "yarn commitlint --edit \$1"
 ```
