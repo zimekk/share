@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { gql, useMutation, useQuery } from "@apollo/client";
+import { useUserContext } from "../UserContext";
 import styles from "./Messages.module.scss";
 
 const MESSAGES = gql`
   query MessagesQuery {
     messages {
+      uuid
       text
     }
   }
@@ -13,6 +15,7 @@ const MESSAGES = gql`
 const ON_MESSAGE = gql`
   subscription MessageSubscription {
     message {
+      uuid
       text
     }
   }
@@ -29,6 +32,7 @@ export default function Messages() {
   const [text, setText] = useState("");
   const [sendMessage] = useMutation(SEND_MESSAGE);
   const { data, error, loading, subscribeToMore } = useQuery(MESSAGES);
+  const uuid = useUserContext();
 
   useEffect(() => {
     subscribeToMore({
@@ -55,7 +59,7 @@ export default function Messages() {
 
   const handleSendMessage = () => {
     setText("");
-    sendMessage({ variables: { message: { text } } })
+    sendMessage({ variables: { message: { uuid, text } } })
       .then((data) => {
         console.log(["sendMessage"], { data });
       })
@@ -64,11 +68,16 @@ export default function Messages() {
 
   return (
     <div className={styles.Messages}>
+      <span>{uuid}</span>
       <input value={text} onChange={handleChangeText} />
       <button onClick={handleSendMessage}>send</button>
       {data && (
         <div>
-          <pre>{data.messages.map(({ text }) => text).join("\n")}</pre>
+          <pre>
+            {data.messages
+              .map(({ uuid, text }) => `[${uuid}] ${text}`)
+              .join("\n")}
+          </pre>
         </div>
       )}
     </div>

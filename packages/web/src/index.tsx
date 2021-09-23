@@ -1,4 +1,4 @@
-import React from "react";
+import React, { createContext } from "react";
 import { render } from "react-dom";
 import App from "./containers/App";
 import {
@@ -11,6 +11,10 @@ import {
 import { getMainDefinition } from "@apollo/client/utilities";
 import { onError } from "@apollo/link-error";
 import { WebSocketLink } from "@apollo/link-ws";
+import { nanoid } from "nanoid";
+import { UserContextProvider } from "./UserContext";
+
+const uuid = nanoid();
 
 const httpLink = new HttpLink({
   uri: `${location.pathname}graphql`,
@@ -29,9 +33,26 @@ const wsLink = new WebSocketLink({
     location.pathname
   }subscriptions`,
   options: {
+    connectionParams: {
+      uuid,
+    },
+    connectionCallback: (...args) =>
+      console.info(["connectionCallback"], { args }),
     reconnect: true,
   },
 });
+
+const { subscriptionClient } = wsLink;
+
+subscriptionClient.onConnected((...args) =>
+  console.log(["onConnected"], { args })
+);
+subscriptionClient.onDisconnected((...args) =>
+  console.log(["onDisconnected"], { args })
+);
+subscriptionClient.onReconnected((...args) =>
+  console.log(["onReconnected"], { args })
+);
 
 const errorLink = onError(
   ({ graphQLErrors, networkError, response, operation }) => {
@@ -68,10 +89,11 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
   link: splitLink,
 });
-
 render(
   <ApolloProvider client={client}>
-    <App />
+    <UserContextProvider value={uuid}>
+      <App />
+    </UserContextProvider>
   </ApolloProvider>,
   document.body.appendChild(document.createElement("div"))
 );

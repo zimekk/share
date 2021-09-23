@@ -16,6 +16,7 @@ const typeDefs = gql`
     sdpMid: String
   }
   input MessageInput {
+    uuid: String
     text: String
   }
   input SignalInput {
@@ -37,6 +38,7 @@ const typeDefs = gql`
     candidate: Candidate
   }
   type Message {
+    uuid: String
     text: String
   }
   type Mutation {
@@ -54,21 +56,30 @@ const typeDefs = gql`
   }
 `;
 
-const messages = [];
+const data = {
+  connections: [],
+  messages: [],
+};
+
+type Message = { uuid: string; text: string };
+
+const sendMessage = (message: Message) => {
+  console.log({ message });
+  data.messages.push(message);
+  pubsub.publish(CHANNELS.MESSAGE, { message });
+};
 
 const resolvers = {
   Query: {
     hello: (_, { name }) => `Hello ${name || "World"}`,
-    messages: (_root, _args) => messages,
+    messages: (_root, _args) => data.messages,
   },
   Counter: {
     value: ({ value }) => value,
   },
   Mutation: {
     sendMessage: (_, { message }, { pubsub }) => {
-      console.log({ message });
-      messages.push(message);
-      pubsub.publish(CHANNELS.MESSAGE, { message });
+      sendMessage(message);
       return true;
     },
     sendSignal: (_, { signal }, { pubsub }) => {
@@ -149,7 +160,30 @@ export default server.start(
   {
     port: PORT,
     endpoint: "/graphql",
-    subscriptions: "/subscriptions",
+    subscriptions: {
+      path: "/subscriptions",
+      onConnect: (connectionParams, webSocket, context) => {
+        const { uuid } = connectionParams;
+        Object.assign(webSocket, { uuid });
+        console.info(["onConnect"], { connectionParams, context });
+        data.connections.push(uuid);
+        sendMessage({
+          uuid,
+          text: `connected; connections: ${data.connections.join(", ")}`,
+        });
+      },
+      onDisconnect: (webSocket, context) => {
+        const { uuid } = webSocket;
+        console.info(["onDisconnect"], { context });
+        Object.assign(data, {
+          connections: data.connections.filter((item) => item !== uuid),
+        });
+        sendMessage({
+          uuid,
+          text: `disconnected; connections: ${data.connections.join(", ")}`,
+        });
+      },
+    },
     playground: "/playground",
   },
   ({ port }) =>
