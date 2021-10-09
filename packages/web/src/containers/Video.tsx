@@ -1,39 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
-import { gql, useMutation, useSubscription } from "@apollo/client";
 import Peer from "simple-peer";
+import { useVideo } from "@dev/talks/src/services";
 import styles from "./Video.module.scss";
 
-const ON_SIGNAL = gql`
-  subscription SignalSubscription {
-    signal {
-      sdp
-      type
-      candidate {
-        candidate
-        sdpMLineIndex
-        sdpMid
-      }
-    }
-  }
-`;
-
-const SEND_SIGNAL = gql`
-  mutation SendSignalMutation($signal: SignalInput) {
-    sendSignal(signal: $signal)
-  }
-`;
-
 export default function Video() {
-  const [sendSignal] = useMutation(SEND_SIGNAL);
+  const [data, { sendSignal }] = useVideo();
   const [initiator, setInitiator] = useState(undefined);
   const [stream, setStream] = useState(null);
   const peerRef = useRef(null);
   const localVideoRef = useRef(null);
   const remoteVideoRef = useRef(null);
-
-  const { data, error, loading } = useSubscription(ON_SIGNAL, {
-    variables: {},
-  });
 
   useEffect(() => {
     if (data && peerRef.current) {
@@ -80,12 +56,7 @@ export default function Video() {
           })
             .on("signal", (data) => {
               console.log(["signal", initiator], { data });
-
-              sendSignal({ variables: { signal: data } })
-                .then((data) => {
-                  console.log(["connectUser"], { data });
-                })
-                .catch(console.error);
+              sendSignal(data);
             })
             .on("stream", (stream) => {
               console.log(["stream", initiator], { stream });

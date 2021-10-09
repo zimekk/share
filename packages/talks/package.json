@@ -1,0 +1,17 @@
+{
+  "name": "@dev/talks",
+  "version": "1.0.0",
+  "license": "UNLICENSED",
+  "private": true,
+  "main": "lib",
+  "scripts": {
+    "build": "babel src --out-dir lib"
+  },
+  "dependencies": {
+    "graphql-request": "^3.5.0",
+    "graphql-ws": "^5.5.0",
+    "rxjs": "^7.4.0"
+  },
+  "devDependencies": {},
+  "peerDependencies": {}
+}

@@ -1,8 +1,12 @@
 import express, { Router } from "express";
 // import cors from "cors";
 import path from "path";
-import { GraphQLServer, PubSub } from "graphql-yoga";
+import ws from "ws";
 import { gql } from "apollo-server";
+import { graphqlHTTP } from "express-graphql";
+import { PubSub } from "graphql-subscriptions";
+import { useServer } from "graphql-ws/lib/use/ws";
+import { makeExecutableSchema } from "@graphql-tools/schema";
 
 const CHANNELS = {
   MESSAGE: "MESSAGE",
@@ -139,53 +143,103 @@ const web =
         )
       );
 
+// https://shammelburg.medium.com/subscriptions-with-graphql-dfa8279af050
+// https://shammelburg.medium.com/folder-schema-structure-with-graphql-1c8c0ad10717
+
 const pubsub = new PubSub();
-const server = new GraphQLServer({
+
+// https://www.graphql-tools.com/docs/generate-schema
+const schema = makeExecutableSchema({
   typeDefs,
   resolvers,
-  context: ({ request, response }) =>
-    Promise.resolve({
-      pubsub,
-    }),
 });
 
 const PORT = 8080;
 
-server.express
-  // .use(require("morgan")("combined"))
-  // .use(cors({ origin: '*'}))
+const endpoint = "/graphql";
+const subscriptionEndpoint = "/subscriptions";
+
+const context = {
+  pubsub,
+};
+
+const app = express()
+  .use(
+    endpoint,
+    graphqlHTTP({
+      schema,
+      graphiql: {
+        // @ts-ignore
+        subscriptionEndpoint: `ws://localhost:${PORT}${subscriptionEndpoint}`,
+      },
+      pretty: true,
+      context,
+    })
+  )
   .use(web);
 
-export default server.start(
-  {
-    port: PORT,
-    endpoint: "/graphql",
-    subscriptions: {
-      path: "/subscriptions",
-      onConnect: (connectionParams, webSocket, context) => {
-        const { uuid } = connectionParams;
-        Object.assign(webSocket, { uuid });
-        console.info(["onConnect"], { connectionParams, context });
-        data.connections.push(uuid);
-        sendMessage({
-          uuid,
-          text: `connected; connections: ${data.connections.join(", ")}`,
-        });
-      },
-      onDisconnect: (webSocket, context) => {
-        const { uuid } = webSocket;
-        console.info(["onDisconnect"], { context });
-        Object.assign(data, {
-          connections: data.connections.filter((item) => item !== uuid),
-        });
-        sendMessage({
-          uuid,
-          text: `disconnected; connections: ${data.connections.join(", ")}`,
-        });
-      },
-    },
-    playground: "/playground",
-  },
-  ({ port }) =>
-    console.info(`⚡️[server]: Server is running at http://localhost:${port}`)
-);
+// https://github.com/enisdenjo/graphql-ws
+const server = app.listen(PORT, () => {
+  const { port }: any = server.address();
+
+  // create and use the websocket server
+  const wsServer = new ws.Server({
+    server,
+    path: subscriptionEndpoint,
+  });
+  useServer({ schema, context }, wsServer);
+
+  console.info(`⚡️[server]: Server is running at http://localhost:${port}`);
+});
+
+export default server;
+
+// const server = new GraphQLServer({
+//   typeDefs,
+//   resolvers,
+//   context: ({ request, response }) =>
+//     Promise.resolve({
+//       pubsub,
+//     }),
+// });
+
+// const PORT = 8080;
+
+// server.express
+//   // .use(require("morgan")("combined"))
+//   // .use(cors({ origin: '*'}))
+//   .use(web);
+
+// export default server.start(
+//   {
+//     port: PORT,
+//     endpoint: "/graphql",
+//     subscriptions: {
+//       path: "/subscriptions",
+//       onConnect: (connectionParams, webSocket, context) => {
+//         const { uuid } = connectionParams;
+//         Object.assign(webSocket, { uuid });
+//         console.info(["onConnect"], { connectionParams, context });
+//         data.connections.push(uuid);
+//         sendMessage({
+//           uuid,
+//           text: `connected; connections: ${data.connections.join(", ")}`,
+//         });
+//       },
+//       onDisconnect: (webSocket, context) => {
+//         const { uuid } = webSocket;
+//         console.info(["onDisconnect"], { context });
+//         Object.assign(data, {
+//           connections: data.connections.filter((item) => item !== uuid),
+//         });
+//         sendMessage({
+//           uuid,
+//           text: `disconnected; connections: ${data.connections.join(", ")}`,
+//         });
+//       },
+//     },
+//     playground: "/playground",
+//   },
+//   ({ port }) =>
+//     console.info(`⚡️[server]: Server is running at http://localhost:${port}`)
+// );

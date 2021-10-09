@@ -66,7 +66,7 @@ docker system prune
 
 [www.nginx.com/blog/websocket-nginx](https://www.nginx.com/blog/websocket-nginx)
 
-```sh
+```nginx
 server {
   listen 443;
   server_name  ...;
@@ -90,4 +90,29 @@ server {
 yarn husky install
 yarn husky add .husky/pre-commit "yarn pretty-quick --staged"
 yarn husky add .husky/commit-msg "yarn commitlint --edit \$1"
+```
+
+## graphiQL
+
+[localhost:8080/graphql](http://localhost:8080/graphql)
+
+```graphql
+query {
+  hello
+}
+```
+
+```graphql
+mutation ($message: MessageInput) {
+  sendMessage(message: $message)
+}
+```
+
+```json
+{
+  "message": {
+    "uuid": "uuid",
+    "text": "text"
+  }
+}
 ```

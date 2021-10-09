@@ -1,18 +1,11 @@
 import React from "react";
-import { gql, useQuery } from "@apollo/client";
+import { useHello } from "@dev/talks/src/services";
 import styles from "./Hello.module.scss";
 
-const HELLO = gql`
-  query {
-    hello
-  }
-`;
-
 export default function Hello() {
-  const { data, error, loading } = useQuery(HELLO);
+  const [{ hello }] = useHello();
 
-  if (loading) return "Loading...";
-  if (error) return `Error! ${error.message}`;
+  if (hello === null) return "Loading...";
 
-  return <h2 className={styles.Hello}>{data.hello}</h2>;
+  return <h2 className={styles.Hello}>{hello}</h2>;
 }

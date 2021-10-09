@@ -1,5 +1,4 @@
 import React, { Suspense, lazy, useEffect, useState } from "react";
-import { gql, useSubscription } from "@apollo/client";
 import { hot } from "react-hot-loader/root";
 import history from "history/browser";
 import styles from "./App.module.scss";
@@ -9,7 +8,7 @@ const Spinner = () => <span>Loading...</span>;
 const PAGES = {
   hello: lazy(() => import("./Hello")),
   video: lazy(() => import("./Video")),
-  talks: lazy(() => import("./Messages")),
+  talks: lazy(() => import("@dev/talks")),
 };
 
 const getPage = (location: { hash: string }) => {
@@ -18,17 +17,8 @@ const getPage = (location: { hash: string }) => {
   return hash;
 };
 
-const COUNTER = gql`
-  subscription CounterSubscription {
-    counter {
-      value
-    }
-  }
-`;
-
 function App() {
   const [page, setPage] = useState(getPage(history.location));
-  const { data, error, loading } = useSubscription(COUNTER);
 
   useEffect(() =>
     // location is an object like window.location
@@ -48,7 +38,6 @@ function App() {
             {page}
           </a>
         ))}
-        {/* [{page}] [{loading ? "?" : data.counter.value}] */}
       </h1>
       <Suspense fallback={<Spinner />}>
         <Page />
