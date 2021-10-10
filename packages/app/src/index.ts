@@ -76,13 +76,13 @@ const sendMessage = (message: Message) => {
 const resolvers = {
   Query: {
     hello: (_, { name }) => `Hello ${name || "World"}`,
-    messages: (_root, _args) => data.messages,
+    messages: () => data.messages,
   },
   Counter: {
     value: ({ value }) => value,
   },
   Mutation: {
-    sendMessage: (_, { message }, { pubsub }) => {
+    sendMessage: (_, { message }) => {
       sendMessage(message);
       return true;
     },
