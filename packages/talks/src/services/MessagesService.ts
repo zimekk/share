@@ -28,6 +28,7 @@ const SEND_MESSAGE = gql`
 
 // https://github.com/shammelburg/graphql-rxjs-angular/blob/main/src/app/services/graphql.service.ts
 // https://codesandbox.io/s/push-based-react-lab-3-vc8d6?file=/src/users/state/users.service.ts
+// https://jasonwatmore.com/post/2020/04/21/react-hooks-rxjs-communicating-between-components-with-observable-subject
 export class MessagesService extends Service {
   getMessages() {
     return from(this.client.request(MESSAGES));
@@ -42,7 +43,7 @@ export class MessagesService extends Service {
         {
           next: ({ data, errors }) =>
             errors ? observer.error(errors[0]) : observer.next(data),
-          error: (error: unknown) => observer.error(error),
+          error: (error) => observer.error(error),
           complete: () => observer.complete(),
         }
       )

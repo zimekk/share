@@ -2,7 +2,7 @@ import express, { Router } from "express";
 // import cors from "cors";
 import path from "path";
 import ws from "ws";
-import { gql } from "apollo-server";
+import gql from "graphql-tag";
 import { graphqlHTTP } from "express-graphql";
 import { PubSub } from "graphql-subscriptions";
 import { useServer } from "graphql-ws/lib/use/ws";
@@ -183,6 +183,7 @@ const server = app.listen(PORT, () => {
   const { port }: any = server.address();
 
   // create and use the websocket server
+  // https://github.com/websockets/ws#client-authentication
   const wsServer = new ws.Server({
     server,
     path: subscriptionEndpoint,
