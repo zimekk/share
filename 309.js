@@ -1,26 +1,26 @@
-"use strict";(self.webpackChunk_dev_web=self.webpackChunk_dev_web||[]).push([[309],{6309:(e,s,t)=>{t.r(s),t.d(s,{default:()=>i});var n=t(2784),r=t(2618),l=t(9606);function a(){const[{messages:e},{sendMessage:s}]=(0,r.y_)(),[t,a]=(0,n.useState)("");return n.createElement("div",{className:l.Z.Messages},n.createElement("span",null,null),n.createElement("input",{value:t,onChange:e=>{const{value:s}=e.target;a(s)}}),n.createElement("button",{onClick:()=>{a(""),s({uuid:null,text:t})}},"send"),e&&n.createElement("div",null,n.createElement("pre",null,e.map((({uuid:e,text:s})=>`[${e}] ${s}`)).join("\n"))))}function i(){return n.createElement(a,null)}},2618:(e,s,t)=>{t.d(s,{zO:()=>M,y_:()=>h,RY:()=>q});var n=t(2784),r=t(6647),l=t(9385),a=t(4489);const i=r.gql`
+"use strict";(self.webpackChunk_dev_web=self.webpackChunk_dev_web||[]).push([[309],{6309:(e,s,n)=>{n.r(s),n.d(s,{default:()=>u});var t=n(2784),a=n(1422),l=n(9606);function r(){const[{messages:e},{sendMessage:s}]=(0,a.y_)(),[n,r]=(0,t.useState)(""),u=()=>{r(""),s({uuid:null,text:n})};return t.createElement("div",{className:l.Z.Messages},t.createElement("span",null,null),t.createElement("input",{value:n,onChange:e=>{const{value:s}=e.target;r(s)},onKeyDown:e=>"Enter"===e.key&&!e.shiftKey&&(e.preventDefault(),u())}),t.createElement("button",{onClick:u},"send"),e&&t.createElement("div",null,t.createElement("pre",null,e.map((({uuid:e,text:s})=>`[${e}] ${s}`)).join("\n"))))}function u(){return t.createElement(r,null)}},1422:(e,s,n)=>{n.d(s,{zO:()=>S,y_:()=>v,RY:()=>q});var t=n(2784),a=n(6647),l=n(4489),r=n(9385);const u=new a.GraphQLClient(`${location.pathname}graphql`,{headers:{}}),i=(0,r.eI)({url:`${{"https:":"wss:"}[location.protocol]||"ws:"}//${location.host}${location.pathname}subscriptions`});class o{client=u;subscriptions=i}const c=a.gql`
   query {
     hello
   }
-`;var u=t(8141);const o=r.gql`
+`;var d=n(8141);const g=a.gql`
   query MessagesQuery {
     messages {
       uuid
       text
     }
   }
-`,c=r.gql`
+`,m=a.gql`
   subscription MessageSubscription {
     message {
       uuid
       text
     }
   }
-`,g=r.gql`
+`,f=a.gql`
   mutation SendMessageMutation($message: MessageInput) {
     sendMessage(message: $message)
   }
-`,d=r.gql`
+`,p=a.gql`
   subscription SignalSubscription {
     signal {
       sdp
@@ -32,8 +32,8 @@
       }
     }
   }
-`,b=r.gql`
+`,b=a.gql`
   mutation SendSignalMutation($signal: SignalInput) {
     sendSignal(signal: $signal)
   }
-`,p=(0,l.eI)({url:`${{"https:":"wss:"}[location.protocol]||"ws:"}//${location.host}${location.pathname}subscriptions`}),m=new r.GraphQLClient(`${location.pathname}graphql`,{headers:{}}),f=new class{constructor({client:e,subscriptions:s}){Object.assign(this,{client:e,subscriptions:s})}getMessages(){return(0,a.D)(this.client.request(o))}sendMessage(e){return(0,a.D)(this.client.request(g,{message:e}))}onMessage(){return new u.y((e=>this.subscriptions.subscribe({query:c},{next:({data:s,errors:t})=>t?e.error(t[0]):e.next(s),error:s=>e.error(s),complete:()=>e.complete()})))}}({client:m,subscriptions:p});function h(){const[e,s]=(0,n.useState)({messages:null});return(0,n.useEffect)((()=>{const e=[f.getMessages().subscribe((({messages:e})=>s((s=>({...s,messages:e})))),console.error),f.onMessage().subscribe((({message:e})=>s((({messages:s,...t})=>({...t,messages:s.concat([e])})))),console.error)];return()=>{e.map((e=>e.unsubscribe()))}}),[]),[e,{sendMessage:e=>f.sendMessage(e)}]}const S=new class{constructor({client:e}){Object.assign(this,{client:e})}hello(){return(0,a.D)(this.client.request(i))}}({client:m});function M(){const[e,s]=(0,n.useState)({hello:null});return(0,n.useEffect)((()=>{const e=[S.hello().subscribe((({hello:e})=>s((s=>({...s,hello:e})))),console.error)];return()=>{e.map((e=>e.unsubscribe()))}}),[]),[e]}const v=new class{constructor({client:e,subscriptions:s}){Object.assign(this,{client:e,subscriptions:s})}sendSignal(e){return(0,a.D)(this.client.request(b,{signal:e}))}onSignal(){return new u.y((e=>this.subscriptions.subscribe({query:d},{next:({data:s,errors:t})=>t?e.error(t[0]):e.next(s),error:s=>e.error(s),complete:()=>e.complete()})))}}({client:m,subscriptions:p});function q(){const[e,s]=(0,n.useState)({hello:null});return(0,n.useEffect)((()=>{const e=[v.onSignal().subscribe((({signal:e})=>s((s=>({...s,signal:e})))),console.error)];return()=>{e.map((e=>e.unsubscribe()))}}),[]),[e,{sendSignal:e=>v.sendSignal(e)}]}},5201:(e,s,t)=>{t.r(s),t.d(s,{default:()=>i});var n=t(9601),r=t.n(n),l=t(2609),a=t.n(l)()(r());a.push([e.id,".m68TYmnEHWUbsyOJQ9lS{color:orange}",""]),a.locals={Messages:"m68TYmnEHWUbsyOJQ9lS"};const i=a},9606:(e,s,t)=>{t.d(s,{Z:()=>v});var n=t(6062),r=t.n(n),l=t(4036),a=t.n(l),i=t(6793),u=t.n(i),o=t(7892),c=t.n(o),g=t(1173),d=t.n(g),b=t(2464),p=t.n(b),m=t(5201),f={};f.styleTagTransform=p(),f.setAttributes=c(),f.insert=u().bind(null,"head"),f.domAPI=a(),f.insertStyleElement=d();var h=r()(m.default,f);if(!m.default.locals||e.hot.invalidate){var S=!m.default.locals,M=S?m:m.default.locals;e.hot.accept(5201,(s=>{m=t(5201),function(e,s,t){if(!e&&s||e&&!s)return!1;var n;for(n in e)if((!t||"default"!==n)&&e[n]!==s[n])return!1;for(n in s)if(!(t&&"default"===n||e[n]))return!1;return!0}(M,S?m:m.default.locals,S)?(M=S?m:m.default.locals,h(m.default)):e.hot.invalidate()}))}e.hot.dispose((function(){h()}));const v=m.default&&m.default.locals?m.default.locals:void 0}}]);
+`,h=new class extends o{hello(){return(0,l.D)(this.client.request(c))}};function S(){const[e,s]=(0,t.useState)({hello:null});return(0,t.useEffect)((()=>{const e=[h.hello().subscribe((({hello:e})=>s((s=>({...s,hello:e})))))];return()=>{e.map((e=>e.unsubscribe()))}}),[]),[e]}const M=new class extends o{getMessages(){return(0,l.D)(this.client.request(g))}sendMessage(e){return(0,l.D)(this.client.request(f,{message:e}))}onMessage(){return new d.y((e=>this.subscriptions.subscribe({query:m},{next:({data:s,errors:n})=>n?e.error(n[0]):e.next(s),error:s=>e.error(s),complete:()=>e.complete()})))}};function v(){const[{messages:e},s]=(0,t.useState)((()=>({messages:null})));return(0,t.useEffect)((()=>{const e=[M.getMessages().subscribe((({messages:e})=>s((s=>({...s,messages:e}))))),M.onMessage().subscribe((({message:e})=>s((({messages:s,...n})=>({...n,messages:s.concat([e])})))))];return()=>{e.map((e=>e.unsubscribe()))}}),[]),[{messages:e},{sendMessage:e=>M.sendMessage(e)}]}const y=new class extends o{sendSignal(e){return(0,l.D)(this.client.request(b,{signal:e}))}onSignal(){return new d.y((e=>this.subscriptions.subscribe({query:p},{next:({data:s,errors:n})=>n?e.error(n[0]):e.next(s),error:s=>e.error(s),complete:()=>e.complete()})))}};function q(){const[e,s]=(0,t.useState)({hello:null});return(0,t.useEffect)((()=>{const e=[y.onSignal().subscribe((({signal:e})=>s((s=>({...s,signal:e})))))];return()=>{e.map((e=>e.unsubscribe()))}}),[]),[e,{sendSignal:e=>y.sendSignal(e)}]}},5201:(e,s,n)=>{n.r(s),n.d(s,{default:()=>u});var t=n(9601),a=n.n(t),l=n(2609),r=n.n(l)()(a());r.push([e.id,".m68TYmnEHWUbsyOJQ9lS{color:orange}",""]),r.locals={Messages:"m68TYmnEHWUbsyOJQ9lS"};const u=r},9606:(e,s,n)=>{n.d(s,{Z:()=>v});var t=n(6062),a=n.n(t),l=n(4036),r=n.n(l),u=n(6793),i=n.n(u),o=n(7892),c=n.n(o),d=n(1173),g=n.n(d),m=n(2464),f=n.n(m),p=n(5201),b={};b.styleTagTransform=f(),b.setAttributes=c(),b.insert=i().bind(null,"head"),b.domAPI=r(),b.insertStyleElement=g();var h=a()(p.default,b);if(!p.default.locals||e.hot.invalidate){var S=!p.default.locals,M=S?p:p.default.locals;e.hot.accept(5201,(s=>{p=n(5201),function(e,s,n){if(!e&&s||e&&!s)return!1;var t;for(t in e)if((!n||"default"!==t)&&e[t]!==s[t])return!1;for(t in s)if(!(n&&"default"===t||e[t]))return!1;return!0}(M,S?p:p.default.locals,S)?(M=S?p:p.default.locals,h(p.default)):e.hot.invalidate()}))}e.hot.dispose((function(){h()}));const v=p.default&&p.default.locals?p.default.locals:void 0}}]);
