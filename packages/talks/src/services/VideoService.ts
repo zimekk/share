@@ -1,5 +1,6 @@
 import { gql } from "graphql-request";
 import { from, Observable } from "rxjs";
+import { Service } from "./Service";
 
 const ON_SIGNAL = gql`
   subscription SignalSubscription {
@@ -21,10 +22,7 @@ const SEND_SIGNAL = gql`
   }
 `;
 
-export class VideoService {
-  constructor({ client, subscriptions }) {
-    Object.assign(this, { client, subscriptions });
-  }
+export class VideoService extends Service {
   sendSignal(signal) {
     return from(this.client.request(SEND_SIGNAL, { signal }));
   }

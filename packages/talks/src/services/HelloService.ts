@@ -1,5 +1,6 @@
 import { gql } from "graphql-request";
 import { from } from "rxjs";
+import { Service } from "./Service";
 
 const HELLO = gql`
   query {
@@ -7,10 +8,7 @@ const HELLO = gql`
   }
 `;
 
-export class HelloService {
-  constructor({ client }) {
-    Object.assign(this, { client });
-  }
+export class HelloService extends Service {
   hello() {
     return from(this.client.request(HELLO));
   }

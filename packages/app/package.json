@@ -1,16 +1,14 @@
 {
   "name": "@dev/app",
   "version": "1.0.0",
-  "main": "lib",
   "license": "MIT",
-  "publishConfig": {
-    "access": "public"
-  },
+  "private": true,
   "files": [
-    "lib"
+    "lib/"
   ],
+  "main": "lib",
   "scripts": {
-    "build": "NODE_ENV=production tsc",
+    "build": "NODE_ENV=production tsc --declaration",
     "serve": "node lib",
     "start": "NODE_ENV=development nodemon lib.ts"
   },

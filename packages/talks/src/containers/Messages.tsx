@@ -13,6 +13,11 @@ export default function Messages() {
     setText(text);
   };
 
+  const handleKeyDown = (e) =>
+    e.key === "Enter" &&
+    !e.shiftKey &&
+    (e.preventDefault(), handleSendMessage());
+
   const handleSendMessage = () => {
     setText("");
     sendMessage({ uuid, text });
@@ -21,7 +26,11 @@ export default function Messages() {
   return (
     <div className={styles.Messages}>
       <span>{uuid}</span>
-      <input value={text} onChange={handleChangeText} />
+      <input
+        value={text}
+        onChange={handleChangeText}
+        onKeyDown={handleKeyDown}
+      />
       <button onClick={handleSendMessage}>send</button>
       {messages && (
         <div>
