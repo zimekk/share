@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@dev/web": "1.0.0",
+    "@graphql-tools/load-files": "^6.5.1",
     "@graphql-tools/schema": "^8.2.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
@@ -22,7 +23,8 @@
     "graphql-subscriptions": "^1.2.1",
     "graphql-tag": "^2.12.5",
     "graphql-ws": "^5.5.0",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "rxjs": "^7.4.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.12",

@@ -1,0 +1,17 @@
+input MessageInput {
+  uuid: String
+  text: String
+}
+type Message {
+  uuid: String
+  text: String
+}
+type Mutation {
+  sendMessage(message: MessageInput): Boolean
+}
+type Query {
+  messages: [Message]
+}
+type Subscription {
+  message: Message
+}

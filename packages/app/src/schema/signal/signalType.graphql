@@ -1,0 +1,26 @@
+input CandidateInput {
+  candidate: String
+  sdpMLineIndex: Int
+  sdpMid: String
+}
+input SignalInput {
+  sdp: String
+  type: String
+  candidate: CandidateInput
+}
+type Candidate {
+  candidate: String
+  sdpMLineIndex: Int
+  sdpMid: String
+}
+type Signal {
+  sdp: String
+  type: String
+  candidate: Candidate
+}
+type Mutation {
+  sendSignal(signal: SignalInput): Boolean
+}
+type Subscription {
+  signal: Signal
+}
