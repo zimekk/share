@@ -1,4 +1,5 @@
 import express, { Router } from "express";
+import http from "http";
 // import cors from "cors";
 import path from "path";
 import ws from "ws";
@@ -45,6 +46,7 @@ const context = {
   pubsub: new PubSub(),
 };
 
+// https://www.graphql-tools.com/docs/server-setup#setup-an-http-server
 const app = express()
   .use(
     endpoint,
@@ -60,16 +62,19 @@ const app = express()
   )
   .use(web);
 
+// https://www.graphql-tools.com/docs/server-setup#adding-subscriptions-support
+export const server = http.createServer(app);
+
+// https://github.com/websockets/ws#client-authentication
+const wsServer = new ws.Server({
+  server,
+  path: subscriptionEndpoint,
+});
+
 // https://github.com/enisdenjo/graphql-ws
-export const server = app.listen(PORT, () => {
+server.listen(PORT, () => {
   const { port }: any = server.address();
 
-  // create and use the websocket server
-  // https://github.com/websockets/ws#client-authentication
-  const wsServer = new ws.Server({
-    server,
-    path: subscriptionEndpoint,
-  });
   useServer({ schema, context }, wsServer);
 
   console.info(`⚡️[server]: Server is running at http://localhost:${port}`);
