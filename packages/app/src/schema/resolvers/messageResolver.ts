@@ -1,38 +1,29 @@
 import { PubSub } from "graphql-subscriptions";
-import { Subject } from "rxjs";
+import { BehaviorSubject, Subject } from "rxjs";
+import { tap } from "rxjs/operators";
 import { CHANNELS } from "../../constants";
 
 const pubsub = new PubSub();
 
+const messages$ = new BehaviorSubject([]);
+
 const message$ = new Subject();
 
-const data = {
-  // connections: [],
-  messages: [],
-};
+// type Message = { uuid: string; text: string };
 
-type Message = { uuid: string; text: string };
-
-const sendMessage = (message: Message) => {
-  console.log({ message });
-  // data.messages.push(message);
-  // pubsub.publish(CHANNELS.MESSAGE, { message });
-  message$.next(message);
-};
-
-message$.subscribe((message) => {
-  console.log(message);
+message$.pipe(tap(console.log)).subscribe((message) => {
+  messages$.next(messages$.value.concat(message));
   pubsub.publish(CHANNELS.MESSAGE, { message });
 });
 
 // https://www.graphql-tools.com/docs/generate-schema
 export default {
   Query: {
-    messages: () => data.messages,
+    messages: () => messages$.value,
   },
   Mutation: {
     sendMessage: (_, { message }) => {
-      sendMessage(message);
+      message$.next(message);
       return true;
     },
   },
