@@ -6,11 +6,16 @@
   "files": [
     "lib/"
   ],
+  "eslintConfig": {
+    "env": {
+      "node": true
+    }
+  },
   "main": "lib",
   "scripts": {
-    "build": "NODE_ENV=production tsc --declaration",
+    "build": "webpack --mode production",
     "serve": "node lib",
-    "start": "NODE_ENV=development nodemon lib.ts"
+    "start": "webpack serve --mode development"
   },
   "dependencies": {
     "@dev/web": "1.0.0",
@@ -32,10 +37,12 @@
     "@types/node": "^16.10.4",
     "@types/ws": "^8.2.0",
     "nodemon": "^2.0.13",
+    "require-from-string": "^2.0.2",
     "ts-node": "^10.3.0",
     "typescript": "^4.4.4",
     "webpack": "^5.58.1",
     "webpack-dev-middleware": "^5.2.1",
-    "webpack-hot-middleware": "^2.25.1"
+    "webpack-hot-middleware": "^2.25.1",
+    "webpack-node-externals": "^3.0.0"
   }
 }

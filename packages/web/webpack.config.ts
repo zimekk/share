@@ -1,20 +1,18 @@
-import CopyWebpackPlugin from "copy-webpack-plugin";
-import HtmlWebpackPlugin from "html-webpack-plugin";
-import * as path from "path";
+import path from "path";
 import webpack from "webpack";
 import env from "dotenv";
 
 env.config({ path: path.resolve(__dirname, "../../.env") });
 
-const dev = process.env.NODE_ENV === "development";
-
-const config = {
+export default (env, { mode }, dev = mode === "development") => ({
   target: "web",
-  devServer: {
-    port: 8080,
+  devtool: dev ? "eval-cheap-source-map" : "source-map",
+  entry: {
+    main: [
+      // "webpack-dev-server/client?http://localhost:8080/test",
+      "react-hot-loader/patch",
+    ].concat(require.resolve("./src")),
   },
-  devtool: dev && "inline-source-map",
-  entry: ["react-hot-loader/patch"].concat(require.resolve("./src")),
   module: {
     rules: [
       {
@@ -46,7 +44,7 @@ const config = {
         exclude: /node_modules/,
         options: {
           presets: ["@babel/preset-react", "@babel/preset-typescript"],
-          plugins: ["react-hot-loader/babel"],
+          plugins: [].concat(dev ? "react-hot-loader/babel" : []),
         },
       },
     ],
@@ -70,12 +68,11 @@ const config = {
     new webpack.HotModuleReplacementPlugin(),
     new webpack.EnvironmentPlugin({
       FFMPEG_CORE_PATH: "ffmpeg/ffmpeg-core.js",
-      NODE_ENV: "development",
     }),
     new webpack.ProvidePlugin({
       Buffer: ["buffer", "Buffer"],
     }),
-    new CopyWebpackPlugin({
+    new (require("copy-webpack-plugin"))({
       patterns: [
         {
           context: path.resolve(__dirname, "src/assets"),
@@ -84,10 +81,9 @@ const config = {
         },
       ],
     }),
-    new HtmlWebpackPlugin({
+    // https://webpack.js.org/plugins/html-webpack-plugin/
+    new (require("html-webpack-plugin"))({
       favicon: require.resolve("./src/assets/favicon.ico"),
     }),
-  ],
-};
-
-export default config;
+  ].filter(Boolean),
+});

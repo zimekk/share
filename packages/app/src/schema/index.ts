@@ -8,7 +8,26 @@ import gql from "graphql-tag";
 export default mergeSchemas({
   schemas: [require("./counter").default, require("./signal").default],
   typeDefs: mergeTypeDefs([
-    ...loadFilesSync(join(__dirname, "types/**/*.graphql")),
+    // ...loadFilesSync(join(__dirname, "types/**/*.graphql")),
+    gql`
+      input MessageInput {
+        uuid: String
+        text: String
+      }
+      type Message {
+        uuid: String
+        text: String
+      }
+      type Mutation {
+        sendMessage(message: MessageInput): Boolean
+      }
+      type Query {
+        messages: [Message]
+      }
+      type Subscription {
+        message: Message
+      }
+    `,
     gql`
       type Query {
         hello(name: String): String!
@@ -16,7 +35,8 @@ export default mergeSchemas({
     `,
   ]),
   resolvers: mergeResolvers([
-    ...loadFilesSync(join(__dirname, "resolvers")),
+    // ...loadFilesSync(join(__dirname, "resolvers")),
+    require("./resolvers/messageResolver").default,
     {
       Query: {
         hello: (_, { name }) => `Hello ${name || "World"}`,
