@@ -92,6 +92,10 @@ yarn husky add .husky/pre-commit "yarn pretty-quick --staged"
 yarn husky add .husky/commit-msg "yarn commitlint --edit \$1"
 ```
 
+## graphdoc
+
+[zimekk.github.io/share/schema](https://zimekk.github.io/share/schema)
+
 ## graphiQL
 
 [localhost:8080/graphql](http://localhost:8080/graphql)

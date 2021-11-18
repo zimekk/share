@@ -11,6 +11,8 @@ const context = {
   pubsub: new PubSub(),
 };
 
+export { schema };
+
 export const useServer = (server) =>
   require("graphql-ws/lib/use/ws").useServer(
     {

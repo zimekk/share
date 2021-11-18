@@ -13,7 +13,7 @@
   },
   "main": "lib",
   "scripts": {
-    "build": "webpack --mode production",
+    "build": "webpack --mode production && graphdoc -s ./schema.js -o ./public/schema -f",
     "serve": "node lib",
     "start": "webpack serve --mode development"
   },
@@ -32,6 +32,7 @@
     "rxjs": "^7.4.0"
   },
   "devDependencies": {
+    "@2fd/graphdoc": "^2.4.0",
     "@types/cors": "^2.8.12",
     "@types/express": "^4.17.13",
     "@types/node": "^16.11.8",
