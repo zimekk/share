@@ -1,4 +1,4 @@
-import express, { Router } from "express";
+import express, { Router, json } from "express";
 import { graphqlHTTP } from "express-graphql";
 import { PubSub } from "graphql-subscriptions";
 import schema from "./schema";
@@ -24,6 +24,11 @@ export const useServer = (server) =>
 
 export const router = Router()
   .use("/api", (req, res) => res.json({ hello: "Hello" }))
+  .use("/longpoll", json(), (req, res) => {
+    const { time = 0, delay = 1000 } = req.body;
+    console.log({ time, delay });
+    setTimeout(() => res.json({ time }), delay);
+  })
   .use(
     endpoint,
     graphqlHTTP({
