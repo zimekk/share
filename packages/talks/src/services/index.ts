@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { BrowserService } from "./BrowserService";
 import { HelloService } from "./HelloService";
 import { MessagesService } from "./MessagesService";
 import { VideoService } from "./VideoService";
@@ -72,4 +73,23 @@ export function useVideo() {
   }, []);
 
   return [state, { sendSignal: (signal) => videoService.sendSignal(signal) }];
+}
+
+const browserService = new BrowserService();
+
+export function useFiles() {
+  const [state, setState] = useState({ files: null });
+
+  useEffect(() => {
+    const subscriptions = [
+      browserService
+        .files()
+        .subscribe(({ files }) => setState((state) => ({ ...state, files }))),
+    ];
+    return () => {
+      subscriptions.map((it) => it.unsubscribe());
+    };
+  }, []);
+
+  return [state];
 }
