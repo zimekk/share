@@ -39,7 +39,7 @@
     ]
   },
   "scripts": {
-    "build": "yarn workspace @dev/app build",
+    "build": "yarn workspace libdsm build && yarn workspace @dev/app build",
     "clean": "rm -rf packages/*/public packages/*/lib",
     "lint": "eslint . --ext .json,.js,.jsx,.ts,.tsx",
     "reset": "rm -rf node_modules packages/*/node_modules",

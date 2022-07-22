@@ -1,3 +1,5 @@
+[![Deployment](https://github.com/zimekk/share/actions/workflows/deploy.yml/badge.svg?branch=main)](https://github.com/zimekk/share/actions/workflows/deploy.yml)
+
 # share
 
 [zimekk.github.io/share](https://zimekk.github.io/share)
