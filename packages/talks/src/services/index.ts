@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { BrowserService } from "./BrowserService";
 import { HelloService } from "./HelloService";
 import { MessagesService } from "./MessagesService";
+import { SensorService } from "./SensorService";
 import { VideoService } from "./VideoService";
 
 const helloService = new HelloService();
@@ -54,6 +55,30 @@ export function useMessages() {
     { messages },
     { sendMessage: (message) => messageService.sendMessage(message) },
   ];
+}
+
+const sensorService = new SensorService();
+
+export function useSensor() {
+  const [{ values }, setState] = useState(() => ({
+    values: null,
+  }));
+
+  useEffect(() => {
+    const subscriptions = [
+      sensorService.onSensor().subscribe(({ sensor }) =>
+        setState(({ values, ...state }) => ({
+          ...state,
+          values: (values || []).concat([sensor]),
+        }))
+      ),
+    ];
+    return () => {
+      subscriptions.map((it) => it.unsubscribe());
+    };
+  }, []);
+
+  return [{ values }, {}];
 }
 
 const videoService = new VideoService();

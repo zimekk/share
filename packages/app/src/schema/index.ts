@@ -9,6 +9,7 @@ export default mergeSchemas({
   schemas: [
     require("./browser").default,
     require("./counter").default,
+    require("./sensor").default,
     require("./signal").default,
   ],
   typeDefs: mergeTypeDefs([

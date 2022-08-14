@@ -5,13 +5,13 @@ import styles from "./styles.module.scss";
 export default function Browser() {
   const [{ files }] = useFiles();
 
-  if (files === null) return "Loading...";
-
   return (
     <section className={styles.Browser}>
-      {files.map(({ name }, key) => (
-        <div key={key}>{name}</div>
-      ))}
+      {files === null ? (
+        <div>Loading...</div>
+      ) : (
+        files.map(({ name }, key) => <div key={key}>{name}</div>)
+      )}
     </section>
   );
 }
