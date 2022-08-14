@@ -1,4 +1,5 @@
 FROM node:14-alpine
+RUN apk add g++ make py3-pip
 
 ENV WORKDIR /app
 WORKDIR $WORKDIR
