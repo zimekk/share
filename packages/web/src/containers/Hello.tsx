@@ -5,7 +5,13 @@ import styles from "./Hello.module.scss";
 export default function Hello() {
   const [{ hello }] = useHello();
 
-  if (hello === null) return "Loading...";
-
-  return <h2 className={styles.Hello}>{hello}</h2>;
+  return (
+    <section>
+      {hello === null ? (
+        <div>Loading...</div>
+      ) : (
+        <h2 className={styles.Hello}>{hello}</h2>
+      )}
+    </section>
+  );
 }
