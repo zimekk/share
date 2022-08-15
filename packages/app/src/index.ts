@@ -215,5 +215,7 @@ if (process.mainModule.filename === __filename) {
     },
   });
 
+  require("./bluetooth").signal(context);
+
   server.start();
 }
