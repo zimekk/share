@@ -109,6 +109,7 @@ function miAction() {
           "characteristicvaluechanged",
           (event) => {
             var value = event.target.value;
+            console.log({ value });
             var sign = value.getUint8(1) & (1 << 7);
             var temp = ((value.getUint8(1) & 0x7f) << 8) | value.getUint8(0);
             if (sign) temp = temp - 32767;
@@ -206,14 +207,29 @@ export default function Sensor() {
 
   const onConnect = useCallback<MouseEventHandler<HTMLButtonElement>>(
     (event) => {
+      // https://developer.mozilla.org/en-US/docs/Web/API/Bluetooth/requestDevice
       const deviceOptions = {
-        filters: [
-          {
-            services: [0xfe95],
-          },
+        // filters: [
+        //   { name: "LYWSD03MMC" },
+        //   {
+        //     services: [0xfe95],
+        //   },
+        //   {
+        //     services: [
+        //       "00010203-0405-0607-0809-0a0b0c0d1912",
+        //       "ebe0ccb0-7a0a-4b0c-8a1a-6ff2997da3a6",
+        //       0xfe95,
+        //       0x1f10,
+        //     ],
+        //   },
+        // ],
+        optionalServices: [
+          "00010203-0405-0607-0809-0a0b0c0d1912",
+          "ebe0ccb0-7a0a-4b0c-8a1a-6ff2997da3a6",
+          0xfe95,
+          0x1f10,
         ],
-        // optionalServices: ['00010203-0405-0607-0809-0a0b0c0d1912', 'ebe0ccb0-7a0a-4b0c-8a1a-6ff2997da3a6', 0xfe95, 0x1f10],
-        // acceptAllDevices: true,
+        acceptAllDevices: true,
       };
       navigator.bluetooth.getAvailability().then((availability) => {
         if (availability) {
