@@ -35,7 +35,7 @@ export default (env, { mode }, dev = mode === "development") => ({
         ],
       },
       {
-        test: /\.(mp3|ogg|png|avi)$/,
+        test: /\.(jpg|mov|mp3|ogg|png|avi)$/,
         use: ["file-loader"],
       },
       {

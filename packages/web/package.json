@@ -16,6 +16,7 @@
     "history": "^5.3.0",
     "hoist-non-react-statics": "^3.3.2",
     "immutability-helper": "^3.1.1",
+    "livephotoskit": "^1.5.6",
     "nanoid": "^4.0.0",
     "raf": "^3.4.1",
     "react": "^18.2.0",

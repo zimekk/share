@@ -10,6 +10,7 @@ const PAGES = {
   browser: lazy(() => import("./Browser")),
   hello: lazy(() => import("./Hello")),
   video: lazy(() => import("./Video")),
+  photo: lazy(() => import("./Photo")),
   sensor: lazy(() => import("./Sensor")),
   talks: lazy(() => import("@dev/talks")),
 };
