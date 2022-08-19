@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "graphql-request": "^4.3.0",
-    "graphql-ws": "^5.10.0",
+    "graphql-ws": "^5.10.1",
     "rxjs": "^7.5.6"
   },
   "devDependencies": {},
