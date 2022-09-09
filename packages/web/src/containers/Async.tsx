@@ -14,7 +14,9 @@ export default function Async() {
   const append = useCallback(
     (text) => {
       const console = refConsole.current;
-      console.value = `${text}\n${console.value}`;
+      if (console) {
+        console.value = `${text}\n${console.value}`;
+      }
     },
     [refConsole]
   );

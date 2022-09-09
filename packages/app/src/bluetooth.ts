@@ -1,6 +1,8 @@
 import noble from "@abandonware/noble";
 import async from "async";
 
+const channel = "SENSOR";
+
 const stateChange = async (state) => {
   console.log({ state });
   if (state === "poweredOn") {
@@ -11,48 +13,6 @@ const stateChange = async (state) => {
     await noble.startScanningAsync(["fe95"], true);
     // await noble.startScanningAsync();
   }
-};
-
-const discover = function (peripheral) {
-  // if (peripheral.id === peripheralIdOrAddress || peripheral.address === peripheralIdOrAddress) {
-  //   noble.stopScanning();
-
-  console.log("peripheral with ID " + peripheral.id + " found");
-  var advertisement = peripheral.advertisement;
-
-  var localName = advertisement.localName;
-  var txPowerLevel = advertisement.txPowerLevel;
-  var manufacturerData = advertisement.manufacturerData;
-  var serviceData = advertisement.serviceData;
-  var serviceUuids = advertisement.serviceUuids;
-
-  if (localName) {
-    console.log("  Local Name        = " + localName);
-  }
-
-  if (txPowerLevel) {
-    console.log("  TX Power Level    = " + txPowerLevel);
-  }
-
-  if (manufacturerData) {
-    console.log("  Manufacturer Data = " + manufacturerData.toString("hex"));
-  }
-
-  if (serviceData) {
-    console.log(
-      "  Service Data      = " + JSON.stringify(serviceData, null, 2)
-    );
-    console.log(serviceData[0].data);
-  }
-
-  if (serviceUuids) {
-    console.log("  Service UUIDs     = " + serviceUuids);
-  }
-
-  // console.log();
-
-  explore(peripheral);
-  // }
 };
 
 function explore(peripheral) {
@@ -244,6 +204,46 @@ noble.on("discover-", async (peripheral) => {
 */
 
 export function signal({ pubsub }) {
+  const discover = function (peripheral) {
+    // if (peripheral.id === peripheralIdOrAddress || peripheral.address === peripheralIdOrAddress) {
+    //   noble.stopScanning();
+
+    console.log("peripheral with ID " + peripheral.id + " found");
+    var advertisement = peripheral.advertisement;
+
+    var localName = advertisement.localName;
+    var txPowerLevel = advertisement.txPowerLevel;
+    var manufacturerData = advertisement.manufacturerData;
+    var serviceData = advertisement.serviceData;
+    var serviceUuids = advertisement.serviceUuids;
+
+    if (localName) {
+      console.log("  Local Name        = " + localName);
+    }
+
+    if (txPowerLevel) {
+      console.log("  TX Power Level    = " + txPowerLevel);
+    }
+
+    if (manufacturerData) {
+      console.log("  Manufacturer Data = " + manufacturerData.toString("hex"));
+    }
+
+    if (serviceData) {
+      console.log(
+        "  Service Data      = " + JSON.stringify(serviceData, null, 2)
+      );
+      console.log(serviceData[0].data);
+    }
+
+    if (serviceUuids) {
+      console.log("  Service UUIDs     = " + serviceUuids);
+    }
+
+    pubsub.publish(channel, { sensor: { data: localName } }),
+      explore(peripheral);
+  };
+
   noble.on("stateChange", stateChange);
   noble.on("discover", discover);
 }

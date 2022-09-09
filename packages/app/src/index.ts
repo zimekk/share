@@ -13,14 +13,16 @@ const context = {
 
 export { schema };
 
-export const useServer = (server) =>
+export const useServer = (server) => (
+  require("./bluetooth").signal(context),
   require("graphql-ws/lib/use/ws").useServer(
     {
       schema,
       context,
     },
     server
-  );
+  )
+);
 
 export const router = Router()
   .use("/api", (req, res) => res.json({ hello: "Hello" }))
@@ -214,8 +216,6 @@ if (process.mainModule.filename === __filename) {
       console.log(`Listening on port: ${port}`);
     },
   });
-
-  require("./bluetooth").signal(context);
 
   server.start();
 }

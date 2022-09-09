@@ -5,7 +5,7 @@ import { Service } from "./Service";
 const ON_SENSOR = gql`
   subscription SensorSubscription {
     sensor {
-      value
+      data
     }
   }
 `;

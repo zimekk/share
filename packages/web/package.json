@@ -33,6 +33,7 @@
     "@types/node": "^18.7.14",
     "@types/react": "^18.0.18",
     "@types/react-dom": "^18.0.6",
+    "@types/web-bluetooth": "^0.0.15",
     "@types/webpack": "^5.28.0",
     "@types/webpack-dev-server": "^4.7.2",
     "babel-loader": "^8.2.5",
