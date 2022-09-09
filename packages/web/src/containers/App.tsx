@@ -11,6 +11,7 @@ const PAGES = {
   hello: lazy(() => import("./Hello")),
   video: lazy(() => import("./Video")),
   photo: lazy(() => import("./Photo")),
+  remote: lazy(() => import("./Remote")),
   sensor: lazy(() => import("./Sensor")),
   talks: lazy(() => import("@dev/talks")),
 };

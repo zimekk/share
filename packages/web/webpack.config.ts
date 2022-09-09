@@ -84,6 +84,9 @@ export default (env, { mode }, dev = mode === "development") => ({
     // https://webpack.js.org/plugins/html-webpack-plugin/
     new (require("html-webpack-plugin"))({
       favicon: require.resolve("./src/assets/favicon.ico"),
+      // meta: {
+      //   referrer: 'no-referrer'
+      // }
     }),
   ].filter(Boolean),
 });
