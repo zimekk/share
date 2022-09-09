@@ -29,7 +29,7 @@
 `,p=r.gql`
   subscription SensorSubscription {
     sensor {
-      value
+      data
     }
   }
 `,h=r.gql`
