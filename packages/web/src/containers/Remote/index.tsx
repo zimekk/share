@@ -1,5 +1,10 @@
-import React, { MouseEventHandler, useCallback, useEffect } from "react";
-import { useSensor } from "@dev/talks/src/services";
+import React, {
+  MouseEventHandler,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
+import { RemoteService } from "@dev/talks/src/services";
 import styles from "./styles.module.scss";
 
 const base = "http://192.168.2.101:8080";
@@ -65,6 +70,32 @@ const keys = {
 
 function delay(timeout = 100) {
   return new Promise((resolve) => setTimeout(resolve, timeout));
+}
+
+const remoteService = new RemoteService();
+
+function useRemote() {
+  const [{ data }, setState] = useState(() => ({
+    data: null,
+  }));
+
+  useEffect(() => {
+    const subscriptions = [
+      remoteService.onMessage().subscribe(({ data }) => setState({ data })),
+    ];
+    return () => {
+      subscriptions.map((it) => it.unsubscribe());
+    };
+  }, []);
+
+  return [
+    { data },
+    {
+      remoteTv: (action) => remoteService.getRemoteTv(action),
+      status: () => remoteService.getMessages(),
+      sendMessage: (message) => remoteService.sendMessage(message),
+    },
+  ];
 }
 
 // https://github.com/HubertReX/Flask-Home-Automation/blob/master/send_key2ncplus.py
@@ -167,31 +198,7 @@ async function test() {
 
 // test()
 
-async function test2(key = "KeyStandBy") {
-  // await fetch(`${base}/system/version`, {
-  //   method: 'GET',
-  //   mode: 'no-cors',
-  // }).then(res => res.text())
-  // .then(data => console.log(data))
-
-  // await delay(2000)
-
-  // const body = JSON.stringify({Keypress: 'KeyVolumeUp'})
-
-  // console.log({body})
-
-  // {
-  //   host: '192.168.0.106:8080',
-  //   'user-agent': 'python-requests/2.28.1',
-  //   'accept-encoding': 'gzip, deflate',
-  //   accept: '*/*',
-  //   connection: 'keep-alive',
-  //   'content-length': '19',
-  //   'content-type': 'application/x-www-form-urlencoded'
-  // }
-
-  // const base = 'http://192.168.0.106:8080'
-
+async function adb(key = "KeyStandBy") {
   await fetch(`${base}/control/rcu`, {
     method: "POST",
     mode: "no-cors",
@@ -200,17 +207,53 @@ async function test2(key = "KeyStandBy") {
       "Content-Type": "application/x-www-form-urlencoded",
     },
   })
-    .then((res) =>
-      Boolean(
-        console.log({ status: res.status, headers: [...res.headers.entries()] })
-      )
-        ? null
-        : res.text()
-    )
-    .then((data) => console.log(data));
+    .then((res) => res.text())
+    .then(console.log);
 }
 
-// test2()
+async function vcr(action) {
+  const base = "http://192.168.0.103";
+
+  fetch(`${base}/YamahaExtendedControl/v1/${action}`, {
+    method: "GET",
+    mode: "no-cors",
+  })
+    .then((res) => res.text())
+    .then(console.log);
+}
+
+// https://github.com/g30r93g/viera.js/blob/master/viera.js
+// https://github.com/AntonioMeireles/homebridge-vieramatic/blob/master/src/viera.ts
+async function tv(action = "SetVolume") {
+  const volume = 21;
+  const base = "http://192.168.2.90:55000";
+  const urn = "schemas-upnp-org:service:RenderingControl:1";
+  const command = `<InstanceID>0</InstanceID><Channel>Master</Channel>${
+    {
+      SetVolume: "<DesiredVolume>20</DesiredVolume>",
+    }[action]
+  }`;
+  const body = `<?xml version="1.0" encoding="utf-8"?> 
+  <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"> 
+  <s:Body> 
+   <u:${action} xmlns:u="urn:${urn}"> 
+    ${command}
+   </u:${action}> 
+  </s:Body> 
+  </s:Envelope>`;
+  fetch(`${base}/dmr/control_0`, {
+    method: "POST",
+    // mode: "no-cors",
+    body,
+    headers: {
+      "Content-Length": String(body.length),
+      "Content-Type": 'text/xml; charset="utf-8"',
+      SOAPACTION: `"urn:${urn}#${action}"`,
+    },
+  })
+    .then((res) => res.text())
+    .then(console.log);
+}
 
 async function test3() {
   const UPnPClient = null; //require('node-upnp');
@@ -306,50 +349,172 @@ export const schema = () => {
   console.log(["schema"]);
 };
 
-// https://github.com/atc1441/atc1441.github.io/blob/master/TelinkFlasher.html
-const addLog = console.log;
-const addClog = addLog;
-const setStatus = addLog;
-
-function handleError(error) {
-  console.error(error);
-  // resetVariables();
-  // if (connectTrys < 5) {
-  //     connectTrys++;
-  //     addLog("Reconnect " + connectTrys + " from " + 5);
-  //     doConnect();
-  // } else {
-  //     addLog("Something went wrong, to many reconnect's");
-  //     connectTrys = 0;
-  // }
-}
-
 export default function Sensor() {
-  const [{ values }] = useSensor();
-  console.log({ values });
+  const [{ data }, { remoteTv, status }] = useRemote();
+  console.log({ data });
+
+  useEffect(() => {
+    // https://stackoverflow.com/questions/54896998/how-to-process-fetch-response-from-an-opaque-type
+    // fetch(`${base}/system/version`, {
+    //     // method: 'POST',
+    //     method: 'GET',
+    //     // mode: 'no-cors',
+    //     headers: {
+    //       "Accept": "text/html",
+    //       "Content-Type": "application/json",
+    //     },
+    //   })
+    //   .then(res => console.log(res))
+    // .then(res => res.text())
+    // .then(data => console.log(data))
+  }, []);
+
+  const onVersion = useCallback<MouseEventHandler<HTMLButtonElement>>(
+    (event) => status(),
+    []
+  );
+
+  const onStandBy = useCallback<MouseEventHandler<HTMLButtonElement>>(
+    (event) => adb("KeyStandBy"),
+    []
+  );
 
   const onVolumeDown = useCallback<MouseEventHandler<HTMLButtonElement>>(
-    (event) => {
-      test2("KeyVolumeDown");
-    },
+    (event) => adb("KeyVolumeDown"),
     []
   );
 
   const onVolumeUp = useCallback<MouseEventHandler<HTMLButtonElement>>(
-    (event) => {
-      test2("KeyVolumeUp");
-    },
+    (event) => adb("KeyVolumeUp"),
+    []
+  );
+
+  const onGetDeviceInfo = useCallback<MouseEventHandler<HTMLButtonElement>>(
+    (event) => vcr("system/getDeviceInfo"),
+    []
+  );
+
+  const onGetFeatures = useCallback<MouseEventHandler<HTMLButtonElement>>(
+    (event) => vcr("system/getFeatures"),
+    []
+  );
+
+  const onGetStatus = useCallback<MouseEventHandler<HTMLButtonElement>>(
+    (event) => vcr("main/getStatus"),
+    []
+  );
+
+  const onSetVolume70 = useCallback<MouseEventHandler<HTMLButtonElement>>(
+    (event) => vcr("main/setVolume?volume=70"),
+    []
+  );
+
+  const onSetVolume90 = useCallback<MouseEventHandler<HTMLButtonElement>>(
+    (event) => vcr("main/setVolume?volume=90"),
+    []
+  );
+
+  const onGetVolume = useCallback<MouseEventHandler<HTMLButtonElement>>(
+    (event) => remoteTv("GetVolume"),
+    []
+  );
+
+  const onSetVolumeTv = useCallback<MouseEventHandler<HTMLButtonElement>>(
+    // (event) => tv("SetVolume"),
+    (event) => remoteTv("SetVolume"),
+    []
+  );
+
+  const onGetMuteTv = useCallback<MouseEventHandler<HTMLButtonElement>>(
+    (event) => remoteTv("GetMute"),
+    []
+  );
+
+  const onListPresetsTv = useCallback<MouseEventHandler<HTMLButtonElement>>(
+    (event) => remoteTv("ListPresets"),
+    []
+  );
+
+  const onSetMuteTv = useCallback<MouseEventHandler<HTMLButtonElement>>(
+    (event) => remoteTv("SetMute"),
+    []
+  );
+
+  const onSendKeyTv = useCallback<MouseEventHandler<HTMLButtonElement>>(
+    (event) => remoteTv("X_SendKey"),
+    []
+  );
+
+  const onAppTypeTv = useCallback<MouseEventHandler<HTMLButtonElement>>(
+    (event) => remoteTv("X_LaunchApp"),
+    []
+  );
+
+  const onPinCodeTv = useCallback<MouseEventHandler<HTMLButtonElement>>(
+    (event) => remoteTv("X_DisplayPinCode"),
+    []
+  );
+
+  const onRequestAuthTv = useCallback<MouseEventHandler<HTMLButtonElement>>(
+    (event) => remoteTv("X_RequestAuth"),
+    []
+  );
+
+  const onGetAudioList = useCallback<MouseEventHandler<HTMLButtonElement>>(
+    (event) => remoteTv("X_GetAudioList"),
+    []
+  );
+
+  const onGetCurrentAudioID = useCallback<MouseEventHandler<HTMLButtonElement>>(
+    (event) => remoteTv("X_GetCurrentAudioID"),
+    []
+  );
+
+  const onGetCurrentConnectionIDs = useCallback<
+    MouseEventHandler<HTMLButtonElement>
+  >((event) => remoteTv("GetCurrentConnectionIDs"), []);
+
+  const onGetMediaInfo = useCallback<MouseEventHandler<HTMLButtonElement>>(
+    (event) => remoteTv("GetMediaInfo"),
+    []
+  );
+
+  const onGetProtocolInfo = useCallback<MouseEventHandler<HTMLButtonElement>>(
+    (event) => remoteTv("GetProtocolInfo"),
     []
   );
 
   return (
     <section className={styles.Section}>
+      <button onClick={onVersion}>Version</button>
+      <button onClick={onStandBy}>StandBy</button>
       <button onClick={onVolumeDown}>Volume -</button>
       <button onClick={onVolumeUp}>Volume +</button>
-      {values === null ? (
+      <button onClick={onGetDeviceInfo}>GetDeviceInfo</button>
+      <button onClick={onGetFeatures}>GetFeatures</button>
+      <button onClick={onGetStatus}>GetStatus</button>
+      <button onClick={onSetVolume70}>SetVolume 70%</button>
+      <button onClick={onSetVolume90}>SetVolume 90%</button>
+      <button onClick={onGetVolume}>GetVolume</button>
+      <button onClick={onSetVolumeTv}>SetVolumeTv</button>
+      <button onClick={onGetMuteTv}>GetMuteTv</button>
+      <button onClick={onSetMuteTv}>SetMuteTv</button>
+      <button onClick={onListPresetsTv}>ListPresetsTv</button>
+      <button onClick={onSendKeyTv}>SendKeyTv</button>
+      <button onClick={onAppTypeTv}>AppTypeTv</button>
+      <button onClick={onPinCodeTv}>PinCodeTv</button>
+      <button onClick={onRequestAuthTv}>RequestAuthTv</button>
+      <button onClick={onGetAudioList}>GetAudioList</button>
+      <button onClick={onGetCurrentAudioID}>GetCurrentAudioID</button>
+      <button onClick={onGetCurrentConnectionIDs}>
+        GetCurrentConnectionIDs
+      </button>
+      <button onClick={onGetMediaInfo}>GetMediaInfo</button>
+      <button onClick={onGetProtocolInfo}>GetProtocolInfo</button>
+      {data === null ? (
         <div>Loading...</div>
       ) : (
-        values.map((item, key) => <div key={key}>{JSON.stringify(item)}</div>)
+        <pre>{JSON.stringify(data, null, 2)}</pre>
       )}
     </section>
   );
