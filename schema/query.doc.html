@@ -55,6 +55,11 @@
                 Int
             </a>
         </li>
+        <li  title="RemoteData">
+            <a href="remotedata.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                RemoteData
+            </a>
+        </li>
         <li  title="String">
             <a href="string.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
                 String
@@ -98,6 +103,11 @@
         <li  title="Message">
             <a href="message.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
                 Message
+            </a>
+        </li>
+        <li  title="Remote">
+            <a href="remote.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                Remote
             </a>
         </li>
         <li  title="Sensor">
@@ -155,6 +165,11 @@
                 MessageInput
             </a>
         </li>
+        <li  title="RemoteInput">
+            <a href="remoteinput.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                RemoteInput
+            </a>
+        </li>
         <li  title="SignalInput">
             <a href="signalinput.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
                 SignalInput
@@ -208,7 +223,7 @@
             </a>
             GraphQL Schema definition
         </h2>
-        <code class="highlight"><ul class="code" style="padding-left:42px"><li><span class="keyword operator ts">type</span> <span class="identifier">Query</span> {</li><li></li><li><span class="tab"><span class="comment line"># Arguments</span></span></li><li><span class="tab"><span class="comment line">#   <strong>name</strong>: </span></span></li><li><span class="tab"><span class="meta">files</span>(<span class="meta">name</span>: <a class="support type" href="string.doc.html">String</a>): [<a class="support type" href="file.doc.html">File</a>] </span></li><li></li><li><span class="tab"><span class="meta">messages</span>: [<a class="support type" href="message.doc.html">Message</a>] </span></li><li></li><li><span class="tab"><span class="comment line"># Arguments</span></span></li><li><span class="tab"><span class="comment line">#   <strong>name</strong>: </span></span></li><li><span class="tab"><span class="meta">hello</span>(<span class="meta">name</span>: <a class="support type" href="string.doc.html">String</a>): <a class="support type" href="string.doc.html">String</a>! </span></li><li>}</li></ul></code>
+        <code class="highlight"><ul class="code" style="padding-left:42px"><li><span class="keyword operator ts">type</span> <span class="identifier">Query</span> {</li><li></li><li><span class="tab"><span class="comment line"># Arguments</span></span></li><li><span class="tab"><span class="comment line">#   <strong>name</strong>: </span></span></li><li><span class="tab"><span class="meta">files</span>(<span class="meta">name</span>: <a class="support type" href="string.doc.html">String</a>): [<a class="support type" href="file.doc.html">File</a>] </span></li><li></li><li><span class="tab"><span class="meta">remote</span>: <a class="support type" href="remote.doc.html">Remote</a> </span></li><li></li><li><span class="tab"><span class="comment line"># Arguments</span></span></li><li><span class="tab"><span class="comment line">#   <strong>action</strong>: </span></span></li><li><span class="tab"><span class="meta">remoteTv</span>(<span class="meta">action</span>: <a class="support type" href="string.doc.html">String</a>): <a class="support type" href="remote.doc.html">Remote</a> </span></li><li></li><li><span class="tab"><span class="meta">messages</span>: [<a class="support type" href="message.doc.html">Message</a>] </span></li><li></li><li><span class="tab"><span class="comment line"># Arguments</span></span></li><li><span class="tab"><span class="comment line">#   <strong>name</strong>: </span></span></li><li><span class="tab"><span class="meta">hello</span>(<span class="meta">name</span>: <a class="support type" href="string.doc.html">String</a>): <a class="support type" href="string.doc.html">String</a>! </span></li><li>}</li></ul></code>
     </div>
 </section>
 <section>
