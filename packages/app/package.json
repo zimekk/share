@@ -29,7 +29,7 @@
     "graphql": "^16.6.0",
     "graphql-subscriptions": "^2.0.0",
     "graphql-tag": "^2.12.6",
-    "graphql-ws": "^5.10.1",
+    "graphql-ws": "^5.10.2",
     "libdsm": "^1.3.0",
     "morgan": "^1.10.0",
     "rxjs": "^7.5.6"
