@@ -26,6 +26,14 @@ const REMOTE_TV = gql`
   }
 `;
 
+const REMOTE_VCR = gql`
+  query RemoteVcrQuery($action: String) {
+    remoteVcr(action: $action) {
+      data
+    }
+  }
+`;
+
 const ON_REMOTE = gql`
   subscription RemoteSubscription {
     remote {
@@ -51,6 +59,9 @@ export class RemoteService extends Service {
   }
   getRemoteTv(action) {
     return from(this.client.request(REMOTE_TV, { action }));
+  }
+  getRemoteVcr(action) {
+    return from(this.client.request(REMOTE_VCR, { action }));
   }
   sendMessage(data) {
     return from(this.client.request(SEND_REMOTE, { data }));

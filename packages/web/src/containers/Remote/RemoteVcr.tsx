@@ -1,7 +1,7 @@
 import React, { MouseEventHandler, useCallback } from "react";
 
 async function vcr(action) {
-  const base = "http://192.168.0.103";
+  const base = "http://192.168.2.103";
 
   return fetch(`${base}/YamahaExtendedControl/v1/${action}`, {
     method: "GET",
@@ -11,29 +11,19 @@ async function vcr(action) {
     .then(console.log);
 }
 
-export function RemoteVcr() {
+export function RemoteVcr({ remoteVcr }) {
   const onGetDeviceInfo = useCallback<MouseEventHandler<HTMLButtonElement>>(
-    (event) => vcr("system/getDeviceInfo"),
+    (event) => remoteVcr("system/getDeviceInfo"),
     []
   );
 
   const onGetFeatures = useCallback<MouseEventHandler<HTMLButtonElement>>(
-    (event) => vcr("system/getFeatures"),
+    (event) => remoteVcr("system/getFeatures"),
     []
   );
 
   const onGetStatus = useCallback<MouseEventHandler<HTMLButtonElement>>(
-    (event) => vcr("main/getStatus"),
-    []
-  );
-
-  const onSetVolume70 = useCallback<MouseEventHandler<HTMLButtonElement>>(
-    (event) => vcr("main/setVolume?volume=70"),
-    []
-  );
-
-  const onSetVolume90 = useCallback<MouseEventHandler<HTMLButtonElement>>(
-    (event) => vcr("main/setVolume?volume=90"),
+    (event) => remoteVcr("main/getStatus"),
     []
   );
 
@@ -42,8 +32,54 @@ export function RemoteVcr() {
       <button onClick={onGetDeviceInfo}>GetDeviceInfo</button>
       <button onClick={onGetFeatures}>GetFeatures</button>
       <button onClick={onGetStatus}>GetStatus</button>
-      <button onClick={onSetVolume70}>SetVolume 70%</button>
-      <button onClick={onSetVolume90}>SetVolume 90%</button>
+      <button
+        onClick={useCallback<MouseEventHandler<HTMLButtonElement>>(
+          (event) => vcr("main/setVolume?volume=50"),
+          []
+        )}
+      >
+        SetVolume 50%
+      </button>
+      <button
+        onClick={useCallback<MouseEventHandler<HTMLButtonElement>>(
+          (event) => vcr("main/setVolume?volume=70"),
+          []
+        )}
+      >
+        SetVolume 70%
+      </button>
+      <button
+        onClick={useCallback<MouseEventHandler<HTMLButtonElement>>(
+          (event) => vcr("main/setVolume?volume=90"),
+          []
+        )}
+      >
+        SetVolume 90%
+      </button>
+      <button
+        onClick={useCallback<MouseEventHandler<HTMLButtonElement>>(
+          (event) => vcr("main/setVolume?volume=110"),
+          []
+        )}
+      >
+        SetVolume 110%
+      </button>
+      <button
+        onClick={useCallback<MouseEventHandler<HTMLButtonElement>>(
+          (event) => vcr("main/setVolume?volume=130"),
+          []
+        )}
+      >
+        SetVolume 130%
+      </button>
+      <button
+        onClick={useCallback<MouseEventHandler<HTMLButtonElement>>(
+          (event) => vcr("main/setVolume?volume=150"),
+          []
+        )}
+      >
+        SetVolume 150%
+      </button>
     </div>
   );
 }

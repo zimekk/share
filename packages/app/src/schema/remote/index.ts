@@ -23,6 +23,7 @@ export default makeExecutableSchema({
       remote: Remote
       remoteRcu(key: String): Remote
       remoteTv(action: String): Remote
+      remoteVcr(action: String): Remote
     }
     type Subscription {
       remote: Remote
@@ -67,7 +68,6 @@ export default makeExecutableSchema({
           "X_LaunchApp",
           "X_RequestAuth",
           "X_SendKey",
-          "X_SendKey2",
         ].includes(action)
           ? ["/nrc/control_0", "panasonic-com:service:p00NetworkControl:1"]
           : ["/dmr/control_0", "schemas-upnp-org:service:RenderingControl:1"];
@@ -121,6 +121,19 @@ export default makeExecutableSchema({
               Boolean(remote$.next(data)) ||
               Boolean(console.log(data)) || { data }
           );
+      },
+      remoteVcr: (_, { action }) => {
+        const base = "http://192.168.2.103";
+
+        return fetch(`${base}/YamahaExtendedControl/v1/${action}`, {
+          method: "GET",
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            remote$.next(data);
+
+            return data;
+          });
       },
     },
     Mutation: {
