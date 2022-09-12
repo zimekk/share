@@ -89,6 +89,7 @@ function useRemote() {
   return [
     { data },
     {
+      remoteRcu: (key) => remoteService.getRemoteRcu(key),
       remoteTv: (action) => remoteService.getRemoteTv(action),
       status: () => remoteService.getMessages(),
       sendMessage: (message) => remoteService.sendMessage(message),
@@ -195,12 +196,12 @@ async function test() {
 }
 
 export default function Remote() {
-  const [{ data }, { remoteTv, status }] = useRemote();
+  const [{ data }, { remoteRcu, remoteTv, status }] = useRemote();
   console.log({ data });
 
   return (
     <section className={styles.Section}>
-      <RemoteAdb status={status} />
+      <RemoteAdb remoteRcu={remoteRcu} status={status} />
       <RemoteVcr />
       <RemoteTv remoteTv={remoteTv} />
       {data === null ? (

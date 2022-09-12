@@ -15,7 +15,7 @@ async function adb(key = "KeyStandBy") {
     .then(console.log);
 }
 
-export function RemoteAdb({ status }) {
+export function RemoteAdb({ remoteRcu, status }) {
   const onVersion = useCallback<MouseEventHandler<HTMLButtonElement>>(
     (event) => status(),
     []
@@ -32,7 +32,7 @@ export function RemoteAdb({ status }) {
   );
 
   const onVolumeUp = useCallback<MouseEventHandler<HTMLButtonElement>>(
-    (event) => adb("KeyVolumeUp"),
+    (event) => remoteRcu("KeyVolumeUp"),
     []
   );
 

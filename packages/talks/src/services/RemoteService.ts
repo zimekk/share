@@ -10,6 +10,14 @@ const REMOTE = gql`
   }
 `;
 
+const REMOTE_RCU = gql`
+  query RemoteTvQuery($key: String) {
+    remoteRcu(key: $key) {
+      data
+    }
+  }
+`;
+
 const REMOTE_TV = gql`
   query RemoteTvQuery($action: String) {
     remoteTv(action: $action) {
@@ -32,9 +40,14 @@ const SEND_REMOTE = gql`
   }
 `;
 
+type RcuKey = "KeyStandBy" | "KeyVolumeDown" | "KeyVolumeUp";
+
 export class RemoteService extends Service {
   getMessages() {
     return from(this.client.request(REMOTE));
+  }
+  getRemoteRcu(key: RcuKey) {
+    return from(this.client.request(REMOTE_RCU, { key }));
   }
   getRemoteTv(action) {
     return from(this.client.request(REMOTE_TV, { action }));

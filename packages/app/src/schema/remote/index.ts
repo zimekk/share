@@ -21,6 +21,7 @@ export default makeExecutableSchema({
     }
     type Query {
       remote: Remote
+      remoteRcu(key: String): Remote
       remoteTv(action: String): Remote
     }
     type Subscription {
@@ -36,6 +37,23 @@ export default makeExecutableSchema({
           method: "GET",
         })
           .then((res) => res.json())
+          .then((data) => {
+            remote$.next(data);
+
+            return data;
+          });
+      },
+      remoteRcu: (_, { key }) => {
+        const base = "http://192.168.0.103:8080";
+
+        return fetch(`${base}/control/rcu`, {
+          method: "POST",
+          body: `Keypress=${key}`,
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        })
+          .then((res) => res.text())
           .then((data) => {
             remote$.next(data);
 
