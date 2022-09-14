@@ -27,59 +27,56 @@ export function RemoteVcr({ remoteVcr }) {
     []
   );
 
+  // https://github.com/honnel/yamaha-commands#http-api---input-and-volume
   return (
     <div>
       <button onClick={onGetDeviceInfo}>GetDeviceInfo</button>
       <button onClick={onGetFeatures}>GetFeatures</button>
       <button onClick={onGetStatus}>GetStatus</button>
-      <button
-        onClick={useCallback<MouseEventHandler<HTMLButtonElement>>(
-          (event) => vcr("main/setVolume?volume=50"),
-          []
-        )}
-      >
-        SetVolume 50%
-      </button>
-      <button
-        onClick={useCallback<MouseEventHandler<HTMLButtonElement>>(
-          (event) => vcr("main/setVolume?volume=70"),
-          []
-        )}
-      >
-        SetVolume 70%
-      </button>
-      <button
-        onClick={useCallback<MouseEventHandler<HTMLButtonElement>>(
-          (event) => vcr("main/setVolume?volume=90"),
-          []
-        )}
-      >
-        SetVolume 90%
-      </button>
-      <button
-        onClick={useCallback<MouseEventHandler<HTMLButtonElement>>(
-          (event) => vcr("main/setVolume?volume=110"),
-          []
-        )}
-      >
-        SetVolume 110%
-      </button>
-      <button
-        onClick={useCallback<MouseEventHandler<HTMLButtonElement>>(
-          (event) => vcr("main/setVolume?volume=130"),
-          []
-        )}
-      >
-        SetVolume 130%
-      </button>
-      <button
-        onClick={useCallback<MouseEventHandler<HTMLButtonElement>>(
-          (event) => vcr("main/setVolume?volume=150"),
-          []
-        )}
-      >
-        SetVolume 150%
-      </button>
+      {["net_radio", "tuner", "optical1"].map((input, key) => (
+        <button
+          key={key}
+          onClick={useCallback<MouseEventHandler<HTMLButtonElement>>(
+            (event) => vcr(`main/setInput?input=${input}`),
+            []
+          )}
+        >
+          {`SetInput ${input}`}
+        </button>
+      ))}
+      {[50, 70, 90, 110, 130, 150].map((volume, key) => (
+        <button
+          key={key}
+          onClick={useCallback<MouseEventHandler<HTMLButtonElement>>(
+            (event) => vcr(`main/setVolume?volume=${volume}`),
+            []
+          )}
+        >
+          {`SetVolume ${volume}%`}
+        </button>
+      ))}
+      {[true, false].map((enable, key) => (
+        <button
+          key={key}
+          onClick={useCallback<MouseEventHandler<HTMLButtonElement>>(
+            (event) => remoteVcr(`main/setMute?enable=${enable}`),
+            []
+          )}
+        >
+          {`SetMute ${enable}`}
+        </button>
+      ))}
+      {[60, 30, 0].map((timer, key) => (
+        <button
+          key={key}
+          onClick={useCallback<MouseEventHandler<HTMLButtonElement>>(
+            (event) => remoteVcr(`main/setSleep?sleep=${timer}`),
+            []
+          )}
+        >
+          {`SetSleep ${timer} min`}
+        </button>
+      ))}
     </div>
   );
 }
