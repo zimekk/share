@@ -1,0 +1,15 @@
+{
+  "name": "@dev/sensor",
+  "version": "1.0.0",
+  "license": "UNLICENSED",
+  "private": true,
+  "main": "lib",
+  "scripts": {
+    "build": "NODE_ENV=production tsc --declaration"
+  },
+  "dependencies": {
+    "@abandonware/noble": "^1.9.2-15"
+  },
+  "devDependencies": {},
+  "peerDependencies": {}
+}

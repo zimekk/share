@@ -14,7 +14,7 @@ const context = {
 export { schema };
 
 export const useServer = (server) => (
-  require("./bluetooth").signal(context),
+  require("@dev/sensor").signal(context),
   require("graphql-ws/lib/use/ws").useServer(
     {
       schema,

@@ -18,7 +18,7 @@
     "start": "webpack serve --mode development"
   },
   "dependencies": {
-    "@abandonware/noble": "^1.9.2-15",
+    "@dev/sensor": "1.0.0",
     "@dev/web": "1.0.0",
     "@graphql-tools/load-files": "^6.6.1",
     "@graphql-tools/schema": "^9.0.4",

@@ -240,8 +240,8 @@ export function signal({ pubsub }) {
       console.log("  Service UUIDs     = " + serviceUuids);
     }
 
-    pubsub.publish(channel, { sensor: { data: localName } }),
-      explore(peripheral);
+    pubsub.publish(channel, { sensor: { data: localName } });
+    explore(peripheral);
   };
 
   noble.on("stateChange", stateChange);
