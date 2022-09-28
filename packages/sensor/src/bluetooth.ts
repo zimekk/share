@@ -1,18 +1,28 @@
 import noble from "@abandonware/noble";
 import async from "async";
+import MiPacket from "mipacket";
+import XiaomiServiceReader from "xiaomi-gap-parser";
+import miflora from "miflora";
 
 const channel = "SENSOR";
 
 const stateChange = async (state) => {
   console.log({ state });
+
   if (state === "poweredOn") {
-    // await noble.startScanningAsync(['066f20e9822344a78f9b1af12aa2f8dc'], false);
-    // await noble.startScanningAsync(['066f'], false);
-    // await noble.startScanningAsync([], false);
-    // await noble.startScanningAsync(['180f'], false);
-    await noble.startScanningAsync(["fe95"], true);
-    // await noble.startScanningAsync();
+    noble.startScanning([], true);
+  } else {
+    noble.stopScanning();
   }
+
+  // if (state === "poweredOn") {
+  //   // await noble.startScanningAsync(['066f20e9822344a78f9b1af12aa2f8dc'], false);
+  //   // await noble.startScanningAsync(['066f'], false);
+  //   // await noble.startScanningAsync([], false);
+  //   // await noble.startScanningAsync(['180f'], false);
+  //   await noble.startScanningAsync(["fe95"], true);
+  //   // await noble.startScanningAsync();
+  // }
 };
 
 function explore(peripheral) {
@@ -24,7 +34,7 @@ function explore(peripheral) {
   peripheral.connect(function (error) {
     peripheral.discoverServices([], function (error, services) {
       var serviceIndex = 0;
-
+      console.log({ services });
       async.whilst(
         function () {
           return serviceIndex < services.length;
@@ -32,6 +42,8 @@ function explore(peripheral) {
         function (callback) {
           var service = services[serviceIndex];
           var serviceInfo = service.uuid;
+
+          console.log({ service });
 
           if (service.name) {
             serviceInfo += " (" + service.name + ")";
@@ -42,7 +54,7 @@ function explore(peripheral) {
             [],
             function (error, characteristics) {
               var characteristicIndex = 0;
-
+              console.log({ characteristics });
               async.whilst(
                 function () {
                   return characteristicIndex < characteristics.length;
@@ -203,10 +215,51 @@ noble.on("discover-", async (peripheral) => {
 // })
 */
 
-export function signal({ pubsub }) {
+export async function signal({ pubsub }) {
+  const discover2 = function (peripheral) {
+    const { advertisement, id, rssi, address } = peripheral;
+    const { localName, serviceData, serviceUuids } = advertisement;
+    let xiaomiData = null;
+
+    for (let i in serviceData) {
+      if (serviceData[i].uuid.toString("hex") === "fe95") {
+        xiaomiData = serviceData[i].data;
+      }
+    }
+
+    if (!xiaomiData) return;
+
+    console.log(xiaomiData);
+
+    const data = XiaomiServiceReader.readServiceData(xiaomiData);
+    if (data.event) {
+      console.log({
+        id,
+        address,
+        localName,
+        rssi,
+        data,
+      });
+
+      // console.log(new MiPacket(xiaomiData))
+      const value = Buffer.from(xiaomiData);
+      // const buffer = new Uint8Array(xiaomiData.buffer);
+      // console.log({value})
+      var sign = value.readUInt8(1) & (1 << 7);
+      var temp = ((value.readUInt8(1) & 0x7f) << 8) | value.readUInt8(0);
+      if (sign) temp = temp - 32767;
+      temp = temp / 100;
+      var hum = value.readUInt8(2);
+      console.log({ sign, temp, hum });
+      var tempTempString = "Temp/Humi: " + temp + "°C / " + hum + "%";
+      console.log({ tempTempString });
+    }
+  };
+
   const discover = function (peripheral) {
     // if (peripheral.id === peripheralIdOrAddress || peripheral.address === peripheralIdOrAddress) {
     //   noble.stopScanning();
+    console.log({ peripheral });
 
     console.log("peripheral with ID " + peripheral.id + " found");
     var advertisement = peripheral.advertisement;
@@ -216,7 +269,11 @@ export function signal({ pubsub }) {
     var manufacturerData = advertisement.manufacturerData;
     var serviceData = advertisement.serviceData;
     var serviceUuids = advertisement.serviceUuids;
-
+    console.log({ advertisement });
+    // console.log({serviceData})
+    serviceData.map(({ uuid, data }) =>
+      console.log(`${uuid}: ${data.toString("hex")}`)
+    );
     if (localName) {
       console.log("  Local Name        = " + localName);
     }
@@ -234,6 +291,7 @@ export function signal({ pubsub }) {
         "  Service Data      = " + JSON.stringify(serviceData, null, 2)
       );
       console.log(serviceData[0].data);
+      console.log(new MiPacket(serviceData[0].data));
     }
 
     if (serviceUuids) {
@@ -244,6 +302,33 @@ export function signal({ pubsub }) {
     explore(peripheral);
   };
 
-  noble.on("stateChange", stateChange);
-  noble.on("discover", discover);
+  // noble.on("stateChange", stateChange);
+  // noble.on("discover", discover2);
+  // noble.on("discover", discover);
+
+  //   const devices = await miflora.discover();
+  // console.log('devices discovered: ', devices.length);
+
+  const opts = {
+    duration: 60000,
+    // ignoreUnknown: true,
+    // addresses: ['c4:7c:8d:65:d6:1d', 'c4:7c:8d:65:d5:26', 'c4:7c:8d:65:e6:20']
+    addresses: ["a4-c1-38-8e-53-81"],
+  };
+  const devices = await miflora.discover(opts);
+  console.log("devices discovered: ", devices.length);
+
+  // function getEvent(value) {
+  //   console.log({ value });
+  //   var sign = value.getUint8(1) & (1 << 7);
+  //   var temp = ((value.getUint8(1) & 0x7f) << 8) | value.getUint8(0);
+  //   if (sign) temp = temp - 32767;
+  //   temp = temp / 100;
+  //   var hum = value.getUint8(2);
+  //   var tempTempString = "Temp/Humi: " + temp + "°C / " + hum + "%";
+
+  //   console.log({tempTempString})
+  // }
+
+  // getEvent(Buffer.from('8e4e84010017796005', 'hex'))
 }

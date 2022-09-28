@@ -35,7 +35,7 @@
   optionalDependencies:
     usb "^1.7.2"
 
-"@abandonware/noble@^1.9.2-15":
+"@abandonware/noble@^1.9.2-10", "@abandonware/noble@^1.9.2-15":
   version "1.9.2-15"
   resolved "https://registry.yarnpkg.com/@abandonware/noble/-/noble-1.9.2-15.tgz#b30de175177af689dfee8b98266a0936663b8cc4"
   integrity sha512-qD9NN5fzvbtHdWYFPDzxY2AveILvDSRX/PTdL0V+CUfyF70ggIJtLBc1WW1hbVMIpu8rZylYgrK+PUEBwIpjCg==
@@ -2841,7 +2841,7 @@ debug@2.6.9:
   dependencies:
     ms "2.0.0"
 
-debug@4, debug@^4.1.0, debug@^4.1.1, debug@^4.3.1, debug@^4.3.2, debug@^4.3.4:
+debug@4, debug@^4.1.0, debug@^4.1.1, debug@^4.3.0, debug@^4.3.1, debug@^4.3.2, debug@^4.3.4:
   version "4.3.4"
   resolved "https://registry.yarnpkg.com/debug/-/debug-4.3.4.tgz#1319f6579357f2338d3337d2cdd4914bb5dcc865"
   integrity sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==
@@ -4781,6 +4781,14 @@ micromatch@^4.0.2, micromatch@^4.0.4:
     braces "^3.0.1"
     picomatch "^2.2.3"
 
+miflora@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/miflora/-/miflora-1.0.6.tgz#0299735bc2d7a94a6b14ab0a83e7841f5f6dac7f"
+  integrity sha512-R825EkSNwRIVrgRdNSNiULriqqoDwMZ/RxJoqQjNRYKoC/sELGMltho5Bb3x4VSQx/iTl2iPPkYQVs5afuwncQ==
+  dependencies:
+    "@abandonware/noble" "^1.9.2-10"
+    debug "^4.3.0"
+
 mime-db@1.51.0, "mime-db@>= 1.43.0 < 2":
   version "1.51.0"
   resolved "https://registry.yarnpkg.com/mime-db/-/mime-db-1.51.0.tgz#d9ff62451859b18342d960850dc3cfb77e63fb0c"
@@ -4881,6 +4889,11 @@ minizlib@^2.1.1:
   dependencies:
     minipass "^3.0.0"
     yallist "^4.0.0"
+
+mipacket@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/mipacket/-/mipacket-1.0.1.tgz#7ce16153f2c65522ba1cab699267e6b57c310d84"
+  integrity sha512-atoGGU3qsgHB+S/bqdz9MofqbXWtlAz4Uu5xbNsfZm+l7JNuHeN1W0YBOgbKM8K9UScqe+dkoG7J6c+l4R9w6w==
 
 mkdirp@^1.0.3:
   version "1.0.4"
@@ -7040,6 +7053,11 @@ ws@^8.4.2:
   version "8.5.0"
   resolved "https://registry.yarnpkg.com/ws/-/ws-8.5.0.tgz#bfb4be96600757fe5382de12c670dab984a1ed4f"
   integrity sha512-BWX0SWVgLPzYwF8lTzEy1egjhS4S4OEAHfsO8o65WOVsrnSRGaSiUaa9e0ggGlkMTtBlmOpEXiie9RUcBO86qg==
+
+xiaomi-gap-parser@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/xiaomi-gap-parser/-/xiaomi-gap-parser-1.0.3.tgz#33908406a4fbd55abb9299cc36aff46ee3c09fb6"
+  integrity sha512-VuNpIYpxrEM7JkVMY/Cxh0NSPgijgkMmYe5lnCEIfBPvUgFYFjFHYcdA1jE1KoC3xhgtFwdRLQw3CBk7q9dcBQ==
 
 y18n@^5.0.5:
   version "5.0.8"

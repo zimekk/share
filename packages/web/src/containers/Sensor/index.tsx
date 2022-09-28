@@ -223,12 +223,12 @@ export default function Sensor() {
           //   ],
           // },
         ],
-        // optionalServices: [
-        //   "00010203-0405-0607-0809-0a0b0c0d1912",
-        //   "ebe0ccb0-7a0a-4b0c-8a1a-6ff2997da3a6",
-        //   0xfe95,
-        //   0x1f10,
-        // ],
+        optionalServices: [
+          "00010203-0405-0607-0809-0a0b0c0d1912",
+          "ebe0ccb0-7a0a-4b0c-8a1a-6ff2997da3a6",
+          0xfe95,
+          0x1f10,
+        ],
         // acceptAllDevices: true,
       };
       navigator.bluetooth.getAvailability().then((availability) => {
