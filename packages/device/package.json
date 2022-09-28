@@ -1,0 +1,16 @@
+{
+  "name": "@dev/device",
+  "version": "1.0.0",
+  "license": "UNLICENSED",
+  "private": true,
+  "main": "lib",
+  "scripts": {
+    "build": "NODE_ENV=production tsc --declaration"
+  },
+  "dependencies": {
+    "node-upnp-utils": "^0.0.5",
+    "zod": "^3.19.1"
+  },
+  "devDependencies": {},
+  "peerDependencies": {}
+}

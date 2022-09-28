@@ -11,6 +11,7 @@
     "lib/"
   ],
   "bin": {
+    "discover": "bin/discover.js",
     "scan": "bin/scan.js"
   },
   "jest": {
