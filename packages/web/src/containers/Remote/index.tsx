@@ -202,6 +202,7 @@ export default function Remote() {
 
   return (
     <section className={styles.Section}>
+      <h2>Remote</h2>
       <RemoteAdb remoteRcu={remoteRcu} status={status} />
       <RemoteVcr remoteVcr={remoteVcr} />
       <RemoteTv remoteTv={remoteTv} />

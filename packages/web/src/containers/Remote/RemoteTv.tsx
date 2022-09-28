@@ -72,22 +72,29 @@ export function RemoteTv({ remoteTv }) {
 
   return (
     <div>
-      <button onClick={onGetVolume}>GetVolume</button>
-      <button onClick={onSetVolume}>SetVolume</button>
-      <button onClick={onGetMute}>GetMute</button>
-      <button onClick={onSetMute}>SetMute</button>
-      <button onClick={onListPresets}>ListPresets</button>
-      <button onClick={onSendKey}>SendKey</button>
-      <button onClick={onAppType}>AppType</button>
-      <button onClick={onPinCode}>PinCode</button>
-      <button onClick={onRequestAuth}>RequestAuth</button>
-      <button onClick={onGetAudioList}>GetAudioList</button>
-      <button onClick={onGetCurrentAudioID}>GetCurrentAudioID</button>
-      <button onClick={onGetCurrentConnectionIDs}>
-        GetCurrentConnectionIDs
-      </button>
-      <button onClick={onGetMediaInfo}>GetMediaInfo</button>
-      <button onClick={onGetProtocolInfo}>GetProtocolInfo</button>
+      <h3>TV</h3>
+      <fieldset>
+        <legend>Volume</legend>
+        <button onClick={onGetVolume}>GetVolume</button>
+        <button onClick={onSetVolume}>SetVolume</button>
+        <button onClick={onGetMute}>GetMute</button>
+        <button onClick={onSetMute}>SetMute</button>
+      </fieldset>
+      <fieldset>
+        <legend>Information</legend>
+        <button onClick={onListPresets}>ListPresets</button>
+        <button onClick={onSendKey}>SendKey</button>
+        <button onClick={onAppType}>AppType</button>
+        <button onClick={onPinCode}>PinCode</button>
+        <button onClick={onRequestAuth}>RequestAuth</button>
+        <button onClick={onGetAudioList}>GetAudioList</button>
+        <button onClick={onGetCurrentAudioID}>GetCurrentAudioID</button>
+        <button onClick={onGetCurrentConnectionIDs}>
+          GetCurrentConnectionIDs
+        </button>
+        <button onClick={onGetMediaInfo}>GetMediaInfo</button>
+        <button onClick={onGetProtocolInfo}>GetProtocolInfo</button>
+      </fieldset>
     </div>
   );
 }

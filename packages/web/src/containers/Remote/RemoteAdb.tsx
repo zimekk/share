@@ -38,10 +38,20 @@ export function RemoteAdb({ remoteRcu, status }) {
 
   return (
     <div>
-      <button onClick={onVersion}>Version</button>
-      <button onClick={onStandBy}>StandBy</button>
-      <button onClick={onVolumeDown}>Volume -</button>
-      <button onClick={onVolumeUp}>Volume +</button>
+      <h3>ADB</h3>
+      <fieldset>
+        <legend>Information</legend>
+        <button onClick={onVersion}>Version</button>
+      </fieldset>
+      <fieldset>
+        <legend>Power</legend>
+        <button onClick={onStandBy}>StandBy</button>
+      </fieldset>
+      <fieldset>
+        <legend>Volume</legend>
+        <button onClick={onVolumeDown}>Volume -</button>
+        <button onClick={onVolumeUp}>Volume +</button>
+      </fieldset>
     </div>
   );
 }
