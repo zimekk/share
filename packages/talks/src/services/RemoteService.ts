@@ -2,6 +2,14 @@ import { gql } from "graphql-request";
 import { from, Observable } from "rxjs";
 import { Service } from "./Service";
 
+const GET_DEVICES = gql`
+  query GetDevicesQuery {
+    devices {
+      data
+    }
+  }
+`;
+
 const REMOTE = gql`
   query RemoteQuery {
     remote {
@@ -51,6 +59,9 @@ const SEND_REMOTE = gql`
 type RcuKey = "KeyStandBy" | "KeyVolumeDown" | "KeyVolumeUp";
 
 export class RemoteService extends Service {
+  getDevices() {
+    return from(this.client.request(GET_DEVICES));
+  }
   getMessages() {
     return from(this.client.request(REMOTE));
   }

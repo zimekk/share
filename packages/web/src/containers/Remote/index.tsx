@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { RemoteService } from "@dev/talks/src/services";
+import { Discover } from "./Discover";
 import { RemoteAdb } from "./RemoteAdb";
 import { RemoteTv } from "./RemoteTv";
 import { RemoteVcr } from "./RemoteVcr";
@@ -89,6 +90,7 @@ function useRemote() {
   return [
     { data },
     {
+      discover: () => remoteService.getDevices(),
       remoteRcu: (key) => remoteService.getRemoteRcu(key),
       remoteTv: (action) => remoteService.getRemoteTv(action),
       remoteVcr: (action) => remoteService.getRemoteVcr(action),
@@ -197,12 +199,14 @@ async function test() {
 }
 
 export default function Remote() {
-  const [{ data }, { remoteRcu, remoteTv, remoteVcr, status }] = useRemote();
+  const [{ data }, { discover, remoteRcu, remoteTv, remoteVcr, status }] =
+    useRemote();
   console.log({ data });
 
   return (
     <section className={styles.Section}>
       <h2>Remote</h2>
+      <Discover discover={discover} />
       <RemoteAdb remoteRcu={remoteRcu} status={status} />
       <RemoteVcr remoteVcr={remoteVcr} />
       <RemoteTv remoteTv={remoteTv} />

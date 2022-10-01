@@ -3,6 +3,7 @@ import fetch from "cross-fetch";
 import { BehaviorSubject } from "rxjs";
 import { tap } from "rxjs/operators";
 import { makeExecutableSchema } from "@graphql-tools/schema";
+import { getDevices } from "@dev/device";
 
 const channel = "REMOTE";
 const remote$ = new BehaviorSubject(null);
@@ -13,6 +14,9 @@ export default makeExecutableSchema({
     input RemoteInput {
       data: String
     }
+    type Devices {
+      data: RemoteData
+    }
     type Remote {
       data: RemoteData
     }
@@ -20,6 +24,7 @@ export default makeExecutableSchema({
       sendRemote(message: RemoteInput): Boolean
     }
     type Query {
+      devices: Devices
       remote: Remote
       remoteRcu(key: String): Remote
       remoteTv(action: String): Remote
@@ -31,6 +36,7 @@ export default makeExecutableSchema({
   `,
   resolvers: {
     Query: {
+      devices: () => getDevices(),
       remote: () => {
         const base = "http://192.168.2.101:8080";
 
