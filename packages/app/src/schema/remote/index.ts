@@ -20,12 +20,13 @@ export default makeExecutableSchema({
     type Remote {
       data: RemoteData
     }
+    scalar Version
     type Mutation {
       sendRemote(message: RemoteInput): Boolean
     }
     type Query {
       devices: Devices
-      remote: Remote
+      version(location: String): Version
       remoteRcu(key: String): Remote
       remoteTv(action: String): Remote
       remoteVcr(action: String): Remote
@@ -37,19 +38,16 @@ export default makeExecutableSchema({
   resolvers: {
     Query: {
       devices: () => getDevices(),
-      remote: () => {
-        const base = "http://192.168.2.101:8080";
-
-        return fetch(`${base}/system/version`, {
+      version: (_, { location = "http://192.168.2.101:8080" }) =>
+        fetch(`${new URL(location).origin}/system/version`, {
           method: "GET",
         })
           .then((res) => res.json())
           .then((data) => {
+            console.log({ location, data });
             remote$.next(data);
-
             return data;
-          });
-      },
+          }),
       remoteRcu: (_, { key }) => {
         const base = "http://192.168.0.103:8080";
 

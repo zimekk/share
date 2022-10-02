@@ -1,5 +1,6 @@
 import { gql } from "graphql-request";
 import { from, Observable } from "rxjs";
+import { map } from "rxjs/operators";
 import { Service } from "./Service";
 
 const GET_DEVICES = gql`
@@ -10,11 +11,9 @@ const GET_DEVICES = gql`
   }
 `;
 
-const REMOTE = gql`
-  query RemoteQuery {
-    remote {
-      data
-    }
+const GET_VERSION = gql`
+  query GetVersionQuery($location: String) {
+    version(location: $location)
   }
 `;
 
@@ -60,10 +59,14 @@ type RcuKey = "KeyStandBy" | "KeyVolumeDown" | "KeyVolumeUp";
 
 export class RemoteService extends Service {
   getDevices() {
-    return from(this.client.request(GET_DEVICES));
+    return from(this.client.request(GET_DEVICES)).pipe(
+      map(({ devices }) => devices)
+    );
   }
-  getMessages() {
-    return from(this.client.request(REMOTE));
+  getStatusAdb(location) {
+    return from(this.client.request(GET_VERSION, { location })).pipe(
+      map(({ version }) => version)
+    );
   }
   getRemoteRcu(key: RcuKey) {
     return from(this.client.request(REMOTE_RCU, { key }));

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { RemoteService } from "@dev/talks/src/services";
 import { Discover } from "./Discover";
 import { RemoteAdb } from "./RemoteAdb";
@@ -77,6 +77,7 @@ function useRemote() {
   const [{ data }, setState] = useState(() => ({
     data: null,
   }));
+  const [devices, setDevices] = useState(() => ({}));
 
   useEffect(() => {
     const subscriptions = [
@@ -88,13 +89,14 @@ function useRemote() {
   }, []);
 
   return [
-    { data },
+    { data, devices },
     {
-      discover: () => remoteService.getDevices(),
+      discover: () =>
+        remoteService.getDevices().subscribe(({ data }) => setDevices(data)),
       remoteRcu: (key) => remoteService.getRemoteRcu(key),
       remoteTv: (action) => remoteService.getRemoteTv(action),
       remoteVcr: (action) => remoteService.getRemoteVcr(action),
-      status: () => remoteService.getMessages(),
+      status: (LOCATION) => remoteService.getStatusAdb(LOCATION),
       sendMessage: (message) => remoteService.sendMessage(message),
     },
   ];
@@ -199,15 +201,26 @@ async function test() {
 }
 
 export default function Remote() {
-  const [{ data }, { discover, remoteRcu, remoteTv, remoteVcr, status }] =
-    useRemote();
-  console.log({ data });
+  const [
+    { data, devices },
+    { discover, remoteRcu, remoteTv, remoteVcr, status },
+  ] = useRemote();
+  console.log({ data, devices });
+
+  const deviceAdb = useMemo(
+    () =>
+      Object.entries(devices).find(
+        ([_, { deviceType }]) =>
+          deviceType === "urn:schemas-upnp-org:device:MediaServer:3"
+      ),
+    [devices]
+  );
 
   return (
     <section className={styles.Section}>
       <h2>Remote</h2>
       <Discover discover={discover} />
-      <RemoteAdb remoteRcu={remoteRcu} status={status} />
+      <RemoteAdb deviceAdb={deviceAdb} remoteRcu={remoteRcu} status={status} />
       <RemoteVcr remoteVcr={remoteVcr} />
       <RemoteTv remoteTv={remoteTv} />
       {data === null ? (

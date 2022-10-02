@@ -1,4 +1,4 @@
-import React, { MouseEventHandler, useCallback } from "react";
+import React, { MouseEventHandler, useCallback, useState } from "react";
 
 async function adb(key = "KeyStandBy") {
   const base = "http://192.168.2.101:8080";
@@ -15,10 +15,13 @@ async function adb(key = "KeyStandBy") {
     .then(console.log);
 }
 
-export function RemoteAdb({ remoteRcu, status }) {
+export function RemoteAdb({ deviceAdb = [], remoteRcu, status }) {
+  const [version, setVersion] = useState(() => ({}));
+  const [LOCATION] = deviceAdb;
+
   const onVersion = useCallback<MouseEventHandler<HTMLButtonElement>>(
-    (event) => status(),
-    []
+    (event) => status(LOCATION).subscribe(setVersion),
+    [LOCATION]
   );
 
   const onStandBy = useCallback<MouseEventHandler<HTMLButtonElement>>(
@@ -39,9 +42,11 @@ export function RemoteAdb({ remoteRcu, status }) {
   return (
     <div>
       <h3>ADB</h3>
+      <pre>{JSON.stringify(deviceAdb, null, 2)}</pre>
       <fieldset>
         <legend>Information</legend>
         <button onClick={onVersion}>Version</button>
+        <pre>{JSON.stringify(version, null, 2)}</pre>
       </fieldset>
       <fieldset>
         <legend>Power</legend>
