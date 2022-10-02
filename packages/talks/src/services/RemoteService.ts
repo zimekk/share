@@ -18,8 +18,8 @@ const GET_VERSION = gql`
 `;
 
 const REMOTE_RCU = gql`
-  query RemoteTvQuery($key: String) {
-    remoteRcu(key: $key) {
+  query RemoteRcuQuery($location: String, $key: String) {
+    remoteRcu(location: $location, key: $key) {
       data
     }
   }
@@ -63,13 +63,13 @@ export class RemoteService extends Service {
       map(({ devices }) => devices)
     );
   }
-  getStatusAdb(location) {
+  getStatusAdb(location: string) {
     return from(this.client.request(GET_VERSION, { location })).pipe(
       map(({ version }) => version)
     );
   }
-  getRemoteRcu(key: RcuKey) {
-    return from(this.client.request(REMOTE_RCU, { key }));
+  getRemoteRcu(location: string, key: RcuKey) {
+    return from(this.client.request(REMOTE_RCU, { location, key }));
   }
   getRemoteTv(action) {
     return from(this.client.request(REMOTE_TV, { action }));

@@ -6,6 +6,8 @@ import { RemoteTv } from "./RemoteTv";
 import { RemoteVcr } from "./RemoteVcr";
 import styles from "./styles.module.scss";
 
+import type { DeviceType } from "@dev/device";
+
 const base = "http://192.168.2.101:8080";
 
 const keys = {
@@ -77,7 +79,9 @@ function useRemote() {
   const [{ data }, setState] = useState(() => ({
     data: null,
   }));
-  const [devices, setDevices] = useState(() => ({}));
+  const [devices, setDevices] = useState<Record<string, DeviceType>>(
+    () => ({})
+  );
 
   useEffect(() => {
     const subscriptions = [
@@ -93,10 +97,10 @@ function useRemote() {
     {
       discover: () =>
         remoteService.getDevices().subscribe(({ data }) => setDevices(data)),
-      remoteRcu: (key) => remoteService.getRemoteRcu(key),
+      remoteRcu: (location, key) => remoteService.getRemoteRcu(location, key),
       remoteTv: (action) => remoteService.getRemoteTv(action),
       remoteVcr: (action) => remoteService.getRemoteVcr(action),
-      status: (LOCATION) => remoteService.getStatusAdb(LOCATION),
+      status: (location) => remoteService.getStatusAdb(location),
       sendMessage: (message) => remoteService.sendMessage(message),
     },
   ];

@@ -27,7 +27,7 @@ export default makeExecutableSchema({
     type Query {
       devices: Devices
       version(location: String): Version
-      remoteRcu(key: String): Remote
+      remoteRcu(location: String, key: String): Remote
       remoteTv(action: String): Remote
       remoteVcr(action: String): Remote
     }
@@ -48,10 +48,8 @@ export default makeExecutableSchema({
             remote$.next(data);
             return data;
           }),
-      remoteRcu: (_, { key }) => {
-        const base = "http://192.168.0.103:8080";
-
-        return fetch(`${base}/control/rcu`, {
+      remoteRcu: (_, { location = "http://192.168.0.103:8080", key }) =>
+        fetch(`${new URL(location).origin}/control/rcu`, {
           method: "POST",
           body: `Keypress=${key}`,
           headers: {
@@ -63,8 +61,7 @@ export default makeExecutableSchema({
             remote$.next(data);
 
             return data;
-          });
-      },
+          }),
       remoteTv: (_, { action }) => {
         const base = "http://192.168.2.90:55000";
         const [url, urn] = [

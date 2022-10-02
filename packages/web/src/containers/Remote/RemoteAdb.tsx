@@ -1,9 +1,7 @@
 import React, { MouseEventHandler, useCallback, useState } from "react";
 
-async function adb(key = "KeyStandBy") {
-  const base = "http://192.168.2.101:8080";
-
-  return await fetch(`${base}/control/rcu`, {
+async function adb(location = "http://192.168.2.101:8080", key = "KeyStandBy") {
+  return await fetch(`${new URL(location).origin}/control/rcu`, {
     method: "POST",
     mode: "no-cors",
     body: `Keypress=${key}`,
@@ -25,18 +23,18 @@ export function RemoteAdb({ deviceAdb = [], remoteRcu, status }) {
   );
 
   const onStandBy = useCallback<MouseEventHandler<HTMLButtonElement>>(
-    (event) => adb("KeyStandBy"),
-    []
+    (event) => adb(LOCATION, "KeyStandBy"),
+    [LOCATION]
   );
 
   const onVolumeDown = useCallback<MouseEventHandler<HTMLButtonElement>>(
-    (event) => adb("KeyVolumeDown"),
-    []
+    (event) => adb(LOCATION, "KeyVolumeDown"),
+    [LOCATION]
   );
 
   const onVolumeUp = useCallback<MouseEventHandler<HTMLButtonElement>>(
-    (event) => remoteRcu("KeyVolumeUp"),
-    []
+    (event) => remoteRcu(LOCATION, "KeyVolumeUp"),
+    [LOCATION]
   );
 
   return (
