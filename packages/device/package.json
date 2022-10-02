@@ -8,6 +8,8 @@
     "build": "NODE_ENV=production tsc --declaration"
   },
   "dependencies": {
+    "html-entities": "^2.3.3",
+    "node-upnp": "^1.2.0",
     "node-upnp-utils": "^0.0.5",
     "zod": "^3.19.1"
   },
