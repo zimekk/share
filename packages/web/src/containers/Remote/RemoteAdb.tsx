@@ -55,6 +55,18 @@ export function RemoteAdb({ deviceAdb = [], remoteRcu, status }) {
         <button onClick={onVolumeDown}>Volume -</button>
         <button onClick={onVolumeUp}>Volume +</button>
       </fieldset>
+      <fieldset>
+        <legend>Playback</legend>
+        <button
+          onClick={useCallback<MouseEventHandler<HTMLButtonElement>>(
+            (event) => adb(LOCATION, "KeyPause"),
+            [LOCATION]
+          )}
+        >
+          Pause
+        </button>
+        <button onClick={onVolumeUp}>Volume +</button>
+      </fieldset>
     </div>
   );
 }
