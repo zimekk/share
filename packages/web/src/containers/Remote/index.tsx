@@ -224,8 +224,19 @@ export default function Remote() {
   const deviceTv = useMemo(
     () =>
       Object.entries(devices).find(
-        ([_, { deviceType }]) =>
-          deviceType === "urn:schemas-upnp-org:device:MediaRenderer:1"
+        ([_, { deviceType, manufacturer }]) =>
+          deviceType === "urn:schemas-upnp-org:device:MediaRenderer:1" &&
+          manufacturer === "Panasonic"
+      ),
+    [devices]
+  );
+
+  const deviceVcr = useMemo(
+    () =>
+      Object.entries(devices).find(
+        ([_, { deviceType, manufacturer }]) =>
+          deviceType === "urn:schemas-upnp-org:device:MediaRenderer:1" &&
+          manufacturer === "Yamaha Corporation"
       ),
     [devices]
   );
@@ -235,7 +246,7 @@ export default function Remote() {
       <h2>Remote</h2>
       <Discover discover={discover} />
       <RemoteAdb deviceAdb={deviceAdb} remoteRcu={remoteRcu} status={status} />
-      <RemoteVcr remoteVcr={remoteVcr} />
+      <RemoteVcr deviceVcr={deviceVcr} remoteVcr={remoteVcr} />
       <RemoteTv deviceTv={deviceTv} remoteTv={remoteTv} />
       {data === null ? (
         <div>Loading...</div>

@@ -1,4 +1,5 @@
 import React, { MouseEventHandler, useCallback } from "react";
+import { Icon } from "./RemoteTv";
 
 async function vcr(action) {
   const base = "http://192.168.2.103";
@@ -11,11 +12,20 @@ async function vcr(action) {
     .then(console.log);
 }
 
-export function RemoteVcr({ remoteVcr }) {
+export function RemoteVcr({ deviceVcr = [], remoteVcr }) {
+  const [LOCATION, device] = deviceVcr;
+
   // https://github.com/honnel/yamaha-commands#http-api---input-and-volume
   return (
     <div>
+      {device && device.icons.length && (
+        <Icon
+          {...device.icons[0]}
+          title={`${device.modelName} / ${device.modelNumber}`}
+        />
+      )}
       <h3>VCR</h3>
+      <pre>{JSON.stringify(deviceVcr, null, 2)}</pre>
       <fieldset>
         <legend>Information</legend>
         <button

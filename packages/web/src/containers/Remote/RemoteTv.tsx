@@ -1,7 +1,27 @@
 import React, { MouseEventHandler, useCallback } from "react";
+import styles from "./styles.module.scss";
+
+import type { IconType } from "@dev/device";
+
+export function Icon({
+  url,
+  width,
+  height,
+  title,
+}: IconType & { title: string }) {
+  return (
+    <img
+      className={styles.Icon}
+      src={url}
+      width={width}
+      height={height}
+      title={title}
+    />
+  );
+}
 
 export function RemoteTv({ deviceTv = [], remoteTv }) {
-  const [LOCATION] = deviceTv;
+  const [LOCATION, device] = deviceTv;
 
   const onGetVolume = useCallback<MouseEventHandler<HTMLButtonElement>>(
     (event) => remoteTv(LOCATION, "GetVolume"),
@@ -74,6 +94,12 @@ export function RemoteTv({ deviceTv = [], remoteTv }) {
 
   return (
     <div>
+      {device && device.icons.length && (
+        <Icon
+          {...device.icons[0]}
+          title={`${device.modelName} / ${device.modelNumber}`}
+        />
+      )}
       <h3>TV</h3>
       <pre>{JSON.stringify(deviceTv, null, 2)}</pre>
       <fieldset>

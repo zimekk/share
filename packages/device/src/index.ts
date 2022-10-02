@@ -2,6 +2,14 @@ import UPnPClient from "node-upnp";
 import { decode } from "html-entities";
 import { z } from "zod";
 
+const Icon = z.object({
+  mimetype: z.enum(["image/png"]),
+  width: z.number(),
+  height: z.number(),
+  depth: z.number(),
+  url: z.string(),
+});
+
 const Device = z.object({
   deviceType: z.string(),
   friendlyName: z.string(),
@@ -25,7 +33,11 @@ const Service = z.object({
     .optional(),
 });
 
-export type DeviceType = z.infer<typeof Device>;
+export type IconType = z.infer<typeof Icon>;
+
+export type DeviceType = z.infer<typeof Device> & {
+  icons: IconType[];
+};
 
 export function getDevices() {
   const upnp = require("node-upnp-utils");
@@ -33,10 +45,14 @@ export function getDevices() {
   const data = {};
 
   const handler = (service) =>
-    Service.parseAsync(service).then(
-      ({ headers: { LOCATION }, description }) =>
-        Boolean(console.log(LOCATION, description)) ||
-        Object.assign(data, description && { [LOCATION]: description.device })
+    Service.parseAsync(service).then(({ headers: { LOCATION }, description }) =>
+      upnpClient(LOCATION)
+        .getDeviceDescription()
+        .then((device) => {
+          console.log(LOCATION, device);
+          // console.log({item})
+          Object.assign(data, description && { [LOCATION]: device });
+        })
     );
 
   return new Promise((resolve) => {
@@ -44,7 +60,7 @@ export function getDevices() {
       upnp.off("added", handler);
       upnp.stopDiscovery(() => {
         console.log("Stopped the discovery process.");
-        console.log(upnp.getActiveDeviceList());
+        // console.log(upnp.getActiveDeviceList());
         resolve({ data });
       });
     };
