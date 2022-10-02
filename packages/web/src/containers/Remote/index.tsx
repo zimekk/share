@@ -98,7 +98,8 @@ function useRemote() {
       discover: () =>
         remoteService.getDevices().subscribe(({ data }) => setDevices(data)),
       remoteRcu: (location, key) => remoteService.getRemoteRcu(location, key),
-      remoteTv: (action) => remoteService.getRemoteTv(action),
+      remoteTv: (location, action) =>
+        remoteService.getRemoteTv(location, action),
       remoteVcr: (action) => remoteService.getRemoteVcr(action),
       status: (location) => remoteService.getStatusAdb(location),
       sendMessage: (message) => remoteService.sendMessage(message),
@@ -220,13 +221,22 @@ export default function Remote() {
     [devices]
   );
 
+  const deviceTv = useMemo(
+    () =>
+      Object.entries(devices).find(
+        ([_, { deviceType }]) =>
+          deviceType === "urn:schemas-upnp-org:device:MediaRenderer:1"
+      ),
+    [devices]
+  );
+
   return (
     <section className={styles.Section}>
       <h2>Remote</h2>
       <Discover discover={discover} />
       <RemoteAdb deviceAdb={deviceAdb} remoteRcu={remoteRcu} status={status} />
       <RemoteVcr remoteVcr={remoteVcr} />
-      <RemoteTv remoteTv={remoteTv} />
+      <RemoteTv deviceTv={deviceTv} remoteTv={remoteTv} />
       {data === null ? (
         <div>Loading...</div>
       ) : (

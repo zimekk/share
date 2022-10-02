@@ -56,6 +56,13 @@ export function getDevices() {
   });
 }
 
+// https://github.com/velocityzen/node-upnp#usage
+export function upnpClient(url) {
+  return new UPnPClient({
+    url,
+  });
+}
+
 // https://github.com/futomi/node-upnp-utils#discover-upnp-devices-or-services
 export function discover() {
   const upnp = require("node-upnp-utils");
@@ -80,7 +87,9 @@ export function discover() {
       Object.keys(services).map(
         async (service) =>
           await client.getServiceDescription(service).then(async (data) => {
-            // console.log({ modelName, service, ...data });
+            if (service === "urn:upnp-org:serviceId:RenderingControl-") {
+              console.log({ modelName, service, ...data });
+            }
 
             if (service === "urn:upnp-org:serviceId:ScheduledRecording-") {
               const action = "GetSortCapabilities";
@@ -117,6 +126,25 @@ export function discover() {
                     console.log(result)
                   )
                 );
+            }
+
+            const action = "X_GetAudioList";
+            if (
+              service === "urn:upnp-org:serviceId:RenderingControl-" &&
+              data.actions[action]
+            ) {
+              // console.log({ modelName, action, ...data.actions[action] });
+              await client
+                .call(service, action, {
+                  InstanceID: 0,
+                })
+                .then(
+                  (result) => (
+                    console.log({ modelName, action, ...data.actions[action] }),
+                    console.log(result)
+                  )
+                );
+              // { X_AudioList: '-1,' }
             }
 
             if (service === "urn:upnp-org:serviceId:RenderingControl-") {

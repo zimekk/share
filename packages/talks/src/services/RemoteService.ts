@@ -26,8 +26,8 @@ const REMOTE_RCU = gql`
 `;
 
 const REMOTE_TV = gql`
-  query RemoteTvQuery($action: String) {
-    remoteTv(action: $action) {
+  query RemoteTvQuery($location: String, $action: String) {
+    remoteTv(location: $location, action: $action) {
       data
     }
   }
@@ -71,8 +71,8 @@ export class RemoteService extends Service {
   getRemoteRcu(location: string, key: RcuKey) {
     return from(this.client.request(REMOTE_RCU, { location, key }));
   }
-  getRemoteTv(action) {
-    return from(this.client.request(REMOTE_TV, { action }));
+  getRemoteTv(location: string, action: string) {
+    return from(this.client.request(REMOTE_TV, { location, action }));
   }
   getRemoteVcr(action) {
     return from(this.client.request(REMOTE_VCR, { action }));

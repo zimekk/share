@@ -1,78 +1,81 @@
 import React, { MouseEventHandler, useCallback } from "react";
 
-export function RemoteTv({ remoteTv }) {
+export function RemoteTv({ deviceTv = [], remoteTv }) {
+  const [LOCATION] = deviceTv;
+
   const onGetVolume = useCallback<MouseEventHandler<HTMLButtonElement>>(
-    (event) => remoteTv("GetVolume"),
-    []
+    (event) => remoteTv(LOCATION, "GetVolume"),
+    [LOCATION]
   );
 
   const onSetVolume = useCallback<MouseEventHandler<HTMLButtonElement>>(
-    (event) => remoteTv("SetVolume"),
-    []
+    (event) => remoteTv(LOCATION, "SetVolume"),
+    [LOCATION]
   );
 
   const onGetMute = useCallback<MouseEventHandler<HTMLButtonElement>>(
-    (event) => remoteTv("GetMute"),
-    []
+    (event) => remoteTv(LOCATION, "GetMute"),
+    [LOCATION]
   );
 
   const onListPresets = useCallback<MouseEventHandler<HTMLButtonElement>>(
-    (event) => remoteTv("ListPresets"),
-    []
+    (event) => remoteTv(LOCATION, "ListPresets"),
+    [LOCATION]
   );
 
   const onSetMute = useCallback<MouseEventHandler<HTMLButtonElement>>(
-    (event) => remoteTv("SetMute"),
-    []
+    (event) => remoteTv(LOCATION, "SetMute"),
+    [LOCATION]
   );
 
   const onSendKey = useCallback<MouseEventHandler<HTMLButtonElement>>(
-    (event) => remoteTv("X_SendKey"),
-    []
+    (event) => remoteTv(LOCATION, "X_SendKey"),
+    [LOCATION]
   );
 
   const onAppType = useCallback<MouseEventHandler<HTMLButtonElement>>(
-    (event) => remoteTv("X_LaunchApp"),
-    []
+    (event) => remoteTv(LOCATION, "X_LaunchApp"),
+    [LOCATION]
   );
 
   const onPinCode = useCallback<MouseEventHandler<HTMLButtonElement>>(
-    (event) => remoteTv("X_DisplayPinCode"),
-    []
+    (event) => remoteTv(LOCATION, "X_DisplayPinCode"),
+    [LOCATION]
   );
 
   const onRequestAuth = useCallback<MouseEventHandler<HTMLButtonElement>>(
-    (event) => remoteTv("X_RequestAuth"),
-    []
+    (event) => remoteTv(LOCATION, "X_RequestAuth"),
+    [LOCATION]
   );
 
   const onGetAudioList = useCallback<MouseEventHandler<HTMLButtonElement>>(
-    (event) => remoteTv("X_GetAudioList"),
-    []
+    (event) => remoteTv(LOCATION, "X_GetAudioList"),
+    [LOCATION]
   );
 
   const onGetCurrentAudioID = useCallback<MouseEventHandler<HTMLButtonElement>>(
-    (event) => remoteTv("X_GetCurrentAudioID"),
-    []
+    (event) => remoteTv(LOCATION, "X_GetCurrentAudioID"),
+    [LOCATION]
   );
 
   const onGetCurrentConnectionIDs = useCallback<
     MouseEventHandler<HTMLButtonElement>
-  >((event) => remoteTv("GetCurrentConnectionIDs"), []);
+  >((event) => remoteTv(LOCATION, "GetCurrentConnectionIDs"), [LOCATION]);
 
   const onGetMediaInfo = useCallback<MouseEventHandler<HTMLButtonElement>>(
-    (event) => remoteTv("GetMediaInfo"),
-    []
+    (event) => remoteTv(LOCATION, "GetMediaInfo"),
+    [LOCATION]
   );
 
   const onGetProtocolInfo = useCallback<MouseEventHandler<HTMLButtonElement>>(
-    (event) => remoteTv("GetProtocolInfo"),
-    []
+    (event) => remoteTv(LOCATION, "GetProtocolInfo"),
+    [LOCATION]
   );
 
   return (
     <div>
       <h3>TV</h3>
+      <pre>{JSON.stringify(deviceTv, null, 2)}</pre>
       <fieldset>
         <legend>Volume</legend>
         <button onClick={onGetVolume}>GetVolume</button>

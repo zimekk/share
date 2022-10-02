@@ -3,7 +3,7 @@ import fetch from "cross-fetch";
 import { BehaviorSubject } from "rxjs";
 import { tap } from "rxjs/operators";
 import { makeExecutableSchema } from "@graphql-tools/schema";
-import { getDevices } from "@dev/device";
+import { getDevices, upnpClient } from "@dev/device";
 
 const channel = "REMOTE";
 const remote$ = new BehaviorSubject(null);
@@ -28,7 +28,7 @@ export default makeExecutableSchema({
       devices: Devices
       version(location: String): Version
       remoteRcu(location: String, key: String): Remote
-      remoteTv(action: String): Remote
+      remoteTv(location: String, action: String): Remote
       remoteVcr(action: String): Remote
     }
     type Subscription {
@@ -62,8 +62,64 @@ export default makeExecutableSchema({
 
             return data;
           }),
-      remoteTv: (_, { action }) => {
-        const base = "http://192.168.2.90:55000";
+      remoteTv: (
+        _,
+        { location = "http://192.168.2.90:55000/dmr/ddd.xml", action }
+      ) => {
+        const actions = {
+          GetMute: {
+            InstanceID: 0,
+            Channel: "Master",
+          },
+          SetMute: {
+            InstanceID: 0,
+            Channel: "Master",
+            DesiredMute: true,
+          },
+          GetVolume: {
+            InstanceID: 0,
+            Channel: "Master",
+          },
+          SetVolume: {
+            InstanceID: 0,
+            Channel: "Master",
+            DesiredVolume: 20,
+          },
+        };
+
+        if (actions[action]) {
+          // service: 'urn:upnp-org:serviceId:RenderingControl',
+          // actions: {
+          //   ListPresets: { inputs: [Array], outputs: [Array] },
+          //   SelectPreset: { inputs: [Array], outputs: [] },
+          //   GetMute: { inputs: [Array], outputs: [Array] },
+          //   SetMute: { inputs: [Array], outputs: [] },
+          //   GetVolume: { inputs: [Array], outputs: [Array] },
+          //   SetVolume: { inputs: [Array], outputs: [] },
+          //   X_GetAudioList: { inputs: [Array], outputs: [Array] },
+          //   X_GetCurrentAudioID: { inputs: [Array], outputs: [Array] },
+          //   X_SetAudioID: { inputs: [Array], outputs: [] },
+          //   X_GetDualMonoModeList: { inputs: [Array], outputs: [Array] },
+          //   X_GetCurrentDualMonoModeID: { inputs: [Array], outputs: [Array] },
+          //   X_SetDualMonoModeID: { inputs: [Array], outputs: [] },
+          //   X_GetSubtitleList: { inputs: [Array], outputs: [Array] },
+          //   X_GetCurrentSubtitleID: { inputs: [Array], outputs: [Array] },
+          //   X_SetSubtitleID: { inputs: [Array], outputs: [] },
+          //   X_GetSubtitleCharCodeList: { inputs: [Array], outputs: [Array] },
+          //   X_GetCurrentSubtitleCharCodeID: { inputs: [Array], outputs: [Array] },
+          //   X_SetSubtitleCharCodeID: { inputs: [Array], outputs: [] },
+          //   X_GetEventServerUrl: { inputs: [], outputs: [] }
+          // },
+          const service = "urn:upnp-org:serviceId:RenderingControl";
+          return (
+            upnpClient(location)
+              // .getDeviceDescription().then(console.log)
+              // .getServiceDescription(service).then(console.log)
+              .call(service, action, actions[action])
+              .then((data) => ({ data }))
+          );
+        }
+
         const [url, urn] = [
           "X_DisplayPinCode",
           "X_LaunchApp",
@@ -110,7 +166,7 @@ export default makeExecutableSchema({
         };
         console.log({ action, url, urn, headers });
         console.log(body);
-        return fetch(`${base}${url}`, {
+        return fetch(`${new URL(location).origin}${url}`, {
           method: "POST",
           mode: "no-cors",
           body,
