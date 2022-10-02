@@ -1,13 +1,17 @@
 import React, { MouseEventHandler, useCallback } from "react";
 import { Icon } from "./RemoteTv";
 
-async function vcr(action) {
-  const base = "http://192.168.2.103";
-
-  return fetch(`${base}/YamahaExtendedControl/v1/${action}`, {
-    method: "GET",
-    mode: "no-cors",
-  })
+async function vcr(
+  location = "http://192.168.2.100:49154/MediaRenderer/desc.xml",
+  action
+) {
+  return await fetch(
+    `http://${new URL(location).hostname}/YamahaExtendedControl/v1/${action}`,
+    {
+      method: "GET",
+      mode: "no-cors",
+    }
+  )
     .then((res) => res.text())
     .then(console.log);
 }
@@ -21,7 +25,7 @@ export function RemoteVcr({ deviceVcr = [], remoteVcr }) {
       {device && device.icons.length && (
         <Icon
           {...device.icons[0]}
-          title={`${device.modelName} / ${device.modelNumber}`}
+          title={`${device.modelName} / ${device.modelDescription}`}
         />
       )}
       <h3>VCR</h3>
@@ -30,56 +34,56 @@ export function RemoteVcr({ deviceVcr = [], remoteVcr }) {
         <legend>Information</legend>
         <button
           onClick={useCallback<MouseEventHandler<HTMLButtonElement>>(
-            (event) => remoteVcr("system/getDeviceInfo"),
-            []
+            (event) => remoteVcr(LOCATION, "system/getDeviceInfo"),
+            [LOCATION]
           )}
         >
           Device
         </button>
         <button
           onClick={useCallback<MouseEventHandler<HTMLButtonElement>>(
-            (event) => remoteVcr("system/getFeatures"),
-            []
+            (event) => remoteVcr(LOCATION, "system/getFeatures"),
+            [LOCATION]
           )}
         >
           Features
         </button>
         <button
           onClick={useCallback<MouseEventHandler<HTMLButtonElement>>(
-            (event) => remoteVcr("system/getNetworkStatus"),
-            []
+            (event) => remoteVcr(LOCATION, "system/getNetworkStatus"),
+            [LOCATION]
           )}
         >
           NetworkStatus
         </button>
         <button
           onClick={useCallback<MouseEventHandler<HTMLButtonElement>>(
-            (event) => remoteVcr("system/getFuncStatus"),
-            []
+            (event) => remoteVcr(LOCATION, "system/getFuncStatus"),
+            [LOCATION]
           )}
         >
           FuncStatus
         </button>
         <button
           onClick={useCallback<MouseEventHandler<HTMLButtonElement>>(
-            (event) => remoteVcr("system/getLocationInfo"),
-            []
+            (event) => remoteVcr(LOCATION, "system/getLocationInfo"),
+            [LOCATION]
           )}
         >
           LocationInfo
         </button>
         <button
           onClick={useCallback<MouseEventHandler<HTMLButtonElement>>(
-            (event) => remoteVcr("main/getStatus"),
-            []
+            (event) => remoteVcr(LOCATION, "main/getStatus"),
+            [LOCATION]
           )}
         >
           Status
         </button>
         <button
           onClick={useCallback<MouseEventHandler<HTMLButtonElement>>(
-            (event) => remoteVcr("main/getSoundProgramList"),
-            []
+            (event) => remoteVcr(LOCATION, "main/getSoundProgramList"),
+            [LOCATION]
           )}
         >
           SoundProgramList
@@ -92,8 +96,8 @@ export function RemoteVcr({ deviceVcr = [], remoteVcr }) {
             <button
               key={key}
               onClick={useCallback<MouseEventHandler<HTMLButtonElement>>(
-                (event) => vcr(`main/setInput?input=${input}`),
-                []
+                (event) => vcr(LOCATION, `main/setInput?input=${input}`),
+                [LOCATION]
               )}
             >
               {input}
@@ -107,8 +111,8 @@ export function RemoteVcr({ deviceVcr = [], remoteVcr }) {
           <button
             key={key}
             onClick={useCallback<MouseEventHandler<HTMLButtonElement>>(
-              (event) => vcr(`main/setVolume?volume=${volume}`),
-              []
+              (event) => vcr(LOCATION, `main/setVolume?volume=${volume}`),
+              [LOCATION]
             )}
           >
             {`Set ${volume}%`}
@@ -118,8 +122,8 @@ export function RemoteVcr({ deviceVcr = [], remoteVcr }) {
           <button
             key={key}
             onClick={useCallback<MouseEventHandler<HTMLButtonElement>>(
-              (event) => vcr(`main/setVolume?volume=${volume}`),
-              []
+              (event) => vcr(LOCATION, `main/setVolume?volume=${volume}`),
+              [LOCATION]
             )}
           >
             {`Volume ${volume}`}
@@ -129,8 +133,8 @@ export function RemoteVcr({ deviceVcr = [], remoteVcr }) {
           <button
             key={key}
             onClick={useCallback<MouseEventHandler<HTMLButtonElement>>(
-              (event) => remoteVcr(`main/setMute?enable=${enable}`),
-              []
+              (event) => remoteVcr(LOCATION, `main/setMute?enable=${enable}`),
+              [LOCATION]
             )}
           >
             {`Mute ${enable ? "On" : "Off"}`}
@@ -144,8 +148,11 @@ export function RemoteVcr({ deviceVcr = [], remoteVcr }) {
             key={key}
             onClick={useCallback<MouseEventHandler<HTMLButtonElement>>(
               (event) =>
-                remoteVcr(`system/setAutoPowerStandby?enable=${enable}`),
-              []
+                remoteVcr(
+                  LOCATION,
+                  `system/setAutoPowerStandby?enable=${enable}`
+                ),
+              [LOCATION]
             )}
           >
             {`AutoPowerStandby ${enable ? "On" : "Off"}`}
@@ -155,8 +162,8 @@ export function RemoteVcr({ deviceVcr = [], remoteVcr }) {
           <button
             key={key}
             onClick={useCallback<MouseEventHandler<HTMLButtonElement>>(
-              (event) => vcr(`main/setPower?power=${power}`),
-              []
+              (event) => vcr(LOCATION, `main/setPower?power=${power}`),
+              [LOCATION]
             )}
           >
             {`Power ${power}`}
@@ -169,8 +176,8 @@ export function RemoteVcr({ deviceVcr = [], remoteVcr }) {
           <button
             key={key}
             onClick={useCallback<MouseEventHandler<HTMLButtonElement>>(
-              (event) => remoteVcr(`main/setSleep?sleep=${timer}`),
-              []
+              (event) => remoteVcr(LOCATION, `main/setSleep?sleep=${timer}`),
+              [LOCATION]
             )}
           >
             {`Sleep ${timer} min`}
@@ -184,8 +191,11 @@ export function RemoteVcr({ deviceVcr = [], remoteVcr }) {
             key={key}
             onClick={useCallback<MouseEventHandler<HTMLButtonElement>>(
               (event) =>
-                remoteVcr(`tuner/recallPreset?zone=main&band=fm&num=${num}`),
-              []
+                remoteVcr(
+                  LOCATION,
+                  `tuner/recallPreset?zone=main&band=fm&num=${num}`
+                ),
+              [LOCATION]
             )}
           >
             {`Preset ${num}`}
@@ -195,8 +205,8 @@ export function RemoteVcr({ deviceVcr = [], remoteVcr }) {
           <button
             key={key}
             onClick={useCallback<MouseEventHandler<HTMLButtonElement>>(
-              (event) => remoteVcr(`tuner/switchPreset?dir=${dir}`),
-              []
+              (event) => remoteVcr(LOCATION, `tuner/switchPreset?dir=${dir}`),
+              [LOCATION]
             )}
           >
             {`Preset ${dir}`}
@@ -207,8 +217,11 @@ export function RemoteVcr({ deviceVcr = [], remoteVcr }) {
             key={key}
             onClick={useCallback<MouseEventHandler<HTMLButtonElement>>(
               (event) =>
-                remoteVcr(`tuner/setSleep?band=fm&tuning=direct&num=${num}`),
-              []
+                remoteVcr(
+                  LOCATION,
+                  `tuner/setSleep?band=fm&tuning=direct&num=${num}`
+                ),
+              [LOCATION]
             )}
           >
             {`${new Intl.NumberFormat("pl-PL", {
@@ -220,8 +233,8 @@ export function RemoteVcr({ deviceVcr = [], remoteVcr }) {
           <button
             key={key}
             onClick={useCallback<MouseEventHandler<HTMLButtonElement>>(
-              (event) => remoteVcr(`tuner/storePreset?num=${num}`),
-              []
+              (event) => remoteVcr(LOCATION, `tuner/storePreset?num=${num}`),
+              [LOCATION]
             )}
           >
             {`Store ${num}`}
@@ -229,16 +242,16 @@ export function RemoteVcr({ deviceVcr = [], remoteVcr }) {
         ))}
         <button
           onClick={useCallback<MouseEventHandler<HTMLButtonElement>>(
-            (event) => remoteVcr(`tuner/getPresetInfo?band=fm`),
-            []
+            (event) => remoteVcr(LOCATION, `tuner/getPresetInfo?band=fm`),
+            [LOCATION]
           )}
         >
           PresetInfo
         </button>
         <button
           onClick={useCallback<MouseEventHandler<HTMLButtonElement>>(
-            (event) => remoteVcr(`tuner/getPlayInfo`),
-            []
+            (event) => remoteVcr(LOCATION, `tuner/getPlayInfo`),
+            [LOCATION]
           )}
         >
           PlayInfo

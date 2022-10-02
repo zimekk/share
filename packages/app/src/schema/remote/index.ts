@@ -29,7 +29,7 @@ export default makeExecutableSchema({
       version(location: String): Version
       remoteRcu(location: String, key: String): Remote
       remoteTv(location: String, action: String): Remote
-      remoteVcr(action: String): Remote
+      remoteVcr(location: String, action: String): Remote
     }
     type Subscription {
       remote: Remote
@@ -179,19 +179,27 @@ export default makeExecutableSchema({
               Boolean(console.log(data)) || { data }
           );
       },
-      remoteVcr: (_, { action }) => {
-        const base = "http://192.168.2.103";
-
-        return fetch(`${base}/YamahaExtendedControl/v1/${action}`, {
-          method: "GET",
-        })
+      remoteVcr: (
+        _,
+        {
+          location = "http://192.168.2.100:49154/MediaRenderer/desc.xml",
+          action,
+        }
+      ) =>
+        fetch(
+          `http://${
+            new URL(location).hostname
+          }/YamahaExtendedControl/v1/${action}`,
+          {
+            method: "GET",
+          }
+        )
           .then((res) => res.json())
           .then((data) => {
             remote$.next(data);
 
-            return data;
-          });
-      },
+            return { data };
+          }),
     },
     Mutation: {
       sendRemote: (_, { data }) => {

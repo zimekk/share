@@ -34,8 +34,8 @@ const REMOTE_TV = gql`
 `;
 
 const REMOTE_VCR = gql`
-  query RemoteVcrQuery($action: String) {
-    remoteVcr(action: $action) {
+  query RemoteVcrQuery($location: String, $action: String) {
+    remoteVcr(location: $location, action: $action) {
       data
     }
   }
@@ -74,8 +74,8 @@ export class RemoteService extends Service {
   getRemoteTv(location: string, action: string) {
     return from(this.client.request(REMOTE_TV, { location, action }));
   }
-  getRemoteVcr(action) {
-    return from(this.client.request(REMOTE_VCR, { action }));
+  getRemoteVcr(location: string, action: string) {
+    return from(this.client.request(REMOTE_VCR, { location, action }));
   }
   sendMessage(data) {
     return from(this.client.request(SEND_REMOTE, { data }));

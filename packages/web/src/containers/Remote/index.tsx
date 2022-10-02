@@ -100,7 +100,8 @@ function useRemote() {
       remoteRcu: (location, key) => remoteService.getRemoteRcu(location, key),
       remoteTv: (location, action) =>
         remoteService.getRemoteTv(location, action),
-      remoteVcr: (action) => remoteService.getRemoteVcr(action),
+      remoteVcr: (location, action) =>
+        remoteService.getRemoteVcr(location, action),
       status: (location) => remoteService.getStatusAdb(location),
       sendMessage: (message) => remoteService.sendMessage(message),
     },
