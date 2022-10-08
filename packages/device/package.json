@@ -8,11 +8,15 @@
     "build": "NODE_ENV=production tsc --declaration"
   },
   "dependencies": {
+    "@tmp/config": "1.0.0",
     "html-entities": "^2.3.3",
+    "nedb": "^1.8.0",
     "node-upnp": "^1.2.0",
     "node-upnp-utils": "^0.0.5",
     "zod": "^3.19.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@types/nedb": "^1.8.12"
+  },
   "peerDependencies": {}
 }

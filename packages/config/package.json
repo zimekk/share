@@ -1,0 +1,15 @@
+{
+  "name": "@tmp/config",
+  "version": "1.0.0",
+  "license": "UNLICENSED",
+  "private": true,
+  "main": "lib",
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^4.8.4"
+  },
+  "peerDependencies": {}
+}
