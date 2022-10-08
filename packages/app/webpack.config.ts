@@ -92,14 +92,8 @@ export default (env, argv) =>
         //   "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
         //   "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
         // },
-        onBeforeSetupMiddleware: async function (devServer) {
-          if (!devServer) {
-            throw new Error("webpack-dev-server is not defined");
-          }
-
-          const middleware = (...args: any) => subject$.next(args);
-          devServer.app.use(middleware);
-        },
+        setupMiddlewares: (middlewares) =>
+          middlewares.concat((...args: any) => subject$.next(args)),
 
         onListening: function (devServer) {
           if (!devServer) {
