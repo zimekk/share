@@ -5,6 +5,7 @@ import { MessagesService } from "./MessagesService";
 import { SensorService } from "./SensorService";
 import { VideoService } from "./VideoService";
 
+export * from "./MoviesService";
 export * from "./RemoteService";
 
 const helloService = new HelloService();

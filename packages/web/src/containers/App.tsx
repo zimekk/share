@@ -9,6 +9,7 @@ const PAGES = {
   async: lazy(() => import("./Async")),
   browser: lazy(() => import("./Browser")),
   hello: lazy(() => import("./Hello")),
+  movies: lazy(() => import("./Movies")),
   video: lazy(() => import("./Video")),
   photo: lazy(() => import("./Photo")),
   remote: lazy(() => import("./Remote")),
