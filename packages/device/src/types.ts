@@ -13,7 +13,7 @@ const Device = z.object({
   friendlyName: z.string(),
   manufacturer: z.string(),
   modelName: z.string(),
-  modelNumber: z.string(),
+  modelNumber: z.string().optional(),
 });
 
 export const Service = z.object({

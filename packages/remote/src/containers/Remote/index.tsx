@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { RemoteService } from "../../services";
 import { Discover } from "./Discover";
 import { RemoteAdb } from "./RemoteAdb";
+import { RemoteBox } from "./RemoteBox";
 import { RemoteTv } from "./RemoteTv";
 import { RemoteVcr } from "./RemoteVcr";
 import styles from "./styles.module.scss";
@@ -222,6 +223,16 @@ export default function Remote() {
     [devices]
   );
 
+  const deviceBox = useMemo(
+    () =>
+      Object.entries(devices).find(
+        ([_, { deviceType, manufacturer }]) =>
+          deviceType === "urn:schemas-upnp-org:device:MediaRenderer:1" &&
+          manufacturer === "Microsoft Corporation"
+      ),
+    [devices]
+  );
+
   const deviceTv = useMemo(
     () =>
       Object.entries(devices).find(
@@ -249,6 +260,7 @@ export default function Remote() {
       <RemoteAdb deviceAdb={deviceAdb} remoteRcu={remoteRcu} status={status} />
       <RemoteVcr deviceVcr={deviceVcr} remoteVcr={remoteVcr} />
       <RemoteTv deviceTv={deviceTv} remoteTv={remoteTv} />
+      <RemoteBox deviceBox={deviceBox} remoteBox={remoteRcu} />
       {data === null ? (
         <div>Loading...</div>
       ) : (

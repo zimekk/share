@@ -179,6 +179,11 @@ async function serviceAction(client, device, service) {
   console.log([service, modelName]);
 
   return await client.getServiceDescription(service).then(async (data) => {
+    // if(modelName ==='Xbox One') {
+    //   console.log({ modelName, service, ...data });
+    // } else {
+    //   return;
+    // }
     if (service === "urn:upnp-org:serviceId:RenderingControl-") {
       console.log({ modelName, service, ...data });
     }
