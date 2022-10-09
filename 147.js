@@ -1,32 +1,32 @@
-"use strict";(self.webpackChunk_dev_app=self.webpackChunk_dev_app||[]).push([[147],{9082:(e,t,s)=>{s.d(t,{L:()=>o,V:()=>a});var n=s(6647),r=s(9385);const o=new n.GraphQLClient(`${location.pathname}graphql`,{headers:{}}),a=(0,r.eI)({url:`${{"https:":"wss:"}[location.protocol]||"ws:"}//${location.host}${location.pathname}subscriptions`})},1828:(e,t,s)=>{s.d(t,{K2:()=>w,Yg:()=>U,zO:()=>R,y_:()=>A,VT:()=>T,RY:()=>V});var n=s(2784),r=s(6647),o=s(7598),a=s(9082);class l{client=a.L;subscriptions=a.V}const i=r.gql`
+"use strict";(self.webpackChunk_dev_app=self.webpackChunk_dev_app||[]).push([[147],{9082:(e,s,n)=>{n.d(s,{L:()=>l,V:()=>a});var t=n(6647),r=n(9385);const l=new t.GraphQLClient(`${location.pathname}graphql`,{headers:{}}),a=(0,r.eI)({url:`${{"https:":"wss:"}[location.protocol]||"ws:"}//${location.host}${location.pathname}subscriptions`})},310:(e,s,n)=>{n.d(s,{Yg:()=>A,zO:()=>S,y_:()=>q,VT:()=>M,RY:()=>y});var t=n(2784),r=n(6647),l=n(7598),a=n(9082);class u{client=a.L;subscriptions=a.V}const o=r.gql`
   query {
     files {
       name
     }
   }
-`,u=r.gql`
+`,i=r.gql`
   query {
     hello
   }
-`;var c=s(8141);const g=r.gql`
+`;var c=n(8141);const d=r.gql`
   query MessagesQuery {
     messages {
       uuid
       text
     }
   }
-`,d=r.gql`
+`,g=r.gql`
   subscription MessageSubscription {
     message {
       uuid
       text
     }
   }
-`,m=r.gql`
+`,b=r.gql`
   mutation SendMessageMutation($message: MessageInput) {
     sendMessage(message: $message)
   }
-`,b=r.gql`
+`,f=r.gql`
   subscription SensorSubscription {
     sensor {
       data
@@ -44,47 +44,9 @@
       }
     }
   }
-`,f=r.gql`
+`,m=r.gql`
   mutation SendSignalMutation($signal: SignalInput) {
     sendSignal(signal: $signal)
   }
-`;var h=s(7984);const q=r.gql`
-  query GetDevicesQuery {
-    devices {
-      data
-    }
-  }
-`,v=r.gql`
-  query GetVersionQuery($location: String) {
-    version(location: $location)
-  }
-`,S=r.gql`
-  query RemoteRcuQuery($location: String, $key: String) {
-    remoteRcu(location: $location, key: $key) {
-      data
-    }
-  }
-`,y=r.gql`
-  query RemoteTvQuery($location: String, $action: String) {
-    remoteTv(location: $location, action: $action) {
-      data
-    }
-  }
-`,$=r.gql`
-  query RemoteVcrQuery($location: String, $action: String) {
-    remoteVcr(location: $location, action: $action) {
-      data
-    }
-  }
-`,x=r.gql`
-  subscription RemoteSubscription {
-    remote {
-      data
-    }
-  }
-`,M=r.gql`
-  mutation SendRemoteMutation($remote: RemoteInput) {
-    sendRemote(remote: $remote)
-  }
-`;class w extends l{getDevices(){return(0,o.D)(this.client.request(q)).pipe((0,h.U)((({devices:e})=>e)))}getStatusAdb(e){return(0,o.D)(this.client.request(v,{location:e})).pipe((0,h.U)((({version:e})=>e)))}getRemoteRcu(e,t){return(0,o.D)(this.client.request(S,{location:e,key:t}))}getRemoteTv(e,t){return(0,o.D)(this.client.request(y,{location:e,action:t}))}getRemoteVcr(e,t){return(0,o.D)(this.client.request($,{location:e,action:t}))}sendMessage(e){return(0,o.D)(this.client.request(M,{data:e}))}onMessage(){return new c.y((e=>this.subscriptions.subscribe({query:x},{next:({data:t,errors:s})=>s?e.error(s[0]):e.next(t.remote),error:t=>e.error(t),complete:()=>e.complete()})))}}const k=new class extends l{hello(){return(0,o.D)(this.client.request(u))}};function R(){const[e,t]=(0,n.useState)({hello:null});return(0,n.useEffect)((()=>{const e=[k.hello().subscribe((({hello:e})=>t((t=>({...t,hello:e})))))];return()=>{e.map((e=>e.unsubscribe()))}}),[]),[e]}const D=new class extends l{getMessages(){return(0,o.D)(this.client.request(g))}sendMessage(e){return(0,o.D)(this.client.request(m,{message:e}))}onMessage(){return new c.y((e=>this.subscriptions.subscribe({query:d},{next:({data:t,errors:s})=>s?e.error(s[0]):e.next(t),error:t=>e.error(t),complete:()=>e.complete()})))}};function A(){const[{messages:e},t]=(0,n.useState)((()=>({messages:null})));return(0,n.useEffect)((()=>{const e=[D.getMessages().subscribe((({messages:e})=>t((t=>({...t,messages:e}))))),D.onMessage().subscribe((({message:e})=>t((({messages:t,...s})=>({...s,messages:t.concat([e])})))))];return()=>{e.map((e=>e.unsubscribe()))}}),[]),[{messages:e},{sendMessage:e=>D.sendMessage(e)}]}const E=new class extends l{onSensor(){return new c.y((e=>this.subscriptions.subscribe({query:b},{next:({data:t,errors:s})=>s?e.error(s[0]):e.next(t),error:t=>e.error(t),complete:()=>e.complete()})))}};function T(){const[{values:e},t]=(0,n.useState)((()=>({values:null})));return(0,n.useEffect)((()=>{const e=[E.onSensor().subscribe((({sensor:e})=>t((({values:t,...s})=>({...s,values:(t||[]).concat([e])})))))];return()=>{e.map((e=>e.unsubscribe()))}}),[]),[{values:e},{}]}const Q=new class extends l{sendSignal(e){return(0,o.D)(this.client.request(f,{signal:e}))}onSignal(){return new c.y((e=>this.subscriptions.subscribe({query:p},{next:({data:t,errors:s})=>s?e.error(s[0]):e.next(t),error:t=>e.error(t),complete:()=>e.complete()})))}};function V(){const[e,t]=(0,n.useState)({hello:null});return(0,n.useEffect)((()=>{const e=[Q.onSignal().subscribe((({signal:e})=>t((t=>({...t,signal:e})))))];return()=>{e.map((e=>e.unsubscribe()))}}),[]),[e,{sendSignal:e=>Q.sendSignal(e)}]}const I=new class extends l{files(){return(0,o.D)(this.client.request(i))}};function U(){const[e,t]=(0,n.useState)({files:null});return(0,n.useEffect)((()=>{const e=[I.files().subscribe((({files:e})=>t((t=>({...t,files:e})))))];return()=>{e.map((e=>e.unsubscribe()))}}),[]),[e]}},3147:(e,t,s)=>{s.r(t),s.d(t,{default:()=>a});var n=s(2784),r=s(1828),o=s(6994);function a(){const[{hello:e}]=(0,r.zO)();return n.createElement("section",null,null===e?n.createElement("div",null,"Loading..."):n.createElement("h2",{className:o.Z.Hello},e))}},1758:(e,t,s)=>{s.r(t),s.d(t,{default:()=>l});var n=s(272),r=s.n(n),o=s(2609),a=s.n(o)()(r());a.push([e.id,".aJ2bxgXUhlWNlbrakkkT{color:blue}","",{version:3,sources:["webpack://./../web/src/containers/Hello.module.scss"],names:[],mappings:"AAAA,sBACE,UAAA",sourcesContent:[".Hello {\n  color: blue;\n}\n"],sourceRoot:""}]),a.locals={Hello:"aJ2bxgXUhlWNlbrakkkT"};const l=a},7984:(e,t,s)=>{s.d(t,{U:()=>o});var n=s(1118),r=s(7394);function o(e,t){return(0,n.e)((function(s,n){var o=0;s.subscribe((0,r.x)(n,(function(s){n.next(e.call(t,s,o++))})))}))}},6994:(e,t,s)=>{s.d(t,{Z:()=>S});var n=s(6062),r=s.n(n),o=s(4036),a=s.n(o),l=s(6793),i=s.n(l),u=s(7892),c=s.n(u),g=s(1173),d=s.n(g),m=s(2464),b=s.n(m),p=s(1758),f={};f.styleTagTransform=b(),f.setAttributes=c(),f.insert=i().bind(null,"head"),f.domAPI=a(),f.insertStyleElement=d();var h=r()(p.default,f);if(!p.default.locals||e.hot.invalidate){var q=!p.default.locals,v=q?p:p.default.locals;e.hot.accept(1758,(t=>{p=s(1758),function(e,t,s){if(!e&&t||e&&!t)return!1;var n;for(n in e)if((!s||"default"!==n)&&e[n]!==t[n])return!1;for(n in t)if(!(s&&"default"===n||e[n]))return!1;return!0}(v,q?p:p.default.locals,q)?(v=q?p:p.default.locals,h(p.default)):e.hot.invalidate()}))}e.hot.dispose((function(){h()}));const S=p.default&&p.default.locals?p.default.locals:void 0}}]);
+`,h=new class extends u{hello(){return(0,l.D)(this.client.request(i))}};function S(){const[e,s]=(0,t.useState)({hello:null});return(0,t.useEffect)((()=>{const e=[h.hello().subscribe((({hello:e})=>s((s=>({...s,hello:e})))))];return()=>{e.map((e=>e.unsubscribe()))}}),[]),[e]}const v=new class extends u{getMessages(){return(0,l.D)(this.client.request(d))}sendMessage(e){return(0,l.D)(this.client.request(b,{message:e}))}onMessage(){return new c.y((e=>this.subscriptions.subscribe({query:g},{next:({data:s,errors:n})=>n?e.error(n[0]):e.next(s),error:s=>e.error(s),complete:()=>e.complete()})))}};function q(){const[{messages:e},s]=(0,t.useState)((()=>({messages:null})));return(0,t.useEffect)((()=>{const e=[v.getMessages().subscribe((({messages:e})=>s((s=>({...s,messages:e}))))),v.onMessage().subscribe((({message:e})=>s((({messages:s,...n})=>({...n,messages:s.concat([e])})))))];return()=>{e.map((e=>e.unsubscribe()))}}),[]),[{messages:e},{sendMessage:e=>v.sendMessage(e)}]}const x=new class extends u{onSensor(){return new c.y((e=>this.subscriptions.subscribe({query:f},{next:({data:s,errors:n})=>n?e.error(n[0]):e.next(s),error:s=>e.error(s),complete:()=>e.complete()})))}};function M(){const[{values:e},s]=(0,t.useState)((()=>({values:null})));return(0,t.useEffect)((()=>{const e=[x.onSensor().subscribe((({sensor:e})=>s((({values:s,...n})=>({...n,values:(s||[]).concat([e])})))))];return()=>{e.map((e=>e.unsubscribe()))}}),[]),[{values:e},{}]}const w=new class extends u{sendSignal(e){return(0,l.D)(this.client.request(m,{signal:e}))}onSignal(){return new c.y((e=>this.subscriptions.subscribe({query:p},{next:({data:s,errors:n})=>n?e.error(n[0]):e.next(s),error:s=>e.error(s),complete:()=>e.complete()})))}};function y(){const[e,s]=(0,t.useState)({hello:null});return(0,t.useEffect)((()=>{const e=[w.onSignal().subscribe((({signal:e})=>s((s=>({...s,signal:e})))))];return()=>{e.map((e=>e.unsubscribe()))}}),[]),[e,{sendSignal:e=>w.sendSignal(e)}]}const k=new class extends u{files(){return(0,l.D)(this.client.request(o))}};function A(){const[e,s]=(0,t.useState)({files:null});return(0,t.useEffect)((()=>{const e=[k.files().subscribe((({files:e})=>s((s=>({...s,files:e})))))];return()=>{e.map((e=>e.unsubscribe()))}}),[]),[e]}},3147:(e,s,n)=>{n.r(s),n.d(s,{default:()=>a});var t=n(2784),r=n(310),l=n(6994);function a(){const[{hello:e}]=(0,r.zO)();return t.createElement("section",null,null===e?t.createElement("div",null,"Loading..."):t.createElement("h2",{className:l.Z.Hello},e))}},1758:(e,s,n)=>{n.r(s),n.d(s,{default:()=>u});var t=n(272),r=n.n(t),l=n(2609),a=n.n(l)()(r());a.push([e.id,".aJ2bxgXUhlWNlbrakkkT{color:blue}","",{version:3,sources:["webpack://./../web/src/containers/Hello.module.scss"],names:[],mappings:"AAAA,sBACE,UAAA",sourcesContent:[".Hello {\n  color: blue;\n}\n"],sourceRoot:""}]),a.locals={Hello:"aJ2bxgXUhlWNlbrakkkT"};const u=a},6994:(e,s,n)=>{n.d(s,{Z:()=>q});var t=n(6062),r=n.n(t),l=n(4036),a=n.n(l),u=n(6793),o=n.n(u),i=n(7892),c=n.n(i),d=n(1173),g=n.n(d),b=n(2464),f=n.n(b),p=n(1758),m={};m.styleTagTransform=f(),m.setAttributes=c(),m.insert=o().bind(null,"head"),m.domAPI=a(),m.insertStyleElement=g();var h=r()(p.default,m);if(!p.default.locals||e.hot.invalidate){var S=!p.default.locals,v=S?p:p.default.locals;e.hot.accept(1758,(s=>{p=n(1758),function(e,s,n){if(!e&&s||e&&!s)return!1;var t;for(t in e)if((!n||"default"!==t)&&e[t]!==s[t])return!1;for(t in s)if(!(n&&"default"===t||e[t]))return!1;return!0}(v,S?p:p.default.locals,S)?(v=S?p:p.default.locals,h(p.default)):e.hot.invalidate()}))}e.hot.dispose((function(){h()}));const q=p.default&&p.default.locals?p.default.locals:void 0}}]);
 //# sourceMappingURL=147.js.map

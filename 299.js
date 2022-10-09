@@ -1,38 +1,38 @@
-(self.webpackChunk_dev_app=self.webpackChunk_dev_app||[]).push([[299],{9082:(e,t,s)=>{"use strict";s.d(t,{L:()=>o,V:()=>i});var n=s(6647),r=s(9385);const o=new n.GraphQLClient(`${location.pathname}graphql`,{headers:{}}),i=(0,r.eI)({url:`${{"https:":"wss:"}[location.protocol]||"ws:"}//${location.host}${location.pathname}subscriptions`})},1828:(e,t,s)=>{"use strict";s.d(t,{K2:()=>w,Yg:()=>C,zO:()=>E,y_:()=>D,VT:()=>A,RY:()=>I});var n=s(2784),r=s(6647),o=s(7598),i=s(9082);class a{client=i.L;subscriptions=i.V}const l=r.gql`
+(self.webpackChunk_dev_app=self.webpackChunk_dev_app||[]).push([[299],{9082:(e,s,t)=>{"use strict";t.d(s,{L:()=>o,V:()=>a});var n=t(6647),r=t(9385);const o=new n.GraphQLClient(`${location.pathname}graphql`,{headers:{}}),a=(0,r.eI)({url:`${{"https:":"wss:"}[location.protocol]||"ws:"}//${location.host}${location.pathname}subscriptions`})},310:(e,s,t)=>{"use strict";t.d(s,{Yg:()=>A,zO:()=>v,y_:()=>q,VT:()=>w,RY:()=>M});var n=t(2784),r=t(6647),o=t(7598),a=t(9082);class l{client=a.L;subscriptions=a.V}const i=r.gql`
   query {
     files {
       name
     }
   }
-`,c=r.gql`
+`,u=r.gql`
   query {
     hello
   }
-`;var u=s(8141);const g=r.gql`
+`;var c=t(8141);const d=r.gql`
   query MessagesQuery {
     messages {
       uuid
       text
     }
   }
-`,d=r.gql`
+`,g=r.gql`
   subscription MessageSubscription {
     message {
       uuid
       text
     }
   }
-`,m=r.gql`
+`,f=r.gql`
   mutation SendMessageMutation($message: MessageInput) {
     sendMessage(message: $message)
   }
-`,f=r.gql`
+`,m=r.gql`
   subscription SensorSubscription {
     sensor {
       data
     }
   }
-`,p=r.gql`
+`,b=r.gql`
   subscription SignalSubscription {
     signal {
       sdp
@@ -44,47 +44,9 @@
       }
     }
   }
-`,b=r.gql`
+`,p=r.gql`
   mutation SendSignalMutation($signal: SignalInput) {
     sendSignal(signal: $signal)
   }
-`;var v=s(7984);const h=r.gql`
-  query GetDevicesQuery {
-    devices {
-      data
-    }
-  }
-`,q=r.gql`
-  query GetVersionQuery($location: String) {
-    version(location: $location)
-  }
-`,S=r.gql`
-  query RemoteRcuQuery($location: String, $key: String) {
-    remoteRcu(location: $location, key: $key) {
-      data
-    }
-  }
-`,y=r.gql`
-  query RemoteTvQuery($location: String, $action: String) {
-    remoteTv(location: $location, action: $action) {
-      data
-    }
-  }
-`,$=r.gql`
-  query RemoteVcrQuery($location: String, $action: String) {
-    remoteVcr(location: $location, action: $action) {
-      data
-    }
-  }
-`,x=r.gql`
-  subscription RemoteSubscription {
-    remote {
-      data
-    }
-  }
-`,M=r.gql`
-  mutation SendRemoteMutation($remote: RemoteInput) {
-    sendRemote(remote: $remote)
-  }
-`;class w extends a{getDevices(){return(0,o.D)(this.client.request(h)).pipe((0,v.U)((({devices:e})=>e)))}getStatusAdb(e){return(0,o.D)(this.client.request(q,{location:e})).pipe((0,v.U)((({version:e})=>e)))}getRemoteRcu(e,t){return(0,o.D)(this.client.request(S,{location:e,key:t}))}getRemoteTv(e,t){return(0,o.D)(this.client.request(y,{location:e,action:t}))}getRemoteVcr(e,t){return(0,o.D)(this.client.request($,{location:e,action:t}))}sendMessage(e){return(0,o.D)(this.client.request(M,{data:e}))}onMessage(){return new u.y((e=>this.subscriptions.subscribe({query:x},{next:({data:t,errors:s})=>s?e.error(s[0]):e.next(t.remote),error:t=>e.error(t),complete:()=>e.complete()})))}}const R=new class extends a{hello(){return(0,o.D)(this.client.request(c))}};function E(){const[e,t]=(0,n.useState)({hello:null});return(0,n.useEffect)((()=>{const e=[R.hello().subscribe((({hello:e})=>t((t=>({...t,hello:e})))))];return()=>{e.map((e=>e.unsubscribe()))}}),[]),[e]}const k=new class extends a{getMessages(){return(0,o.D)(this.client.request(g))}sendMessage(e){return(0,o.D)(this.client.request(m,{message:e}))}onMessage(){return new u.y((e=>this.subscriptions.subscribe({query:d},{next:({data:t,errors:s})=>s?e.error(s[0]):e.next(t),error:t=>e.error(t),complete:()=>e.complete()})))}};function D(){const[{messages:e},t]=(0,n.useState)((()=>({messages:null})));return(0,n.useEffect)((()=>{const e=[k.getMessages().subscribe((({messages:e})=>t((t=>({...t,messages:e}))))),k.onMessage().subscribe((({message:e})=>t((({messages:t,...s})=>({...s,messages:t.concat([e])})))))];return()=>{e.map((e=>e.unsubscribe()))}}),[]),[{messages:e},{sendMessage:e=>k.sendMessage(e)}]}const V=new class extends a{onSensor(){return new u.y((e=>this.subscriptions.subscribe({query:f},{next:({data:t,errors:s})=>s?e.error(s[0]):e.next(t),error:t=>e.error(t),complete:()=>e.complete()})))}};function A(){const[{values:e},t]=(0,n.useState)((()=>({values:null})));return(0,n.useEffect)((()=>{const e=[V.onSensor().subscribe((({sensor:e})=>t((({values:t,...s})=>({...s,values:(t||[]).concat([e])})))))];return()=>{e.map((e=>e.unsubscribe()))}}),[]),[{values:e},{}]}const T=new class extends a{sendSignal(e){return(0,o.D)(this.client.request(b,{signal:e}))}onSignal(){return new u.y((e=>this.subscriptions.subscribe({query:p},{next:({data:t,errors:s})=>s?e.error(s[0]):e.next(t),error:t=>e.error(t),complete:()=>e.complete()})))}};function I(){const[e,t]=(0,n.useState)({hello:null});return(0,n.useEffect)((()=>{const e=[T.onSignal().subscribe((({signal:e})=>t((t=>({...t,signal:e})))))];return()=>{e.map((e=>e.unsubscribe()))}}),[]),[e,{sendSignal:e=>T.sendSignal(e)}]}const Q=new class extends a{files(){return(0,o.D)(this.client.request(l))}};function C(){const[e,t]=(0,n.useState)({files:null});return(0,n.useEffect)((()=>{const e=[Q.files().subscribe((({files:e})=>t((t=>({...t,files:e})))))];return()=>{e.map((e=>e.unsubscribe()))}}),[]),[e]}},7080:(e,t,s)=>{"use strict";s.r(t),s.d(t,{default:()=>l});var n=s(2784),r=s(3115),o=s.n(r),i=s(1828),a=s(4544);function l(){const[e,{sendSignal:t}]=(0,i.RY)(),[s,r]=(0,n.useState)(void 0),[l,c]=(0,n.useState)(null),u=(0,n.useRef)(null),g=(0,n.useRef)(null),d=(0,n.useRef)(null);return(0,n.useEffect)((()=>{if(e&&u.current){const{type:t}=e.signal;if("offer"===t&&s)return;if("answer"===t&&!s)return;console.log(["peer.signal"],e.signal),u.current.signal(e.signal)}}),[e,u,s]),(0,n.useEffect)((()=>{void 0!==s&&(console.log({initiator:s}),Promise.resolve().then((()=>s?navigator.mediaDevices.getUserMedia({video:{facingMode:"user"},audio:!1}):Promise.resolve(null))).then((e=>{c(e);const n=new(o())({initiator:s,stream:e,trickle:!1,reconnectTimer:1e3,iceTransportPolicy:"relay",config:{iceServers:[{urls:"stun:stun.l.google.com:19302"},{urls:"stun:stun.services.mozilla.com"}]}}).on("signal",(e=>{console.log(["signal",s],{data:e}),t(e)})).on("stream",(e=>{console.log(["stream",s],{stream:e}),Object.assign(d.current,{srcObject:e})})).on("error",(function(e){console.log(["error",s],{error:e})}));u.current=n})).catch(console.error))}),[s]),(0,n.useEffect)((()=>{if(l){const e=l.getVideoTracks();return console.log({stream:l,videoTracks:e}),Object.assign(g.current,{srcObject:l}),()=>{l.getTracks().forEach((e=>e.stop()))}}}),[l]),n.createElement("div",{className:a.Z.Video},n.createElement("button",{onClick:()=>r(!0)},"setInitiator(true)"),n.createElement("button",{onClick:()=>r(!1)},"setInitiator(false)"),n.createElement("video",{ref:g,width:"200",autoPlay:!0,muted:!0,playsInline:!0}),n.createElement("video",{ref:d,width:"200",autoPlay:!0,muted:!0}))}},3540:(e,t,s)=>{"use strict";s.r(t),s.d(t,{default:()=>a});var n=s(272),r=s.n(n),o=s(2609),i=s.n(o)()(r());i.push([e.id,".QdhvmFxvbTAbWlV0dLxJ{color:green}","",{version:3,sources:["webpack://./../web/src/containers/Video.module.scss"],names:[],mappings:"AAAA,sBACE,WAAA",sourcesContent:[".Video {\n  color: green;\n}\n"],sourceRoot:""}]),i.locals={Video:"QdhvmFxvbTAbWlV0dLxJ"};const a=i},4544:(e,t,s)=>{"use strict";s.d(t,{Z:()=>S});var n=s(6062),r=s.n(n),o=s(4036),i=s.n(o),a=s(6793),l=s.n(a),c=s(7892),u=s.n(c),g=s(1173),d=s.n(g),m=s(2464),f=s.n(m),p=s(3540),b={};b.styleTagTransform=f(),b.setAttributes=u(),b.insert=l().bind(null,"head"),b.domAPI=i(),b.insertStyleElement=d();var v=r()(p.default,b);if(!p.default.locals||e.hot.invalidate){var h=!p.default.locals,q=h?p:p.default.locals;e.hot.accept(3540,(t=>{p=s(3540),function(e,t,s){if(!e&&t||e&&!t)return!1;var n;for(n in e)if((!s||"default"!==n)&&e[n]!==t[n])return!1;for(n in t)if(!(s&&"default"===n||e[n]))return!1;return!0}(q,h?p:p.default.locals,h)?(q=h?p:p.default.locals,v(p.default)):e.hot.invalidate()}))}e.hot.dispose((function(){v()}));const S=p.default&&p.default.locals?p.default.locals:void 0},4854:()=>{},6602:()=>{}}]);
+`,h=new class extends l{hello(){return(0,o.D)(this.client.request(u))}};function v(){const[e,s]=(0,n.useState)({hello:null});return(0,n.useEffect)((()=>{const e=[h.hello().subscribe((({hello:e})=>s((s=>({...s,hello:e})))))];return()=>{e.map((e=>e.unsubscribe()))}}),[]),[e]}const S=new class extends l{getMessages(){return(0,o.D)(this.client.request(d))}sendMessage(e){return(0,o.D)(this.client.request(f,{message:e}))}onMessage(){return new c.y((e=>this.subscriptions.subscribe({query:g},{next:({data:s,errors:t})=>t?e.error(t[0]):e.next(s),error:s=>e.error(s),complete:()=>e.complete()})))}};function q(){const[{messages:e},s]=(0,n.useState)((()=>({messages:null})));return(0,n.useEffect)((()=>{const e=[S.getMessages().subscribe((({messages:e})=>s((s=>({...s,messages:e}))))),S.onMessage().subscribe((({message:e})=>s((({messages:s,...t})=>({...t,messages:s.concat([e])})))))];return()=>{e.map((e=>e.unsubscribe()))}}),[]),[{messages:e},{sendMessage:e=>S.sendMessage(e)}]}const y=new class extends l{onSensor(){return new c.y((e=>this.subscriptions.subscribe({query:m},{next:({data:s,errors:t})=>t?e.error(t[0]):e.next(s),error:s=>e.error(s),complete:()=>e.complete()})))}};function w(){const[{values:e},s]=(0,n.useState)((()=>({values:null})));return(0,n.useEffect)((()=>{const e=[y.onSensor().subscribe((({sensor:e})=>s((({values:s,...t})=>({...t,values:(s||[]).concat([e])})))))];return()=>{e.map((e=>e.unsubscribe()))}}),[]),[{values:e},{}]}const x=new class extends l{sendSignal(e){return(0,o.D)(this.client.request(p,{signal:e}))}onSignal(){return new c.y((e=>this.subscriptions.subscribe({query:b},{next:({data:s,errors:t})=>t?e.error(t[0]):e.next(s),error:s=>e.error(s),complete:()=>e.complete()})))}};function M(){const[e,s]=(0,n.useState)({hello:null});return(0,n.useEffect)((()=>{const e=[x.onSignal().subscribe((({signal:e})=>s((s=>({...s,signal:e})))))];return()=>{e.map((e=>e.unsubscribe()))}}),[]),[e,{sendSignal:e=>x.sendSignal(e)}]}const E=new class extends l{files(){return(0,o.D)(this.client.request(i))}};function A(){const[e,s]=(0,n.useState)({files:null});return(0,n.useEffect)((()=>{const e=[E.files().subscribe((({files:e})=>s((s=>({...s,files:e})))))];return()=>{e.map((e=>e.unsubscribe()))}}),[]),[e]}},7080:(e,s,t)=>{"use strict";t.r(s),t.d(s,{default:()=>i});var n=t(2784),r=t(3115),o=t.n(r),a=t(310),l=t(4544);function i(){const[e,{sendSignal:s}]=(0,a.RY)(),[t,r]=(0,n.useState)(void 0),[i,u]=(0,n.useState)(null),c=(0,n.useRef)(null),d=(0,n.useRef)(null),g=(0,n.useRef)(null);return(0,n.useEffect)((()=>{if(e&&c.current){const{type:s}=e.signal;if("offer"===s&&t)return;if("answer"===s&&!t)return;console.log(["peer.signal"],e.signal),c.current.signal(e.signal)}}),[e,c,t]),(0,n.useEffect)((()=>{void 0!==t&&(console.log({initiator:t}),Promise.resolve().then((()=>t?navigator.mediaDevices.getUserMedia({video:{facingMode:"user"},audio:!1}):Promise.resolve(null))).then((e=>{u(e);const n=new(o())({initiator:t,stream:e,trickle:!1,reconnectTimer:1e3,iceTransportPolicy:"relay",config:{iceServers:[{urls:"stun:stun.l.google.com:19302"},{urls:"stun:stun.services.mozilla.com"}]}}).on("signal",(e=>{console.log(["signal",t],{data:e}),s(e)})).on("stream",(e=>{console.log(["stream",t],{stream:e}),Object.assign(g.current,{srcObject:e})})).on("error",(function(e){console.log(["error",t],{error:e})}));c.current=n})).catch(console.error))}),[t]),(0,n.useEffect)((()=>{if(i){const e=i.getVideoTracks();return console.log({stream:i,videoTracks:e}),Object.assign(d.current,{srcObject:i}),()=>{i.getTracks().forEach((e=>e.stop()))}}}),[i]),n.createElement("div",{className:l.Z.Video},n.createElement("button",{onClick:()=>r(!0)},"setInitiator(true)"),n.createElement("button",{onClick:()=>r(!1)},"setInitiator(false)"),n.createElement("video",{ref:d,width:"200",autoPlay:!0,muted:!0,playsInline:!0}),n.createElement("video",{ref:g,width:"200",autoPlay:!0,muted:!0}))}},3540:(e,s,t)=>{"use strict";t.r(s),t.d(s,{default:()=>l});var n=t(272),r=t.n(n),o=t(2609),a=t.n(o)()(r());a.push([e.id,".QdhvmFxvbTAbWlV0dLxJ{color:green}","",{version:3,sources:["webpack://./../web/src/containers/Video.module.scss"],names:[],mappings:"AAAA,sBACE,WAAA",sourcesContent:[".Video {\n  color: green;\n}\n"],sourceRoot:""}]),a.locals={Video:"QdhvmFxvbTAbWlV0dLxJ"};const l=a},4544:(e,s,t)=>{"use strict";t.d(s,{Z:()=>q});var n=t(6062),r=t.n(n),o=t(4036),a=t.n(o),l=t(6793),i=t.n(l),u=t(7892),c=t.n(u),d=t(1173),g=t.n(d),f=t(2464),m=t.n(f),b=t(3540),p={};p.styleTagTransform=m(),p.setAttributes=c(),p.insert=i().bind(null,"head"),p.domAPI=a(),p.insertStyleElement=g();var h=r()(b.default,p);if(!b.default.locals||e.hot.invalidate){var v=!b.default.locals,S=v?b:b.default.locals;e.hot.accept(3540,(s=>{b=t(3540),function(e,s,t){if(!e&&s||e&&!s)return!1;var n;for(n in e)if((!t||"default"!==n)&&e[n]!==s[n])return!1;for(n in s)if(!(t&&"default"===n||e[n]))return!1;return!0}(S,v?b:b.default.locals,v)?(S=v?b:b.default.locals,h(b.default)):e.hot.invalidate()}))}e.hot.dispose((function(){h()}));const q=b.default&&b.default.locals?b.default.locals:void 0},4854:()=>{},6602:()=>{}}]);
 //# sourceMappingURL=299.js.map
