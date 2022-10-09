@@ -8,7 +8,7 @@
   query {
     hello
   }
-`;var c=n(8141);const d=r.gql`
+`;var c=n(3919);const d=r.gql`
   query MessagesQuery {
     messages {
       uuid
