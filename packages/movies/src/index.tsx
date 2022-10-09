@@ -1,5 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { from } from "rxjs";
+import React, {
+  ChangeEventHandler,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+import { Subject, from } from "rxjs";
+import { debounceTime, distinctUntilChanged, map } from "rxjs/operators";
 import { gql } from "graphql-request";
 import { client, subscriptions } from "@dev/client";
 import styles from "./styles.module.scss";
@@ -33,14 +40,88 @@ function useMovies() {
   return [{ movies }];
 }
 
+function Filters({ filters, setFilters }: { filters: any; setFilters: any }) {
+  return (
+    <fieldset>
+      <label>
+        <span>Search</span>
+        <input
+          type="search"
+          value={filters.search}
+          onChange={useCallback<ChangeEventHandler<HTMLInputElement>>(
+            ({ target }) =>
+              setFilters((filters) => ({
+                ...filters,
+                search: target.value,
+              })),
+            []
+          )}
+        />
+      </label>
+    </fieldset>
+  );
+}
+
+function Movies({ movies }) {
+  return (
+    <div>
+      <pre>{JSON.stringify(movies, null, 2)}</pre>
+    </div>
+  );
+}
+
 export default function Section() {
   const [{ movies }] = useMovies();
 
-  console.log({ movies });
+  const [filters, setFilters] = useState(() => ({
+    search: "",
+  }));
+
+  const [queries, setQueries] = useState(() => filters);
+
+  const search$ = useMemo(() => new Subject<any>(), []);
+
+  useEffect(() => {
+    const subscription = search$
+      .pipe(
+        map(({ search, ...filters }) =>
+          JSON.stringify({
+            ...queries,
+            ...filters,
+            search: search.toLowerCase().trim(),
+          })
+        ),
+        distinctUntilChanged(),
+        debounceTime(400)
+      )
+      .subscribe((filters) =>
+        setQueries((queries) => ({ ...queries, ...JSON.parse(filters) }))
+      );
+    return () => subscription.unsubscribe();
+  }, [search$]);
+
+  useEffect(() => {
+    search$.next(filters);
+  }, [filters]);
+
+  console.log({ filters, movies, queries });
   return (
     <section className={styles.Section}>
       <h2>Movies</h2>
-      <pre>{JSON.stringify(movies, null, 2)}</pre>
+      <Filters filters={filters} setFilters={setFilters} />
+      <Movies
+        movies={useMemo(
+          () =>
+            movies
+              ? movies.movies.results.filter(
+                  (item) =>
+                    queries.search === "" ||
+                    item.trackName.toLowerCase().match(queries.search)
+                )
+              : [],
+          [movies, queries]
+        )}
+      />
       <a
         href="https://developer.apple.com/library/archive/documentation/AudioVideo/Conceptual/iTuneSearchAPI/index.html"
         rel="noopener noreferrer"
