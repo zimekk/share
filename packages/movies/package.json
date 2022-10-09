@@ -1,5 +1,5 @@
 {
-  "name": "@dev/talks",
+  "name": "@dev/movies",
   "version": "1.0.0",
   "license": "UNLICENSED",
   "private": true,
@@ -9,11 +9,17 @@
   },
   "dependencies": {
     "@dev/client": "1.0.0",
+    "@graphql-tools/schema": "^9.0.4",
+    "cross-fetch": "^3.1.5",
     "graphql-request": "^5.0.0",
-    "rxjs": "^7.5.7"
+    "graphql-tag": "^2.12.6",
+    "rxjs": "^7.5.7",
+    "zod": "^3.19.1"
   },
   "devDependencies": {
     "typescript": "^4.8.4"
   },
-  "peerDependencies": {}
+  "peerDependencies": {
+    "react": "^18.2.0"
+  }
 }

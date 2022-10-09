@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@dev/device": "1.0.0",
+    "@dev/movies": "1.0.0",
     "@dev/sensor": "1.0.0",
     "@dev/web": "1.0.0",
     "@graphql-tools/load-files": "^6.6.1",

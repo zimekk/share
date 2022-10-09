@@ -9,6 +9,7 @@
     "start": "webpack serve --mode development"
   },
   "dependencies": {
+    "@dev/movies": "^1.0.0",
     "@dev/talks": "^1.0.0",
     "buffer": "^6.0.3",
     "classnames": "^2.3.2",
