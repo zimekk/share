@@ -1,7 +1,12 @@
 import { gql } from "graphql-request";
 import { from, Observable } from "rxjs";
 import { map } from "rxjs/operators";
-import { Service } from "./Service";
+import { client, subscriptions } from "@dev/client";
+
+export class Service {
+  client = client;
+  subscriptions = subscriptions;
+}
 
 const GET_DEVICES = gql`
   query GetDevicesQuery {

@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { RemoteService } from "@dev/talks/src/services";
+import { RemoteService } from "../../services";
 import { Discover } from "./Discover";
 import { RemoteAdb } from "./RemoteAdb";
 import { RemoteTv } from "./RemoteTv";
