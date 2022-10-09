@@ -9,6 +9,7 @@ import { Subject, from } from "rxjs";
 import { debounceTime, distinctUntilChanged, map } from "rxjs/operators";
 import { gql } from "graphql-request";
 import { client, subscriptions } from "@dev/client";
+import { Artwork } from "../../components/Artwork";
 import styles from "./styles.module.scss";
 
 const MOVIES = gql`
@@ -65,6 +66,13 @@ function Filters({ filters, setFilters }: { filters: any; setFilters: any }) {
 function Movies({ movies }) {
   return (
     <div>
+      {movies.map(({ artistName, artworkUrl100, trackName, trackId }) => (
+        <div key={trackId} className={styles.Movie}>
+          <Artwork src={artworkUrl100} className={styles.Artwork} />
+          <h5>{trackName}</h5>
+          <h6>{artistName}</h6>
+        </div>
+      ))}
       <pre>{JSON.stringify(movies, null, 2)}</pre>
     </div>
   );
