@@ -1,24 +1,5 @@
 import React, { MouseEventHandler, useCallback } from "react";
-import styles from "./styles.module.scss";
-
-import type { IconType } from "@dev/device";
-
-export function Icon({
-  url,
-  width,
-  height,
-  title,
-}: IconType & { title: string }) {
-  return (
-    <img
-      className={styles.Icon}
-      src={url}
-      width={width}
-      height={height}
-      title={title}
-    />
-  );
-}
+import { Icon, Json } from "../../components";
 
 export function RemoteTv({ deviceTv = [], remoteTv }) {
   const [LOCATION, device] = deviceTv;
@@ -101,7 +82,7 @@ export function RemoteTv({ deviceTv = [], remoteTv }) {
         />
       )}
       <h3>TV</h3>
-      <pre>{JSON.stringify(deviceTv, null, 2)}</pre>
+      <Json>{deviceTv}</Json>
       <fieldset>
         <legend>Volume</legend>
         <button onClick={onGetVolume}>GetVolume</button>

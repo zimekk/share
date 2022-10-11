@@ -57,11 +57,7 @@ export default makeExecutableSchema({
           },
         })
           .then((res) => res.text())
-          .then((data) => {
-            remote$.next(data);
-
-            return data;
-          }),
+          .then((data) => ({ data })),
       remoteTv: (
         _,
         { location = "http://192.168.2.90:55000/dmr/ddd.xml", action }

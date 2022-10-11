@@ -74,7 +74,9 @@ export class RemoteService extends Service {
     );
   }
   getRemoteRcu(location: string, key: RcuKey) {
-    return from(this.client.request(REMOTE_RCU, { location, key }));
+    return from(this.client.request(REMOTE_RCU, { location, key })).pipe(
+      map(({ remoteRcu }) => remoteRcu)
+    );
   }
   getRemoteTv(location: string, action: string) {
     return from(this.client.request(REMOTE_TV, { location, action }));

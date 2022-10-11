@@ -1,5 +1,5 @@
 import React, { MouseEventHandler, useCallback } from "react";
-import { Icon } from "./RemoteTv";
+import { Icon, Json } from "../../components";
 
 export function RemoteBox({ deviceBox = [], remoteBox }) {
   const [LOCATION, device] = deviceBox;
@@ -13,7 +13,7 @@ export function RemoteBox({ deviceBox = [], remoteBox }) {
         />
       )}
       <h3>BOX</h3>
-      <pre>{JSON.stringify(deviceBox, null, 2)}</pre>
+      <Json>{deviceBox}</Json>
       <fieldset>
         <legend>Power</legend>
         <button

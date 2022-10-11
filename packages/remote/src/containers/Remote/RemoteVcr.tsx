@@ -1,5 +1,5 @@
 import React, { MouseEventHandler, useCallback } from "react";
-import { Icon } from "./RemoteTv";
+import { Icon, Json } from "../../components";
 
 async function vcr(
   location = "http://192.168.2.100:49154/MediaRenderer/desc.xml",
@@ -29,7 +29,7 @@ export function RemoteVcr({ deviceVcr = [], remoteVcr }) {
         />
       )}
       <h3>VCR</h3>
-      <pre>{JSON.stringify(deviceVcr, null, 2)}</pre>
+      <Json>{deviceVcr}</Json>
       <fieldset>
         <legend>Information</legend>
         <button

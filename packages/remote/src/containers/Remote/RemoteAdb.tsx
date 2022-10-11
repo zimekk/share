@@ -1,4 +1,5 @@
 import React, { MouseEventHandler, useCallback, useState } from "react";
+import { Json } from "../../components";
 
 async function adb(location = "http://192.168.2.101:8080", key = "KeyStandBy") {
   return await fetch(`${new URL(location).origin}/control/rcu`, {
@@ -40,7 +41,7 @@ export function RemoteAdb({ deviceAdb = [], remoteRcu, status }) {
   return (
     <div>
       <h3>ADB</h3>
-      <pre>{JSON.stringify(deviceAdb, null, 2)}</pre>
+      <Json>{deviceAdb}</Json>
       <fieldset>
         <legend>Information</legend>
         <button onClick={onVersion}>Version</button>
