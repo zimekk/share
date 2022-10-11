@@ -179,11 +179,74 @@ async function serviceAction(client, device, service) {
   console.log([service, modelName]);
 
   return await client.getServiceDescription(service).then(async (data) => {
-    // if(modelName ==='Xbox One') {
-    //   console.log({ modelName, service, ...data });
-    // } else {
-    //   return;
-    // }
+    if (
+      ["NCP-3670SF", "Panasonic VIErA", "R-N803D", "Xbox One"].includes(
+        modelName
+      )
+    ) {
+      console.log({ modelName, service });
+    } else {
+      // console.log({ modelName, service, ...data });
+      return;
+    }
+    if (["NCP-3670SF"].includes(modelName)) {
+      await client
+        .subscribe(service, (...args) =>
+          console.log(["subscribe", service, modelName], ...args)
+        )
+        .catch(console.error);
+
+      await client
+        .on("ResponseMessage", (...args) =>
+          console.log(["on", service, modelName], ...args)
+        )
+        .catch(console.error);
+
+      // [
+      //   'subscribe',
+      //   'urn:upnp-org:serviceId:X_ADB_RemoteControl',
+      //   'NCP-3670SF'
+      // ] { name: [ 'Enabled', 1 ], value: undefined }
+      // [
+      //   'subscribe',
+      //   'urn:upnp-org:serviceId:X_ADB_RemoteControl',
+      //   'NCP-3670SF'
+      // ] { name: [ 'Capabilities', '' ], value: undefined }
+      // [
+      //   'subscribe',
+      //   'urn:upnp-org:serviceId:ContentDirectory',
+      //   'NCP-3670SF'
+      // ] { name: [ 'SystemUpdateID', 0 ], value: undefined }
+      // [
+      //   'subscribe',
+      //   'urn:upnp-org:serviceId:ContentDirectory',
+      //   'NCP-3670SF'
+      // ] { name: [ 'ContainerUpdateIDs', '' ], value: undefined }
+      // [
+      //   'subscribe',
+      //   'urn:upnp-org:serviceId:ContentDirectory',
+      //   'NCP-3670SF'
+      // ] {
+      //   name: [
+      //     'LastChange',
+      //     '&lt;?xml version=&quot;1.0&quot;?&gt;&lt;StateEvent xmlns=&quot;urn:schemas-upnp-org:av:cds-event&quot; xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xsi:schemaLocation=&quot; urn:schemas-upnp-org:av:cds-event  http://www.upnp.org/schemas/av/cds-events.xsd&quot;&gt;\n' +
+      //       '&lt;/StateEvent&gt;'
+      //   ],
+      //   value: undefined
+      // }
+      // [
+      //   'subscribe',
+      //   'urn:upnp-org:serviceId:ContentDirectory',
+      //   'NCP-3670SF'
+      // ] {
+      //   name: [
+      //     'X_ADBGLOBAL.COM_TimeShiftStatuses',
+      //     '&lt;?xml version=&quot;1.0&quot;?&gt;&lt;StatusEvent&gt;&lt;/StatusEvent&gt;'
+      //   ],
+      //   value: undefined
+      // }
+    }
+
     if (service === "urn:upnp-org:serviceId:RenderingControl-") {
       console.log({ modelName, service, ...data });
     }
