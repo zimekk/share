@@ -9,10 +9,11 @@ export default mergeSchemas({
   schemas: [
     require("./browser").default,
     require("./counter").default,
+    require("@dev/hello/schema").default,
     require("@dev/movies/schema").default,
     require("@dev/remote/schema").default,
-    require("./sensor").default,
-    require("./signal").default,
+    require("@dev/sensor/schema").default,
+    require("@dev/video/schema").default,
   ],
   typeDefs: mergeTypeDefs([
     // ...loadFilesSync(join(__dirname, "types/**/*.graphql")),
@@ -35,19 +36,9 @@ export default mergeSchemas({
         message: Message
       }
     `,
-    gql`
-      type Query {
-        hello(name: String): String!
-      }
-    `,
   ]),
   resolvers: mergeResolvers([
     // ...loadFilesSync(join(__dirname, "resolvers")),
     require("./resolvers/messageResolver").default,
-    {
-      Query: {
-        hello: (_, { name }) => `Hello ${name || "World"}`,
-      },
-    },
   ]),
 });

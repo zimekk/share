@@ -18,10 +18,12 @@
     "start": "webpack serve --mode development"
   },
   "dependencies": {
+    "@dev/hello": "1.0.0",
     "@dev/movies": "1.0.0",
     "@dev/remote": "1.0.0",
     "@dev/sensor": "1.0.0",
     "@dev/web": "1.0.0",
+    "@dev/video": "1.0.0",
     "@graphql-tools/load-files": "^6.6.1",
     "@graphql-tools/schema": "^9.0.4",
     "async": "^3.2.4",

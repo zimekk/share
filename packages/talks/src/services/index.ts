@@ -1,28 +1,7 @@
 import { useEffect, useState } from "react";
 import { BrowserService } from "./BrowserService";
-import { HelloService } from "./HelloService";
 import { MessagesService } from "./MessagesService";
 import { SensorService } from "./SensorService";
-import { VideoService } from "./VideoService";
-
-const helloService = new HelloService();
-
-export function useHello() {
-  const [state, setState] = useState({ hello: null });
-
-  useEffect(() => {
-    const subscriptions = [
-      helloService
-        .hello()
-        .subscribe(({ hello }) => setState((state) => ({ ...state, hello }))),
-    ];
-    return () => {
-      subscriptions.map((it) => it.unsubscribe());
-    };
-  }, []);
-
-  return [state];
-}
 
 const messageService = new MessagesService();
 
@@ -79,25 +58,6 @@ export function useSensor() {
   }, []);
 
   return [{ values }, {}];
-}
-
-const videoService = new VideoService();
-
-export function useVideo() {
-  const [state, setState] = useState({ hello: null });
-
-  useEffect(() => {
-    const subscriptions = [
-      videoService
-        .onSignal()
-        .subscribe(({ signal }) => setState((state) => ({ ...state, signal }))),
-    ];
-    return () => {
-      subscriptions.map((it) => it.unsubscribe());
-    };
-  }, []);
-
-  return [state, { sendSignal: (signal) => videoService.sendSignal(signal) }];
 }
 
 const browserService = new BrowserService();

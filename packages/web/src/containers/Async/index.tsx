@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import styles from "./Async.module.scss";
+import styles from "./styles.module.scss";
 
 const TIMER = 1000;
 const DELAY = [0, 1000, 2000, 5000, 10000, 20000, 50000];

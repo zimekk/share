@@ -1,7 +1,72 @@
 import React, { useEffect, useRef, useState } from "react";
 import Peer from "simple-peer";
-import { useVideo } from "@dev/talks/src/services";
-import styles from "./Video.module.scss";
+import { gql } from "graphql-request";
+import { from, Observable } from "rxjs";
+import { client, subscriptions } from "@dev/client";
+import styles from "./styles.module.scss";
+
+class Service {
+  client = client;
+  subscriptions = subscriptions;
+}
+
+const ON_SIGNAL = gql`
+  subscription SignalSubscription {
+    signal {
+      sdp
+      type
+      candidate {
+        candidate
+        sdpMLineIndex
+        sdpMid
+      }
+    }
+  }
+`;
+
+const SEND_SIGNAL = gql`
+  mutation SendSignalMutation($signal: SignalInput) {
+    sendSignal(signal: $signal)
+  }
+`;
+
+export class VideoService extends Service {
+  sendSignal(signal) {
+    return from(this.client.request(SEND_SIGNAL, { signal }));
+  }
+  onSignal() {
+    return new Observable((observer) =>
+      this.subscriptions.subscribe(
+        { query: ON_SIGNAL },
+        {
+          next: ({ data, errors }) =>
+            errors ? observer.error(errors[0]) : observer.next(data),
+          error: (error) => observer.error(error),
+          complete: () => observer.complete(),
+        }
+      )
+    );
+  }
+}
+
+const videoService = new VideoService();
+
+export function useVideo() {
+  const [state, setState] = useState({ hello: null });
+
+  useEffect(() => {
+    const subscriptions = [
+      videoService
+        .onSignal()
+        .subscribe(({ signal }) => setState((state) => ({ ...state, signal }))),
+    ];
+    return () => {
+      subscriptions.map((it) => it.unsubscribe());
+    };
+  }, []);
+
+  return [state, { sendSignal: (signal) => videoService.sendSignal(signal) }];
+}
 
 export default function Video() {
   const [data, { sendSignal }] = useVideo();

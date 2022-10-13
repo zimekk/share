@@ -8,9 +8,9 @@ const Spinner = () => <span>Loading...</span>;
 const PAGES = {
   async: lazy(() => import("./Async")),
   browser: lazy(() => import("./Browser")),
-  hello: lazy(() => import("./Hello")),
+  hello: lazy(() => import("@dev/hello")),
   movies: lazy(() => import("@dev/movies")),
-  video: lazy(() => import("./Video")),
+  video: lazy(() => import("@dev/video")),
   photos: lazy(() => import("@dev/photos")),
   remote: lazy(() => import("@dev/remote")),
   sensor: lazy(() => import("./Sensor")),
