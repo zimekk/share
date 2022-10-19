@@ -1,0 +1,27 @@
+{
+  "name": "@dev/schedule",
+  "version": "1.0.0",
+  "license": "UNLICENSED",
+  "private": true,
+  "main": "lib",
+  "scripts": {
+    "build": "NODE_ENV=production tsc --declaration"
+  },
+  "dependencies": {
+    "@dev/client": "1.0.0",
+    "@graphql-tools/schema": "^9.0.4",
+    "@types/node-schedule": "^2.1.0",
+    "date-fns": "^2.29.3",
+    "graphql-request": "^5.0.0",
+    "graphql-tag": "^2.12.6",
+    "node-schedule": "^2.1.0",
+    "rxjs": "^7.5.7",
+    "zod": "^3.19.1"
+  },
+  "devDependencies": {
+    "typescript": "^4.8.4"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0"
+  }
+}

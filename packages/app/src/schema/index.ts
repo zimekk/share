@@ -13,6 +13,7 @@ export default mergeSchemas({
     require("@dev/movies/schema").default,
     require("@dev/remote/schema").default,
     require("@dev/sensor/schema").default,
+    require("@dev/schedule/schema").default,
     require("@dev/video/schema").default,
   ],
   typeDefs: mergeTypeDefs([

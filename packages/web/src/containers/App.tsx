@@ -14,6 +14,7 @@ const PAGES = {
   photos: lazy(() => import("@dev/photos")),
   remote: lazy(() => import("@dev/remote")),
   sensor: lazy(() => import("./Sensor")),
+  schedule: lazy(() => import("@dev/schedule")),
   talks: lazy(() => import("@dev/talks")),
 };
 

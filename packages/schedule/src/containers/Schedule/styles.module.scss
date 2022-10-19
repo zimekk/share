@@ -1,0 +1,17 @@
+.Section {
+  color: purple;
+}
+.Movie {
+  clear: both;
+  padding: 0.25em;
+
+  h5,
+  h6 {
+    margin: 0;
+  }
+
+  .Artwork {
+    float: left;
+    padding-right: 0.25em;
+  }
+}
