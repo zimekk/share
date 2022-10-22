@@ -68,6 +68,26 @@ docker system prune
 docker-compose -f docker-compose.prod.yml pull && docker-compose -f docker-compose.prod.yml up -d && docker system prune
 ```
 
+## podman
+
+```sh
+$ brew install podman
+$ podman machine init
+$ podman machine start
+```
+
+## redis
+
+```sh
+podman pull docker.io/redis
+podman images
+podman run -d \
+  --name redis_server \
+  -v $PWD/redis-data:/var/redis/data  \
+  -p 6379:6379 \
+  redis
+```
+
 ## nginx
 
 [www.nginx.com/blog/websocket-nginx](https://www.nginx.com/blog/websocket-nginx)

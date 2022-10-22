@@ -12,7 +12,9 @@
   ],
   "bin": {
     "discover": "bin/discover.js",
-    "scan": "bin/scan.js"
+    "scan": "bin/scan.js",
+    "schedule": "bin/schedule.js",
+    "work": "bin/work.js"
   },
   "jest": {
     "preset": "ts-jest",

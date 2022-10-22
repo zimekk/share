@@ -14,6 +14,7 @@ const context = {
 export { schema };
 
 export const useServer = (server) => (
+  require("@dev/schedule/cli").register(context),
   require("@dev/sensor").signal(context),
   require("graphql-ws/lib/use/ws").useServer(
     {

@@ -3,6 +3,8 @@ import { makeExecutableSchema } from "@graphql-tools/schema";
 import { scheduleJob } from "node-schedule";
 import { add } from "date-fns";
 
+const CHANNEL = "JOB";
+
 export default makeExecutableSchema({
   typeDefs: gql`
     type Mutation {
@@ -11,14 +13,19 @@ export default makeExecutableSchema({
   `,
   resolvers: {
     Mutation: {
-      create: (_) => {
+      create: (_root, _args, { pubsub }) => {
         const date = add(Date.now(), {
           seconds: 5,
         });
         const job = scheduleJob(date, function () {
           console.log("The world is going to end today.");
         });
-        console.log(["create"], job);
+        console.log(["scheduleJob"], job);
+
+        pubsub.publish(CHANNEL, {
+          schedule: Date.now(),
+        });
+
         return null;
       },
     },
