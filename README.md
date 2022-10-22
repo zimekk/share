@@ -71,9 +71,15 @@ docker-compose -f docker-compose.prod.yml pull && docker-compose -f docker-compo
 ## podman
 
 ```sh
-$ brew install podman
-$ podman machine init
-$ podman machine start
+brew install podman
+podman machine init
+podman machine start
+```
+
+## podman-compose
+
+```sh
+pip3 install podman-compose
 ```
 
 ## redis
@@ -86,6 +92,10 @@ podman run -d \
   -v $PWD/redis-data:/var/redis/data  \
   -p 6379:6379 \
   redis
+```
+
+```sh
+podman-compose -f packages/schedule/docker-compose.yml up -d
 ```
 
 ## nginx
