@@ -1,5 +1,5 @@
 import React, { MouseEventHandler, useCallback, useEffect } from "react";
-import { useSensor } from "@dev/talks/src/services";
+import { useSensor } from "@dev/sensor/src/services";
 import styles from "./styles.module.scss";
 
 // https://github.com/atc1441/atc1441.github.io/blob/master/TelinkFlasher.html
@@ -84,7 +84,7 @@ let ServiceMain;
 let writeCharacteristicSpeed;
 let nitifiyCharTemp;
 
-function miAction() {
+function miAction(addMeasurement) {
   gattServer
     .getPrimaryService("ebe0ccb0-7a0a-4b0c-8a1a-6ff2997da3a6")
     .then((service) => {
@@ -114,10 +114,15 @@ function miAction() {
             var temp = ((value.getUint8(1) & 0x7f) << 8) | value.getUint8(0);
             if (sign) temp = temp - 32767;
             temp = temp / 100;
-            var hum = value.getUint8(2);
-            var tempTempString = "Temp/Humi: " + temp + "°C / " + hum + "%";
+            var humi = value.getUint8(2);
+            var tempTempString = "Temp/Humi: " + temp + "°C / " + humi + "%";
             document.getElementById("tempHumiData").innerHTML = tempTempString;
             addClog(tempTempString);
+            addMeasurement({
+              date: Date.now(),
+              temperature: temp,
+              humidity: humi,
+            });
           }
         );
         // miAuthorization()
@@ -131,7 +136,7 @@ let gattServer;
 let Theservice;
 let writeCharacteristic;
 
-function doConnect() {
+function doConnect(addMeasurement) {
   bluetoothDevice.gatt
     .connect()
     .then((server) => {
@@ -151,7 +156,7 @@ function doConnect() {
     .then((characteristic) => {
       addClog("Found write characteristic");
       writeCharacteristic = characteristic;
-      detectMi();
+      detectMi(addMeasurement);
     })
     .catch(handleError);
 }
@@ -159,7 +164,7 @@ function doConnect() {
 let miEnabled;
 let customEnabled;
 
-function detectMi() {
+function detectMi(addMeasurement) {
   gattServer
     .getPrimaryServices()
     .then((services) => {
@@ -175,7 +180,7 @@ function detectMi() {
       if (miEnabled) {
         addLog("Detected Mi Thermometer");
         setStatus("Detected Mi Thermometer");
-        miAction();
+        miAction(addMeasurement);
       } else if (customEnabled) {
         addLog("Detected custom Firmware");
         setStatus("Detected custom Firmware");
@@ -189,7 +194,7 @@ function detectMi() {
 }
 
 export default function Sensor() {
-  const [{ values }] = useSensor();
+  const [{ values }, { addMeasurement }] = useSensor();
   console.log({ values });
 
   useEffect(() => {}, []);
@@ -200,9 +205,9 @@ export default function Sensor() {
       // resetVariables();
       addLog("Reconnect");
       // connectTrys = 0;
-      doConnect();
+      doConnect(addMeasurement);
     },
-    []
+    [addMeasurement]
   );
 
   const onConnect = useCallback<MouseEventHandler<HTMLButtonElement>>(
@@ -245,13 +250,13 @@ export default function Sensor() {
                 onDisconnected
               );
               addLog("Connecting to: " + bluetoothDevice.name);
-              doConnect();
+              doConnect(addMeasurement);
             })
             .catch(handleError);
         }
       });
     },
-    []
+    [addMeasurement]
   );
 
   return (

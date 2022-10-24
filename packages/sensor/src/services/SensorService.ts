@@ -1,6 +1,12 @@
 import { gql } from "graphql-request";
-import { Observable } from "rxjs";
-import { Service } from "./Service";
+import { Observable, from } from "rxjs";
+import { client, subscriptions } from "@dev/client";
+
+const ADD_MEASUREMENT = gql`
+  mutation AddMeasurement($measurement: MeasurementInput) {
+    addMeasurement(measurement: $measurement)
+  }
+`;
 
 const ON_SENSOR = gql`
   subscription SensorSubscription {
@@ -10,7 +16,16 @@ const ON_SENSOR = gql`
   }
 `;
 
+export class Service {
+  client = client;
+  subscriptions = subscriptions;
+}
+
 export class SensorService extends Service {
+  addMeasurement(measurement) {
+    return from(this.client.request(ADD_MEASUREMENT, { measurement }));
+  }
+
   onSensor() {
     return new Observable((observer) =>
       this.subscriptions.subscribe(

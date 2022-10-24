@@ -216,6 +216,10 @@ noble.on("discover-", async (peripheral) => {
 */
 
 export async function signal({ pubsub }) {
+  pubsub.subscribe("MEASUREMENT", (measurement) =>
+    console.log(["MEASUREMENT"], measurement)
+  );
+
   const discover2 = function (peripheral) {
     const { advertisement, id, rssi, address } = peripheral;
     const { localName, serviceData, serviceUuids } = advertisement;
