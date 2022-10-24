@@ -1,6 +1,7 @@
 import { PubSub } from "graphql-subscriptions";
 import { BehaviorSubject, Subject } from "rxjs";
 import { tap } from "rxjs/operators";
+import { Message } from "../gql-types";
 import { CHANNELS } from "../../constants";
 
 const pubsub = new PubSub();
@@ -19,7 +20,7 @@ message$.pipe(tap(console.log)).subscribe((message) => {
 // https://www.graphql-tools.com/docs/generate-schema
 export default {
   Query: {
-    messages: () => messages$.value,
+    messages: (): Message[] => messages$.value,
   },
   Mutation: {
     sendMessage: (_, { message }) => {
