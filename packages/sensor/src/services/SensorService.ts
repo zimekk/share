@@ -1,10 +1,21 @@
 import { gql } from "graphql-request";
 import { Observable, from } from "rxjs";
+import { map } from "rxjs/operators";
 import { client, subscriptions } from "@dev/client";
 
 const ADD_MEASUREMENT = gql`
   mutation AddMeasurement($measurement: MeasurementInput) {
     addMeasurement(measurement: $measurement)
+  }
+`;
+
+const GET_MEASUREMENTS = gql`
+  query GetMeasurements {
+    getMeasurements {
+      date
+      temperature
+      humidity
+    }
   }
 `;
 
@@ -24,6 +35,12 @@ export class Service {
 export class SensorService extends Service {
   addMeasurement(measurement) {
     return from(this.client.request(ADD_MEASUREMENT, { measurement }));
+  }
+
+  getMeasurements() {
+    return from(this.client.request(GET_MEASUREMENTS)).pipe(
+      map(({ getMeasurements }) => getMeasurements)
+    );
   }
 
   onSensor() {

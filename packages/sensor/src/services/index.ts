@@ -4,7 +4,8 @@ import { SensorService } from "./SensorService";
 const sensorService = new SensorService();
 
 export function useSensor() {
-  const [{ values }, setState] = useState(() => ({
+  const [{ measurements, values }, setState] = useState(() => ({
+    measurements: null,
     values: null,
   }));
 
@@ -17,13 +18,20 @@ export function useSensor() {
         }))
       ),
     ];
+
+    sensorService
+      .getMeasurements()
+      .subscribe((measurements) =>
+        setState((state) => ({ ...state, measurements }))
+      );
+
     return () => {
       subscriptions.map((it) => it.unsubscribe());
     };
   }, []);
 
   return [
-    { values },
+    { measurements, values },
     {
       addMeasurement: (data) => sensorService.addMeasurement(data),
     },

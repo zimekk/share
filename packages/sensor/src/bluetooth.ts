@@ -3,6 +3,7 @@ import async from "async";
 import MiPacket from "mipacket";
 import XiaomiServiceReader from "xiaomi-gap-parser";
 import miflora from "miflora";
+import * as db from "./db";
 
 const channel = "SENSOR";
 
@@ -215,9 +216,15 @@ noble.on("discover-", async (peripheral) => {
 // })
 */
 
-export async function signal({ pubsub }) {
+export async function signal(context) {
+  const { pubsub } = context;
+
+  // return db.getMeasurements();
+
+  Object.assign(context, { db });
+
   pubsub.subscribe("MEASUREMENT", (measurement) =>
-    console.log(["MEASUREMENT"], measurement)
+    db.addMeasurement(measurement)
   );
 
   const discover2 = function (peripheral) {

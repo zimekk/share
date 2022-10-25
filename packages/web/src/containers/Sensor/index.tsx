@@ -194,8 +194,8 @@ function detectMi(addMeasurement) {
 }
 
 export default function Sensor() {
-  const [{ values }, { addMeasurement }] = useSensor();
-  console.log({ values });
+  const [{ measurements, values }, { addMeasurement }] = useSensor();
+  console.log({ measurements, values });
 
   useEffect(() => {}, []);
 
@@ -264,6 +264,15 @@ export default function Sensor() {
       <span>LYWSD03MMC</span>
       <button onClick={onConnect}>Connect</button>
       <button onClick={onReconnect}>Reconnect</button>
+      <button
+        onClick={useCallback<MouseEventHandler>(
+          () =>
+            addMeasurement({ date: Date.now(), temperature: 22, humidity: 60 }),
+          []
+        )}
+      >
+        Measurement
+      </button>
       <span id="tempHumiData"></span>
       <span id="MAC"></span>
       {values === null ? (

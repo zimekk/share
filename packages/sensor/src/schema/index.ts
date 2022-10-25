@@ -12,11 +12,19 @@ export default makeExecutableSchema({
       temperature: Float
       humidity: Float
     }
+    type Measurement {
+      date: Date
+      temperature: Float
+      humidity: Float
+    }
     type Sensor {
       data: String
     }
     type Mutation {
       addMeasurement(measurement: MeasurementInput): Boolean
+    }
+    type Query {
+      getMeasurements: [Measurement]
     }
     type Subscription {
       sensor: Sensor
@@ -27,6 +35,9 @@ export default makeExecutableSchema({
       addMeasurement: (_root, { measurement }, { pubsub }) => {
         pubsub.publish("MEASUREMENT", measurement);
       },
+    },
+    Query: {
+      getMeasurements: (_root, _args, { db }) => db.getMeasurements(),
     },
     Subscription: {
       sensor: {
