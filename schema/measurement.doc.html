@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="./styles/graphdoc.css" />
-    <title>Signal</title>
+    <title>Measurement</title>
     <link href="https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700" rel="stylesheet"><link type="text/css" rel="stylesheet" href="./assets/code.css" /><link type="text/css" rel="stylesheet" href="./assets/require-by.css" />
 </head>
 <body class="slds-scrollable--y">
@@ -125,7 +125,7 @@
                 File
             </a>
         </li>
-        <li  title="Measurement">
+        <li class="slds-is-active" title="Measurement">
             <a href="measurement.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
                 Measurement
             </a>
@@ -145,7 +145,7 @@
                 Sensor
             </a>
         </li>
-        <li class="slds-is-active" title="Signal">
+        <li  title="Signal">
             <a href="signal.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
                 Signal
             </a>
@@ -246,7 +246,7 @@
     </div>
     <div class="container">
         <p class="slds-text-title--caps slds-text-color--weak">OBJECT</p>
-        <h1 class="slds-text-heading--large">Signal</h1>
+        <h1 class="slds-text-heading--large">Measurement</h1>
         <div class="slds-text-body--regular"></div>
     </div>
 </section>
@@ -258,7 +258,7 @@
             </a>
             GraphQL Schema definition
         </h2>
-        <code class="highlight"><ul class="code" style="padding-left:28px"><li><span class="keyword operator ts">type</span> <span class="identifier">Signal</span> {</li><li></li><li><span class="tab"><span class="meta">sdp</span>: <a class="support type" href="string.doc.html">String</a> </span></li><li></li><li><span class="tab"><span class="meta">type</span>: <a class="support type" href="string.doc.html">String</a> </span></li><li></li><li><span class="tab"><span class="meta">candidate</span>: <a class="support type" href="candidate.doc.html">Candidate</a> </span></li><li>}</li></ul></code>
+        <code class="highlight"><ul class="code" style="padding-left:28px"><li><span class="keyword operator ts">type</span> <span class="identifier">Measurement</span> {</li><li></li><li><span class="tab"><span class="meta">date</span>: <a class="support type" href="date.doc.html">Date</a> </span></li><li></li><li><span class="tab"><span class="meta">temperature</span>: <a class="support type" href="float.doc.html">Float</a> </span></li><li></li><li><span class="tab"><span class="meta">humidity</span>: <a class="support type" href="float.doc.html">Float</a> </span></li><li>}</li></ul></code>
     </div>
 </section>
 <section>
@@ -269,7 +269,7 @@
             </a>
             Require by
         </h2>
-        <ul class="require-by"><li><a href="subscription.doc.html" title="Subscription - ">Subscription<em></em></a><li></ul>
+        <ul class="require-by"><li><a href="query.doc.html" title="Query - ">Query<em></em></a><li></ul>
     </div>
 </section>
 <footer>
