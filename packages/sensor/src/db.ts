@@ -39,3 +39,15 @@ export const getMeasurements = async () => {
   console.log({ results });
   return results;
 };
+
+export const removeMeasurements = async (ids) => {
+  const pipeline = redis.pipeline();
+
+  for (const id of ids) {
+    pipeline.del(getKeyName("measurements", id));
+  }
+
+  const responses = await pipeline.exec();
+  console.log({ responses });
+  return null;
+};

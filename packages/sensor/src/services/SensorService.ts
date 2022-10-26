@@ -9,6 +9,12 @@ const ADD_MEASUREMENT = gql`
   }
 `;
 
+const REMOVE_MEASUREMENTS = gql`
+  mutation RemoveMeasurements($ids: [String]) {
+    removeMeasurements(ids: $ids)
+  }
+`;
+
 const GET_MEASUREMENTS = gql`
   query GetMeasurements {
     getMeasurements {
@@ -35,6 +41,10 @@ export class Service {
 export class SensorService extends Service {
   addMeasurement(measurement) {
     return from(this.client.request(ADD_MEASUREMENT, { measurement }));
+  }
+
+  removeMeasurements(ids) {
+    return from(this.client.request(REMOVE_MEASUREMENTS, { ids }));
   }
 
   getMeasurements() {

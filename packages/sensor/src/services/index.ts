@@ -34,6 +34,7 @@ export function useSensor() {
     { measurements, values },
     {
       addMeasurement: (data) => sensorService.addMeasurement(data),
+      removeMeasurements: (data) => sensorService.removeMeasurements(data),
     },
   ];
 }

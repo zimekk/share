@@ -1,5 +1,6 @@
 import React, { MouseEventHandler, useCallback, useEffect } from "react";
 import { useSensor } from "@dev/sensor/src/services";
+import Measurements from "./Measurements";
 import styles from "./styles.module.scss";
 
 // https://github.com/atc1441/atc1441.github.io/blob/master/TelinkFlasher.html
@@ -194,7 +195,8 @@ function detectMi(addMeasurement) {
 }
 
 export default function Sensor() {
-  const [{ measurements, values }, { addMeasurement }] = useSensor();
+  const [{ measurements, values }, { addMeasurement, removeMeasurements }] =
+    useSensor();
   console.log({ measurements, values });
 
   useEffect(() => {}, []);
@@ -264,15 +266,11 @@ export default function Sensor() {
       <span>LYWSD03MMC</span>
       <button onClick={onConnect}>Connect</button>
       <button onClick={onReconnect}>Reconnect</button>
-      <button
-        onClick={useCallback<MouseEventHandler>(
-          () =>
-            addMeasurement({ date: Date.now(), temperature: 22, humidity: 60 }),
-          []
-        )}
-      >
-        Measurement
-      </button>
+      <Measurements
+        addMeasurement={addMeasurement}
+        removeMeasurements={removeMeasurements}
+        measurements={measurements}
+      />
       <span id="tempHumiData"></span>
       <span id="MAC"></span>
       {values === null ? (

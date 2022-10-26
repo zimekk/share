@@ -22,6 +22,7 @@ export default makeExecutableSchema({
     }
     type Mutation {
       addMeasurement(measurement: MeasurementInput): Boolean
+      removeMeasurements(ids: [String]): Boolean
     }
     type Query {
       getMeasurements: [Measurement]
@@ -32,9 +33,11 @@ export default makeExecutableSchema({
   `,
   resolvers: {
     Mutation: {
-      addMeasurement: (_root, { measurement }, { pubsub }) => {
-        pubsub.publish("MEASUREMENT", measurement);
-      },
+      addMeasurement: (_root, { measurement }, { pubsub }) =>
+        pubsub.publish("MEASUREMENT", measurement),
+      removeMeasurements: (_root, { ids }, { pubsub }) =>
+        Boolean(console.log({ ids })) ||
+        pubsub.publish("REMOVE_MEASUREMENTS", ids),
     },
     Query: {
       getMeasurements: (_root, _args, { db }) => db.getMeasurements(),

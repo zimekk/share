@@ -226,6 +226,7 @@ export async function signal(context) {
   pubsub.subscribe("MEASUREMENT", (measurement) =>
     db.addMeasurement(measurement)
   );
+  pubsub.subscribe("REMOVE_MEASUREMENTS", (ids) => db.removeMeasurements(ids));
 
   const discover2 = function (peripheral) {
     const { advertisement, id, rssi, address } = peripheral;
