@@ -2,6 +2,13 @@ import { gql } from "graphql-request";
 import { from, Observable } from "rxjs";
 import { Service } from "./Service";
 
+import type {
+  Mutation,
+  MutationSendMessageArgs,
+  Query,
+  Subscription,
+} from "@dev/app/src/schema/types";
+
 const MESSAGES = gql`
   query MessagesQuery {
     messages {
@@ -31,13 +38,15 @@ const SEND_MESSAGE = gql`
 // https://jasonwatmore.com/post/2020/04/21/react-hooks-rxjs-communicating-between-components-with-observable-subject
 export class MessagesService extends Service {
   getMessages() {
-    return from(this.client.request(MESSAGES));
+    return from<Promise<Query>>(this.client.request(MESSAGES));
   }
-  sendMessage(message) {
-    return from(this.client.request(SEND_MESSAGE, { message }));
+  sendMessage(message: MutationSendMessageArgs["message"]) {
+    return from<Promise<Mutation>>(
+      this.client.request(SEND_MESSAGE, { message })
+    );
   }
   onMessage() {
-    return new Observable((observer) =>
+    return new Observable<Subscription>((observer) =>
       this.subscriptions.subscribe(
         { query: ON_MESSAGE },
         {

@@ -2,25 +2,24 @@ import React, {
   ChangeEventHandler,
   MouseEventHandler,
   useCallback,
-  useEffect,
   useMemo,
   useState,
 } from "react";
 import { format } from "date-fns";
 import styles from "./styles.module.scss";
 
-export type Measurement = {
-  id: string;
-  date: number;
-  temperature: number;
-  humidity: number;
-};
+import {
+  Measurement,
+  MeasurementInput,
+  Scalars,
+} from "@dev/sensor/schema/types";
 
 function Measurements({
   removeMeasurements,
   measurements,
 }: {
-  measurements: Measurement[];
+  removeMeasurements: (ids: Scalars["ID"][]) => void;
+  measurements: Array<Measurement & { id: Scalars["ID"] }>;
 }) {
   const [selected, setSelected] = useState<string[]>(() => []);
 
@@ -95,6 +94,10 @@ export default function Sensor({
   addMeasurement,
   removeMeasurements,
   measurements,
+}: {
+  addMeasurement: (measurement: MeasurementInput) => void;
+  removeMeasurements: (ids: Scalars["ID"][]) => void;
+  measurements: Measurement[];
 }) {
   const list = useMemo(
     () =>

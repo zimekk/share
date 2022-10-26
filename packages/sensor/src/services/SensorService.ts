@@ -3,14 +3,21 @@ import { Observable, from } from "rxjs";
 import { map } from "rxjs/operators";
 import { client, subscriptions } from "@dev/client";
 
+import {
+  MutationAddMeasurementArgs,
+  MutationRemoveMeasurementsArgs,
+  Query,
+  Scalars,
+} from "../../schema/types";
+
 const ADD_MEASUREMENT = gql`
-  mutation AddMeasurement($measurement: MeasurementInput) {
+  mutation AddMeasurement($measurement: MeasurementInput!) {
     addMeasurement(measurement: $measurement)
   }
 `;
 
 const REMOVE_MEASUREMENTS = gql`
-  mutation RemoveMeasurements($ids: [String]) {
+  mutation RemoveMeasurements($ids: [ID!]) {
     removeMeasurements(ids: $ids)
   }
 `;
@@ -39,17 +46,17 @@ export class Service {
 }
 
 export class SensorService extends Service {
-  addMeasurement(measurement) {
+  addMeasurement(measurement: MutationAddMeasurementArgs["measurement"]) {
     return from(this.client.request(ADD_MEASUREMENT, { measurement }));
   }
 
-  removeMeasurements(ids) {
+  removeMeasurements(ids: MutationRemoveMeasurementsArgs["ids"]) {
     return from(this.client.request(REMOVE_MEASUREMENTS, { ids }));
   }
 
   getMeasurements() {
     return from(this.client.request(GET_MEASUREMENTS)).pipe(
-      map(({ getMeasurements }) => getMeasurements)
+      map(({ getMeasurements }: Query) => getMeasurements)
     );
   }
 
