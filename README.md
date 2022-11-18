@@ -98,6 +98,10 @@ podman run -d \
 podman-compose -f packages/schedule/docker-compose.yml up -d
 ```
 
+```sh
+podman-compose -f packages/schedule/docker-compose.yml start
+```
+
 ## nginx
 
 [www.nginx.com/blog/websocket-nginx](https://www.nginx.com/blog/websocket-nginx)

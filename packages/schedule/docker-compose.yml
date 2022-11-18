@@ -7,5 +7,5 @@ services:
     ports:
       - "6379:6379"
     # command: redis-server --requirepass StrongPassword
-    volumes:
-      - $PWD/redis-data:/var/redis/data
+    # volumes:
+    #   - $PWD/redis-data:/var/redis/data
