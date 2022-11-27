@@ -4,12 +4,34 @@ import { BehaviorSubject } from "rxjs";
 import { tap } from "rxjs/operators";
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import { getDevices, upnpClient } from "@dev/device";
+import { getLights, getLightStatus, toggleState } from "@dev/lights";
 
 const channel = "REMOTE";
 const remote$ = new BehaviorSubject(null);
 
 export default makeExecutableSchema({
   typeDefs: gql`
+    # https://www.apollographql.com/docs/technotes/TN0012-namespacing-by-separation-of-concern/
+    type LightDevice {
+      address: String # '192.168.0.100',
+      bulbPort: Int # 38899,
+      listenPort: Int # 38900,
+      macIdentifier: String # '10ace01c60ac'
+    }
+    type LightStatus {
+      mac: String # 'a8bb5072396e',
+      rssi: Int # -52,
+      src: String # '',
+      state: Boolean # true,
+      sceneId: Int # 11,
+      temp: Int # 2700,
+      dimming: Int # 80
+    }
+    type LightsQueries {
+      devices: [LightDevice]
+      status(address: String): LightStatus
+      toggle(address: String): Boolean
+    }
     scalar RemoteData
     input RemoteInput {
       data: String
@@ -25,6 +47,7 @@ export default makeExecutableSchema({
       sendRemote(message: RemoteInput): Boolean
     }
     type Query {
+      lights: LightsQueries
       devices: Devices
       version(location: String): Version
       remoteRcu(location: String, key: String): Remote
@@ -36,7 +59,13 @@ export default makeExecutableSchema({
     }
   `,
   resolvers: {
+    LightsQueries: {
+      devices: () => getLights(),
+      status: (_, { address }) => getLightStatus(address),
+      toggle: (_, { address }) => toggleState(address),
+    },
     Query: {
+      lights: () => (console.log(["Query.lights"]), {}),
       devices: () => getDevices(),
       version: (_, { location = "http://192.168.2.101:8080" }) =>
         fetch(`${new URL(location).origin}/system/version`, {

@@ -5,6 +5,7 @@ import { RemoteAdb } from "./RemoteAdb";
 import { RemoteBox } from "./RemoteBox";
 import { RemoteTv } from "./RemoteTv";
 import { RemoteVcr } from "./RemoteVcr";
+import { RemoteWiz } from "./RemoteWiz";
 import styles from "./styles.module.scss";
 
 import type { DeviceType } from "@dev/device";
@@ -102,6 +103,7 @@ export default function Remote() {
     <section className={styles.Section}>
       <h2>Remote</h2>
       <Discover discover={discover} />
+      <RemoteWiz />
       <RemoteAdb deviceAdb={deviceAdb} remoteRcu={remoteRcu} status={status} />
       <RemoteVcr deviceVcr={deviceVcr} remoteVcr={remoteVcr} />
       <RemoteTv deviceTv={deviceTv} remoteTv={remoteTv} />

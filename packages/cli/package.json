@@ -27,6 +27,7 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
+    "@dev/lights": "1.0.0",
     "@dev/sensor": "1.0.0",
     "graphql-subscriptions": "^2.0.0"
   },

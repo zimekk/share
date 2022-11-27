@@ -1,0 +1,52 @@
+import { gql } from "graphql-request";
+import { from } from "rxjs";
+import { map } from "rxjs/operators";
+
+import { Service } from "./RemoteService";
+
+const GET_DEVICES = gql`
+  query GetDevicesQuery {
+    lights {
+      devices {
+        address
+      }
+    }
+  }
+`;
+
+const GET_STATUS = gql`
+  query GetStatusQuery($address: String) {
+    lights {
+      status(address: $address) {
+        mac
+        state
+      }
+    }
+  }
+`;
+
+const TOGGLE_STATE = gql`
+  query ToggleStateQuery($address: String) {
+    lights {
+      toggle(address: $address)
+    }
+  }
+`;
+
+export class LightsService extends Service {
+  getDevices() {
+    return from(this.client.request(GET_DEVICES)).pipe(
+      map(({ lights }) => lights)
+    );
+  }
+  getStatus(address: string) {
+    return from(this.client.request(GET_STATUS, { address })).pipe(
+      map(({ lights }) => lights)
+    );
+  }
+  toggle(address: string) {
+    return from(this.client.request(TOGGLE_STATE, { address })).pipe(
+      map(({ lights }) => lights)
+    );
+  }
+}
