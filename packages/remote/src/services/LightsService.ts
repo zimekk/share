@@ -33,6 +33,14 @@ const TOGGLE_STATE = gql`
   }
 `;
 
+const BRIGHTNESS = gql`
+  query BrightnessQuery($address: String, $brightness: Int) {
+    lights {
+      brightness(address: $address, brightness: $brightness)
+    }
+  }
+`;
+
 export class LightsService extends Service {
   getDevices() {
     return from(this.client.request(GET_DEVICES)).pipe(
@@ -46,6 +54,11 @@ export class LightsService extends Service {
   }
   toggle(address: string) {
     return from(this.client.request(TOGGLE_STATE, { address })).pipe(
+      map(({ lights }) => lights)
+    );
+  }
+  setBrightness(address: string, brightness: number) {
+    return from(this.client.request(BRIGHTNESS, { address, brightness })).pipe(
       map(({ lights }) => lights)
     );
   }

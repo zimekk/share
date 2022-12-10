@@ -48,11 +48,18 @@ function useDevice(address: string) {
       () => remoteService.toggle(address).subscribe(console.info),
       [address]
     ),
+    setBrightness: useCallback(
+      (brightness: number) =>
+        remoteService
+          .setBrightness(address, brightness)
+          .subscribe(console.info),
+      [address]
+    ),
   };
 }
 
 function Device({ address }: { address: string }) {
-  const { status, getStatus, toggle } = useDevice(address);
+  const { status, getStatus, toggle, setBrightness } = useDevice(address);
   return (
     <div>
       <fieldset>
@@ -73,6 +80,17 @@ function Device({ address }: { address: string }) {
         >
           Toggle
         </button>
+        {[10, 20, 80, 100].map((value) => (
+          <button
+            key={value}
+            onClick={useCallback<MouseEventHandler<HTMLButtonElement>>(
+              () => setBrightness(value),
+              []
+            )}
+          >
+            Brightness {`${value}%`}
+          </button>
+        ))}
         <Json>{status}</Json>
       </fieldset>
     </div>

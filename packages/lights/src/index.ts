@@ -29,3 +29,12 @@ export async function toggleState(address: string) {
 
   return true;
 }
+
+export async function setBrightness(address: string, brightness: number) {
+  const bulb = new Bulb(address, {});
+
+  const pilot = await bulb.brightness(brightness);
+  console.log(pilot);
+
+  return true;
+}

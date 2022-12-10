@@ -4,7 +4,12 @@ import { BehaviorSubject } from "rxjs";
 import { tap } from "rxjs/operators";
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import { getDevices, upnpClient } from "@dev/device";
-import { getLights, getLightStatus, toggleState } from "@dev/lights";
+import {
+  getLights,
+  getLightStatus,
+  toggleState,
+  setBrightness,
+} from "@dev/lights";
 
 const channel = "REMOTE";
 const remote$ = new BehaviorSubject(null);
@@ -31,6 +36,7 @@ export default makeExecutableSchema({
       devices: [LightDevice]
       status(address: String): LightStatus
       toggle(address: String): Boolean
+      brightness(address: String, brightness: Int): Boolean
     }
     scalar RemoteData
     input RemoteInput {
@@ -63,9 +69,11 @@ export default makeExecutableSchema({
       devices: () => getLights(),
       status: (_, { address }) => getLightStatus(address),
       toggle: (_, { address }) => toggleState(address),
+      brightness: (_, { address, brightness }) =>
+        setBrightness(address, brightness),
     },
     Query: {
-      lights: () => (console.log(["Query.lights"]), {}),
+      lights: () => ({}),
       devices: () => getDevices(),
       version: (_, { location = "http://192.168.2.101:8080" }) =>
         fetch(`${new URL(location).origin}/system/version`, {
