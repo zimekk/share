@@ -8,7 +8,7 @@
     "build": "NODE_ENV=production tsc --declaration"
   },
   "dependencies": {
-    "graphql-request": "^5.0.0",
+    "graphql-request": "^5.1.0",
     "graphql-ws": "^5.11.2"
   },
   "devDependencies": {

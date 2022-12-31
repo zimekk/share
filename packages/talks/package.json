@@ -9,8 +9,8 @@
   },
   "dependencies": {
     "@dev/client": "1.0.0",
-    "graphql-request": "^5.0.0",
-    "rxjs": "^7.6.0"
+    "graphql-request": "^5.1.0",
+    "rxjs": "^7.8.0"
   },
   "devDependencies": {
     "typescript": "^4.9.4"
