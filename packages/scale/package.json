@@ -1,5 +1,5 @@
 {
-  "name": "@dev/photos",
+  "name": "@dev/scale",
   "version": "1.0.0",
   "license": "UNLICENSED",
   "private": true,
@@ -7,10 +7,9 @@
   "scripts": {
     "build": "NODE_ENV=production tsc --declaration"
   },
-  "dependencies": {
-    "livephotoskit": "^1.5.6"
-  },
+  "dependencies": {},
   "devDependencies": {
+    "@types/web-bluetooth": "^0.0.16",
     "typescript": "^4.9.4"
   },
   "peerDependencies": {

@@ -13,6 +13,7 @@ const PAGES = {
   video: lazy(() => import("@dev/video")),
   photos: lazy(() => import("@dev/photos")),
   remote: lazy(() => import("@dev/remote")),
+  scale: lazy(() => import("@dev/scale")),
   sensor: lazy(() => import("./Sensor")),
   schedule: lazy(() => import("@dev/schedule")),
   talks: lazy(() => import("@dev/talks")),

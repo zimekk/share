@@ -13,6 +13,7 @@
     "@dev/movies": "^1.0.0",
     "@dev/photos": "^1.0.0",
     "@dev/remote": "^1.0.0",
+    "@dev/scale": "^1.0.0",
     "@dev/schedule": "^1.0.0",
     "@dev/talks": "^1.0.0",
     "@dev/video": "^1.0.0",
