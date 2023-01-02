@@ -29,7 +29,9 @@
   "dependencies": {
     "@dev/lights": "1.0.0",
     "@dev/sensor": "1.0.0",
-    "graphql-subscriptions": "^2.0.0"
+    "@rifat/miio": "^2.0.1",
+    "graphql-subscriptions": "^2.0.0",
+    "miio-api": "^0.4.1"
   },
   "devDependencies": {
     "@types/node": "^18.11.18",
