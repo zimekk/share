@@ -9,7 +9,7 @@
     "codegen": "graphql-codegen"
   },
   "dependencies": {
-    "@abandonware/noble": "^1.9.2-15",
+    "@abandonware/noble": "^1.9.2-19",
     "ioredis": "^5.2.4",
     "miflora": "^1.0.6",
     "mipacket": "^1.0.1",
