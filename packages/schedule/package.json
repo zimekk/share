@@ -9,14 +9,14 @@
   },
   "dependencies": {
     "@dev/client": "1.0.0",
-    "@graphql-tools/schema": "^9.0.15",
-    "bull": "^4.10.2",
+    "@graphql-tools/schema": "^9.0.16",
+    "bull": "^4.10.4",
     "date-fns": "^2.29.3",
     "graphql-request": "^5.1.0",
     "graphql-tag": "^2.12.6",
     "node-schedule": "^2.1.1",
     "rxjs": "^7.8.0",
-    "zod": "^3.20.2"
+    "zod": "^3.20.6"
   },
   "devDependencies": {
     "@types/bull": "^4.10.0",

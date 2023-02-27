@@ -9,8 +9,8 @@
     "codegen": "graphql-codegen"
   },
   "dependencies": {
-    "@abandonware/noble": "^1.9.2-19",
-    "ioredis": "^5.3.0",
+    "@abandonware/noble": "^1.9.2-20",
+    "ioredis": "^5.3.1",
     "miflora": "^1.0.6",
     "mipacket": "^1.0.1",
     "xiaomi-gap-parser": "^1.0.3"
