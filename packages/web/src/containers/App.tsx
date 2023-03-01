@@ -8,6 +8,7 @@ const Spinner = () => <span>Loading...</span>;
 const PAGES = {
   async: lazy(() => import("./Async")),
   browser: lazy(() => import("./Browser")),
+  cast: lazy(() => import("./Cast")),
   hello: lazy(() => import("@dev/hello")),
   movies: lazy(() => import("@dev/movies")),
   video: lazy(() => import("@dev/video")),
