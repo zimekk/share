@@ -1,4 +1,4 @@
-"use strict";(self.webpackChunk_dev_app=self.webpackChunk_dev_app||[]).push([[616],{9082:(e,t,l)=>{l.d(t,{L:()=>o,V:()=>r});var n=l(6647),a=l(9385);const o=new n.GraphQLClient(`${location.pathname}graphql`,{headers:{}}),r=(0,a.eI)({url:`${{"https:":"wss:"}[location.protocol]||"ws:"}//${location.host}${location.pathname}subscriptions`})},5616:(e,t,l)=>{l.r(t),l.d(t,{default:()=>i});var n=l(2784),a=l(7598),o=l(6647),r=l(9082),c=l(642);const s=o.gql`
+"use strict";(self.webpackChunk_dev_app=self.webpackChunk_dev_app||[]).push([[616],{9082:(e,t,l)=>{l.d(t,{L:()=>o,V:()=>r});var n=l(6145),a=l(9385);const o=new n.g6(`${location.pathname}graphql`,{headers:{}}),r=(0,a.eI)({url:`${{"https:":"wss:"}[location.protocol]||"ws:"}//${location.host}${location.pathname}subscriptions`})},5616:(e,t,l)=>{l.r(t),l.d(t,{default:()=>i});var n=l(2784),a=l(7598),o=l(6145),r=l(9082),c=l(642);const s=o.Ps`
   mutation {
     create
   }

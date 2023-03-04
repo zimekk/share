@@ -1,24 +1,24 @@
-"use strict";(self.webpackChunk_dev_app=self.webpackChunk_dev_app||[]).push([[309],{9082:(e,s,t)=>{t.d(s,{L:()=>r,V:()=>l});var n=t(6647),a=t(9385);const r=new n.GraphQLClient(`${location.pathname}graphql`,{headers:{}}),l=(0,a.eI)({url:`${{"https:":"wss:"}[location.protocol]||"ws:"}//${location.host}${location.pathname}subscriptions`})},6309:(e,s,t)=>{t.r(s),t.d(s,{default:()=>u});var n=t(2784),a=t(5265),r=t(9606);function l(){const[{messages:e},{sendMessage:s}]=(0,a.y)(),[t,l]=(0,n.useState)(""),u=()=>{l(""),s({uuid:null,text:t})};return n.createElement("div",{className:r.Z.Messages},n.createElement("span",null,null),n.createElement("input",{value:t,onChange:e=>{const{value:s}=e.target;l(s)},onKeyDown:e=>"Enter"===e.key&&!e.shiftKey&&(e.preventDefault(),u())}),n.createElement("button",{onClick:u},"send"),e&&n.createElement("div",null,n.createElement("pre",null,e.map((({uuid:e,text:s})=>`[${e}] ${s}`)).join("\n"))))}function u(){return n.createElement(l,null)}},5265:(e,s,t)=>{t.d(s,{Y:()=>b,y:()=>f});var n=t(2784),a=t(6647),r=t(7598),l=t(9082);class u{client=l.L;subscriptions=l.V}const o=a.gql`
+"use strict";(self.webpackChunk_dev_app=self.webpackChunk_dev_app||[]).push([[309],{9082:(e,s,t)=>{t.d(s,{L:()=>r,V:()=>l});var n=t(6145),a=t(9385);const r=new n.g6(`${location.pathname}graphql`,{headers:{}}),l=(0,a.eI)({url:`${{"https:":"wss:"}[location.protocol]||"ws:"}//${location.host}${location.pathname}subscriptions`})},6309:(e,s,t)=>{t.r(s),t.d(s,{default:()=>u});var n=t(2784),a=t(5265),r=t(9606);function l(){const[{messages:e},{sendMessage:s}]=(0,a.y)(),[t,l]=(0,n.useState)(""),u=()=>{l(""),s({uuid:null,text:t})};return n.createElement("div",{className:r.Z.Messages},n.createElement("span",null,null),n.createElement("input",{value:t,onChange:e=>{const{value:s}=e.target;l(s)},onKeyDown:e=>"Enter"===e.key&&!e.shiftKey&&(e.preventDefault(),u())}),n.createElement("button",{onClick:u},"send"),e&&n.createElement("div",null,n.createElement("pre",null,e.map((({uuid:e,text:s})=>`[${e}] ${s}`)).join("\n"))))}function u(){return n.createElement(l,null)}},5265:(e,s,t)=>{t.d(s,{Y:()=>b,y:()=>f});var n=t(2784),a=t(6145),r=t(7598),l=t(9082);class u{client=l.L;subscriptions=l.V}const o=a.Ps`
   query {
     files {
       name
     }
   }
-`;var c=t(3919);const i=a.gql`
+`;var c=t(3919);const i=a.Ps`
   query MessagesQuery {
     messages {
       uuid
       text
     }
   }
-`,d=a.gql`
+`,d=a.Ps`
   subscription MessageSubscription {
     message {
       uuid
       text
     }
   }
-`,g=a.gql`
+`,g=a.Ps`
   mutation SendMessageMutation($message: MessageInput) {
     sendMessage(message: $message)
   }
