@@ -13,10 +13,10 @@
     "nedb": "^1.8.0",
     "node-upnp": "^1.2.0",
     "node-upnp-utils": "^0.0.5",
-    "zod": "^3.20.6"
+    "zod": "^3.21.4"
   },
   "devDependencies": {
-    "@types/nedb": "^1.8.12"
+    "@types/nedb": "^1.8.13"
   },
   "peerDependencies": {}
 }
