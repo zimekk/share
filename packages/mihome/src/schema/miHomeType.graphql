@@ -1,0 +1,9 @@
+scalar MiHomeDevices
+
+type MiHomeQueries {
+  devices(username: String, password: String): MiHomeDevices
+}
+
+type Query {
+  miHome: MiHomeQueries
+}

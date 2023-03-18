@@ -10,6 +10,7 @@ const PAGES = {
   browser: lazy(() => import("./Browser")),
   cast: lazy(() => import("./Cast")),
   hello: lazy(() => import("@dev/hello")),
+  mihome: lazy(() => import("@dev/mihome")),
   movies: lazy(() => import("@dev/movies")),
   video: lazy(() => import("@dev/video")),
   photos: lazy(() => import("@dev/photos")),
@@ -21,9 +22,10 @@ const PAGES = {
 };
 
 const getPage = (location: { hash: string }) => {
-  const [, hash = Object.keys(PAGES)[0]] =
-    decodeURI(location.hash).match(/^#(.+)/) || [];
-  return hash;
+  const [_, hash] = decodeURI(location.hash).match(/^#([-\w]+)/) || [];
+  return ((keys) => (keys.includes(hash) ? hash : keys[0]))(
+    Object.keys(PAGES)
+  ) as keyof typeof PAGES;
 };
 
 function App() {
@@ -34,12 +36,12 @@ function App() {
     history.listen(({ location }) => setPage(getPage(location)))
   );
 
-  const Page = PAGES[page] || null;
+  const Page = PAGES[page];
 
   return (
     <section className={styles.App}>
       <h1 className={styles.Nav}>
-        Hello
+        Share
         {Object.keys(PAGES).map((page) => (
           <a key={page} href={`#${page}`}>
             {page}

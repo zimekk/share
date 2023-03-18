@@ -2,7 +2,9 @@ import path from "path";
 import webpack from "webpack";
 import env from "dotenv";
 
-env.config({ path: path.resolve(__dirname, "../../.env") });
+const { MI_USERNAME = "", MI_PASSWORD = "" } = env.config({
+  path: path.resolve(__dirname, "../../.env"),
+}) as Record<string, string>;
 
 export default (env, { mode }, dev = mode === "development") => ({
   target: "web",
@@ -68,6 +70,8 @@ export default (env, { mode }, dev = mode === "development") => ({
     new webpack.HotModuleReplacementPlugin(),
     new webpack.EnvironmentPlugin({
       FFMPEG_CORE_PATH: "ffmpeg/ffmpeg-core.js",
+      MI_USERNAME,
+      MI_PASSWORD,
     }),
     new webpack.ProvidePlugin({
       Buffer: ["buffer", "Buffer"],

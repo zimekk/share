@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@dev/hello": "^1.0.0",
+    "@dev/mihome": "^1.0.0",
     "@dev/movies": "^1.0.0",
     "@dev/photos": "^1.0.0",
     "@dev/remote": "^1.0.0",

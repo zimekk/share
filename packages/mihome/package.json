@@ -1,0 +1,25 @@
+{
+  "name": "@dev/mihome",
+  "version": "1.0.0",
+  "license": "UNLICENSED",
+  "private": true,
+  "main": "lib",
+  "scripts": {
+    "build": "NODE_ENV=production tsc --declaration"
+  },
+  "dependencies": {
+    "@dev/client": "1.0.0",
+    "@graphql-tools/schema": "^9.0.17",
+    "graphql-request": "^5.2.0",
+    "graphql-tag": "^2.12.6",
+    "node-mihome": "^0.0.32",
+    "rxjs": "^7.8.0",
+    "zod": "^3.21.4"
+  },
+  "devDependencies": {
+    "typescript": "^4.9.5"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0"
+  }
+}
