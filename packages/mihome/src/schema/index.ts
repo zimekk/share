@@ -2,6 +2,8 @@ import gql from "graphql-tag";
 import { makeExecutableSchema } from "@graphql-tools/schema";
 
 const mihome = require("node-mihome");
+// const miio = require("@rifat/miio");
+// const MiioProtocolHelper = require('homebridge-miot/lib/tools/MiioProtocolHelper');
 
 export default makeExecutableSchema({
   typeDefs: gql`
@@ -9,6 +11,7 @@ export default makeExecutableSchema({
 
     type MiHomeQueries {
       devices(username: String, password: String): MiHomeDevices
+      device(did: String): MiHomeDevices
     }
 
     type Query {
@@ -22,6 +25,9 @@ export default makeExecutableSchema({
         const options = { country: "de" };
         await mihome.miCloudProtocol.login(username, password);
         return await mihome.miCloudProtocol.getDevices(null, options);
+      },
+      device: async (_, { did }) => {
+        return { did };
       },
     },
     Query: {
