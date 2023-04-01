@@ -10,7 +10,7 @@
   "dependencies": {},
   "devDependencies": {
     "@types/web-bluetooth": "^0.0.16",
-    "typescript": "^5.0.2"
+    "typescript": "^5.0.3"
   },
   "peerDependencies": {
     "react": "^18.2.0"
