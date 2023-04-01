@@ -1,0 +1,15 @@
+{
+  "manifest_version": 3,
+  "name": "Chrome Extension",
+  "description": "A chrome extension",
+  "action": {
+    "default_popup": "index.html",
+    "default_icon": "favicon.ico"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [],
+      "matches": []
+    }
+  ]
+}
