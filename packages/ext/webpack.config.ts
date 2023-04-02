@@ -6,13 +6,31 @@ const { MI_USERNAME = "", MI_PASSWORD = "" } = env.config({
   path: path.resolve(__dirname, "../../.env"),
 }) as Record<string, string>;
 
-export default (env, { mode }, dev = mode === "development") => ({
+export default (_env, { mode }, dev = mode === "development") => ({
   target: "web",
-  devtool: dev ? "eval-cheap-source-map" : "source-map",
+  devServer: {
+    // https: false,
+    // hot: true,
+    hot: false,
+    // liveReload: false,
+    // client: {
+    //   webSocketTransport: 'sockjs',
+    // },
+    // webSocketServer: 'sockjs',
+    // headers: {
+    //   'Access-Control-Allow-Origin': '*',
+    // },
+    // allowedHosts: 'all',
+    devMiddleware: {
+      writeToDisk: true,
+    },
+  },
+  // devtool: dev ? "eval-cheap-source-map" : "source-map",
+  devtool: dev ? "cheap-module-source-map" : "source-map",
   entry: {
     main: [
       // "webpack-dev-server/client?http://localhost:8080/test",
-      "react-hot-loader/patch",
+      // "react-hot-loader/patch",
     ].concat(require.resolve("./src")),
   },
   module: {
@@ -43,7 +61,7 @@ export default (env, { mode }, dev = mode === "development") => ({
         exclude: /node_modules/,
         options: {
           presets: ["@babel/preset-react", "@babel/preset-typescript"],
-          plugins: [].concat(dev ? "react-hot-loader/babel" : []),
+          // plugins: [].concat(dev ? "react-hot-loader/babel" : []),
         },
       },
     ],
@@ -52,7 +70,7 @@ export default (env, { mode }, dev = mode === "development") => ({
     extensions: [".tsx", ".ts", ".js"],
     alias: {
       events: "events",
-      "react-dom": "@hot-loader/react-dom",
+      // "react-dom": "@hot-loader/react-dom",
     },
     fallback: {
       buffer: require.resolve("buffer"),

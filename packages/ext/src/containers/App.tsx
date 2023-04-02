@@ -1,5 +1,5 @@
 import React, { Suspense, lazy, useEffect, useState } from "react";
-import { hot } from "react-hot-loader/root";
+// import { hot } from "react-hot-loader/root";
 import history from "history/browser";
 import styles from "./App.module.scss";
 
@@ -43,4 +43,4 @@ function App() {
   );
 }
 
-export default hot(App);
+export default App;
