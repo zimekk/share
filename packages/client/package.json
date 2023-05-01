@@ -12,7 +12,7 @@
     "graphql-ws": "^5.12.1"
   },
   "devDependencies": {
-    "typescript": "^5.0.3"
+    "typescript": "^5.0.4"
   },
   "peerDependencies": {}
 }

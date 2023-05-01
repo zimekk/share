@@ -11,15 +11,15 @@
     "@dev/client": "1.0.0",
     "@dev/device": "1.0.0",
     "@dev/lights": "1.0.0",
-    "@graphql-tools/schema": "^9.0.17",
+    "@graphql-tools/schema": "^9.0.19",
     "cross-fetch": "^3.1.5",
     "graphql-request": "^5.2.0",
     "graphql-tag": "^2.12.6",
-    "rxjs": "^7.8.0",
+    "rxjs": "^7.8.1",
     "zod": "^3.21.4"
   },
   "devDependencies": {
-    "typescript": "^5.0.3"
+    "typescript": "^5.0.4"
   },
   "peerDependencies": {
     "react": "^18.2.0"
