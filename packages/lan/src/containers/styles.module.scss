@@ -1,0 +1,13 @@
+.Section {
+  color: green;
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  th,
+  td {
+    padding: 0.25em;
+    text-align: left;
+  }
+}

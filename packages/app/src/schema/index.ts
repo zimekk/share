@@ -10,6 +10,7 @@ export default mergeSchemas({
     require("./browser").default,
     require("./counter").default,
     require("@dev/hello/schema").default,
+    require("@dev/lan/schema").default,
     require("@dev/mihome/schema").default,
     require("@dev/movies/schema").default,
     require("@dev/remote/schema").default,

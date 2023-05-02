@@ -10,6 +10,7 @@ const PAGES = {
   browser: lazy(() => import("./Browser")),
   cast: lazy(() => import("./Cast")),
   hello: lazy(() => import("@dev/hello")),
+  lan: lazy(() => import("@dev/lan")),
   mihome: lazy(() => import("@dev/mihome")),
   movies: lazy(() => import("@dev/movies")),
   video: lazy(() => import("@dev/video")),

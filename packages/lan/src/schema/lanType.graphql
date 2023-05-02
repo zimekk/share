@@ -1,0 +1,10 @@
+scalar LanNetworks
+
+type LanQueries {
+  scan: LanNetworks
+  currentConnections: LanNetworks
+}
+
+type Query {
+  lan: LanQueries
+}
